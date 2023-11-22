@@ -15,7 +15,8 @@
 }
 
 body{
-    background-image: url("/web/images/bg1.jpg");
+   background-image: url("../images/bg1.jpg");
+    background-color: black;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -24,7 +25,7 @@ body{
     margin-left: auto;
 }
 
-img{
+.main_image{
     margin-right: 25px;
 
 }
@@ -35,3 +36,27 @@ p{
     align-items: center;
 
 }
+
+
+.guts{
+    background-color: red;
+    display: flex;
+    flex-wrap:wrap;
+    padding: 17px;
+    justify-content: center;
+}
+
+.cell{
+    background-color: blue;
+    position: relative;
+}
+
+.ins_image{
+    position: absolute;
+    left: 18%;
+    top: 10%;
+    height: 48%;
+}
+
+
+
