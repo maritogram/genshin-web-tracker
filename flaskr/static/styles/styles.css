@@ -3,60 +3,82 @@
     src: url("zh-cn.ttf");
 }
 
-.topbar{
-    font-size: 22px;
-    font-family: TypeFaceCH,serif;
+
+header{
+   /*background-color: blue;*/
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
     width: 100%;
+    margin: 0;
+    padding: 0;
     height: 100px;
-    margin-top: -15px;
-
+    z-index: 2;
+    font-size: 20px;
 }
 
-body{
-   background-image: url("../images/bg1.jpg");
-    background-color: black;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
 
-.right{
-    margin-left: auto;
-}
-
-.main_image{
-    margin-right: 25px;
-
-}
-
-p{
+header p{
     color:#E8CB9BFF;
     display: flex;
     align-items: center;
+    font-family: TypeFaceCH,serif;
 
 }
+
+
+header img{
+    margin: 20px;
+}
+
+
+
+body{
+   background-image: url("../images/bg1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin:0;
+    padding: 0;
+    display: flex;
+}
+
 
 
 .guts{
-    background-color: red;
+    /*border-style: double;*/
     display: flex;
     flex-wrap:wrap;
     padding: 17px;
+    margin: 100px 1% 0 1%;
     justify-content: center;
+    /*background-color: red;*/
 }
 
 .cell{
-    background-color: blue;
     position: relative;
+    margin: 20px;
 }
 
 .ins_image{
     position: absolute;
-    left: 18%;
-    top: 10%;
-    height: 48%;
+    left: 33px;
+    top: 33px;
+    height: 220px;
 }
 
+
+.cell p{
+    font-family: TypeFaceCH,serif;
+    color: #e3e1d5;
+    position: absolute;
+    top:55%;
+    left:6px;
+    margin: 0 12px;
+    overflow: hidden;
+    font-size: 32px;
+    text-align: center;
+}
 
 
