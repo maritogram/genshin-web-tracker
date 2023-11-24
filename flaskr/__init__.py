@@ -33,4 +33,17 @@ def create_app(test_config=None):
     app.register_blueprint(achievement.bp)
     app.add_url_rule('/', endpoint='index')
 
+    def font_sizer(title: str) -> str:
+
+        title_words = title.split()
+
+        if len(title_words[0]) < 17 and len(title) < 30:
+            return "25px"
+        elif len(title) < 41:
+            return "24px"
+        else:
+            return "20px"
+
+    app.jinja_env.globals.update(font_sizer=font_sizer)
+
     return app

@@ -1,0 +1,94 @@
+
+body{
+  padding: 0;
+  margin: 0 40px 0 40px;
+
+  background-color: black;
+  /*background-image: url("../images/bg1.jpg");*/
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+}
+
+@font-face {
+    font-family: TypeFaceCH;
+    src: url("zh-cn.ttf");
+}
+
+
+header{
+   /*background-color: blue;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100px;
+    z-index: 2;
+    font-size: 20px;
+}
+
+
+header p{
+    color:#E8CB9BFF;
+    display: flex;
+    align-items: center;
+    font-family: TypeFaceCH,serif;
+
+}
+
+#wrapper{
+  position: relative;
+  width: 70%;
+  height: 88vh;
+  min-width:400px;
+
+}
+
+
+.canvas{
+  border: solid black;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  position: absolute;
+
+
+  border-image-source: url("../images/back_canvas.png");
+  /* top | right 228 | bottom 263  | left 200 */
+  border-image-slice: 110 228 263 210 fill;
+  border-image-width:auto;
+
+
+}
+
+
+.paper{
+  border: solid black;
+  width: calc(100% - 50px);
+  height: calc(100% - 73px);
+  position: absolute;
+  margin: 17px;
+  z-index: 1000;
+  word-wrap: break-word;
+  /*padding: 10px;*/
+
+
+  border-image-source: url("../images/canvas_paper.png");
+  /* top | right | bottom  | left */
+  border-image-slice: 60 fill;
+  border-image-width:40px;
+
+}
+
+
+
+#wrapper-left{
+  background-color: red;
+  width: 30%;
+  height: calc(88vh - 40px);
+}
+
+
+

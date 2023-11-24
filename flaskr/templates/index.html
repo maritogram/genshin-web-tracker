@@ -16,7 +16,8 @@
         <div class="cell">
                     <img src=" ../static/images/ach_container.png">
                     <img class="ins_image" alt="Wonders of the World" src="../static/images/UI_AchievementIcon_O001.png">
-                    <p>{{ name['title'] }}</p>
+                    <p class="card_title" style="font-size:{{font_sizer(name['title'])}};">{{ name['title'] }}</p>
+                    <p class="percentage">100%</p>
         </div>
         {% endfor %}
         {% endblock %}

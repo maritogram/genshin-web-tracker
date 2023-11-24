@@ -58,7 +58,9 @@ body{
 
 .cell{
     position: relative;
+    text-align: center;
     margin: 20px;
+    /*background-color: blue;*/
 }
 
 .ins_image{
@@ -66,19 +68,33 @@ body{
     left: 33px;
     top: 33px;
     height: 220px;
+    backdrop-filter: ;
 }
 
 
-.cell p{
+.card_title{
     font-family: TypeFaceCH,serif;
+    width: 85%;
     color: #e3e1d5;
     position: absolute;
     top:55%;
-    left:6px;
-    margin: 0 12px;
+    margin: auto 9%;
     overflow: hidden;
-    font-size: 32px;
-    text-align: center;
+    /*background-color: red;*/
 }
+
+.percentage{
+     font-family: TypeFaceCH,serif;
+    width: 85%;
+    color:#E8CB9BFF;
+    position: absolute;
+    top:77%;
+    margin: auto 9%;
+    overflow: hidden;
+    /*background-color: green;*/
+    font-size: 23px;
+}
+
+
 
 
