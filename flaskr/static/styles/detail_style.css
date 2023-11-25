@@ -3,8 +3,7 @@ body{
   padding: 0;
   margin: 0 40px 0 40px;
 
-  background-color: black;
-  /*background-image: url("../images/bg1.jpg");*/
+  background-image: url("../images/bg1.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -27,7 +26,7 @@ header{
     padding: 0;
     height: 100px;
     z-index: 2;
-    font-size: 20px;
+    font-size: 2vmax;
 }
 
 
@@ -41,7 +40,7 @@ header p{
 
 #wrapper{
   position: relative;
-  width: 70%;
+  width: 100%;
   height: 88vh;
   min-width:400px;
 
@@ -49,7 +48,7 @@ header p{
 
 
 .canvas{
-  border: solid black;
+  border: solid;
   width: calc(100% - 10px);
   height: calc(100% - 10px);
   position: absolute;
@@ -65,14 +64,14 @@ header p{
 
 
 .paper{
-  border: solid black;
+  border: solid ;
+    border-bottom-width: 20px;
   width: calc(100% - 50px);
-  height: calc(100% - 73px);
-  position: absolute;
+  height: calc(100% - 90px);
+  position: relative;
   margin: 17px;
   z-index: 1000;
   word-wrap: break-word;
-  /*padding: 10px;*/
 
 
   border-image-source: url("../images/canvas_paper.png");
@@ -82,12 +81,78 @@ header p{
 
 }
 
+.scroll-style{
+    width: 99%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+.scroll-style::-webkit-scrollbar{
+    width: 5px;
+}
+
+.scroll-style::-webkit-scrollbar-thumb{
+    background-color: #d8d0cf;
+}
+
+
+
 
 
 #wrapper-left{
   background-color: red;
-  width: 30%;
+  width: 50%;
   height: calc(88vh - 40px);
+}
+
+
+.progress{
+    display: flex;
+    border: 3px solid #e0d7cf;
+    height : 14%;
+    min-height: 100px;
+    margin: 20px;
+    padding-left: 10px;
+
+    justify-content: space-between;
+
+}
+
+.left-img{
+    position: relative;
+
+}
+
+.information{
+    margin: auto;
+    width: 100%;
+
+    font-family: TypeFaceCH,serif;
+    font-size: 1.8vmax;
+
+    color: #3d3f4c;
+}
+
+.lil-information{
+    color: #bcb1a4;
+
+    font-size: 1.4vmax;
+}
+
+.completion{
+    flex-basis: 180px;
+    background-color: #ebe3d8;
+    margin: 0;
+
+    color: #b2a295;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: TypeFaceCH,serif;
+    font-size: 1.4vmax;
 }
 
 
