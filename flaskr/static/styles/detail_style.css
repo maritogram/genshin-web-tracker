@@ -1,56 +1,88 @@
-
-body{
-  padding: 0;
-  margin: 0 40px 0 40px;
-
-  background-image: url("../images/bg1.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-}
-
 @font-face {
     font-family: TypeFaceCH;
     src: url("zh-cn.ttf");
 }
 
+*{
+    box-sizing: border-box;
+     font-family: TypeFaceCH,serif;
+
+}
+
+
+body{
+
+    margin-top:0;
+    padding-top:0;
+  background-image: url("../images/bg1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+    /*Temporary solution for body scroll, can't seem to pin point what it is*/
+    /*overflow: hidden;*/
+
+}
+
+
+
+
+
+
 
 header{
-   /*background-color: blue;*/
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    height: 10vh;
     margin: 0;
     padding: 0;
-    height: 100px;
     z-index: 2;
-    font-size: 2vmax;
+
 }
 
 
 header p{
     color:#E8CB9BFF;
     display: flex;
+    font-size: min(24px, 4vmin);
     align-items: center;
     font-family: TypeFaceCH,serif;
 
 }
 
+
+
+
+
+
+
+#wrapper-left{
+  background-color: red;
+  width: 50%;
+  height: calc(88vh - 40px);
+}
+
+
+
+
+
+
+
+
 #wrapper{
   position: relative;
   width: 100%;
   height: 88vh;
-  min-width:400px;
 
 }
 
 
 .canvas{
   border: solid;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
+  width: 100%;
+  height: 100%;
   position: absolute;
 
 
@@ -66,8 +98,8 @@ header p{
 .paper{
   border: solid ;
     border-bottom-width: 20px;
-  width: calc(100% - 50px);
-  height: calc(100% - 90px);
+  width: calc(100% - 45px);
+  height: calc(100% - 63px);
   position: relative;
   margin: 17px;
   z-index: 1000;
@@ -100,50 +132,73 @@ header p{
 
 
 
-#wrapper-left{
-  background-color: red;
-  width: 50%;
-  height: calc(88vh - 40px);
-}
+
+
 
 
 .progress{
     display: flex;
-    border: 3px solid #e0d7cf;
-    height : 14%;
+    border: 2px solid #e0d7cf;
+    height : 20%;
+
+    max-height: 13vh;
     min-height: 100px;
-    margin: 20px;
-    padding-left: 10px;
+
+    margin: 4px 20px;
+    padding-left: 0;
 
     justify-content: space-between;
 
 }
 
 .left-img{
-    position: relative;
+    padding: 0;
+    max-width: 15vw;
+    height: auto;
+    object-fit: contain;
 
+   flex-basis: 10%;
 }
 
 .information{
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     width: 100%;
-
-    font-family: TypeFaceCH,serif;
-    font-size: 1.8vmax;
-
     color: #3d3f4c;
 }
 
-.lil-information{
-    color: #bcb1a4;
-
-    font-size: 1.4vmax;
+.title{
+    font-size: min(24px, 4vmin);
 }
 
+.description{
+    font-size: min(3vmin, 18px);
+        color: #bcb1a4;
+
+}
+
+
+.primo{
+    max-width: min(30vw,60px);
+
+    height: auto;
+    object-fit: contain;
+
+    margin-right: 10px;
+    width: 30%;
+
+}
+
+
+
+
 .completion{
-    flex-basis: 180px;
+    flex-basis: 40%;
     background-color: #ebe3d8;
     margin: 0;
+
+    max-width: 200px;
 
     color: #b2a295;
 
@@ -152,8 +207,7 @@ header p{
     justify-content: center;
 
     font-family: TypeFaceCH,serif;
-    font-size: 1.4vmax;
+    font-size: 1.5vmax;
 }
-
 
 
