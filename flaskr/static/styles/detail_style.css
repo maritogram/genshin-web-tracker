@@ -58,7 +58,7 @@ header p{
 
 
 
-#wrapper-left{
+.wrapper-left{
   background-color: red;
   width: 50%;
   height: calc(88vh - 40px);
@@ -114,7 +114,7 @@ header p{
 }
 
 .scroll-style{
-    width: 99%;
+    width: 98%;
     height: 100%;
     overflow-y: scroll;
 }
@@ -193,7 +193,7 @@ header p{
 
 
 .primo{
-    width: min(10vw, 65px);
+    width: min(12vw, 52px);
 
     height: auto;
     object-fit: contain;
@@ -206,11 +206,11 @@ header p{
 
 
 .completion{
-    flex-basis: 40%;
+    flex-basis: 60%;
     background-color: #ebe3d8;
     margin: 0;
 
-    max-width: 200px;
+    max-width: 150px;
 
     color: #b2a295;
 
@@ -227,8 +227,22 @@ header p{
     border: 3px solid #a74f41;
     width: 80%;
     height: 35%;
+    max-width: fit-content;
     color: #ffebe5;
-    font-size: min(3vmin,);
-    padding: 0  15%;
+    font-size: min(3vmin,20px);
+    padding: 0 15%;
 }
+
+
+
+@media only screen and (max-width: 600px) {
+     .wrapper-left{
+        display: none;
+    }
+
+   .primo{
+       display: none;
+   }
+}
+
 
