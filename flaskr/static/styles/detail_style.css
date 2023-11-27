@@ -96,8 +96,8 @@ header p{
 
 
 .paper{
-  border: solid ;
-    border-bottom-width: 20px;
+  border: solid;
+    border-width: 10px 0;
   width: calc(100% - 45px);
   height: calc(100% - 63px);
   position: relative;
@@ -148,8 +148,14 @@ header p{
     padding-left: 0;
 
     justify-content: space-between;
-
+    transition-duration: 0.1s;
 }
+
+
+.progress:hover, .progress:active{
+    margin: 4px 10px;
+}
+
 
 .left-img{
     padding: 0;
@@ -174,19 +180,25 @@ header p{
 
 .description{
     font-size: min(3vmin, 18px);
-        color: #bcb1a4;
+    color: #bcb1a4;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    overflow: auto;
 
+}
+
+.description::-webkit-scrollbar{
+    display: none;
 }
 
 
 .primo{
-    max-width: min(30vw,60px);
+    width: min(10vw, 65px);
 
     height: auto;
     object-fit: contain;
 
-    margin-right: 10px;
-    width: 30%;
+    margin: 0 10px ;
 
 }
 
@@ -207,7 +219,16 @@ header p{
     justify-content: center;
 
     font-family: TypeFaceCH,serif;
-    font-size: 1.5vmax;
 }
 
+.claim{
+    background-color: #b7513d;
+    border-radius: 100rem;
+    border: 3px solid #a74f41;
+    width: 80%;
+    height: 35%;
+    color: #ffebe5;
+    font-size: min(3vmin,);
+    padding: 0  15%;
+}
 
