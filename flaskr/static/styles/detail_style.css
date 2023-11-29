@@ -147,7 +147,7 @@ header p{
     width: 95%;
     margin: 4px auto;
     padding: 15px 0;
-    background-image: url("../images/.png");
+    /*background-image: url("../images/.png");*/
 
 
 
@@ -168,7 +168,7 @@ header p{
 .cat-percent{
     text-align: left;
     margin: 3px;
-        font-size: min(20px, 2vmin);
+        font-size: min(18px, 3vmin);
     color: #bcb1a4;
 
 }
