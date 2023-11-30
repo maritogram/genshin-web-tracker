@@ -17,7 +17,7 @@ body{
     margin: 0;
     padding: 0;
 
-    grid-template-rows: 10% 1fr;
+    grid-template-rows: 10% 90%;
     height: 100vh;
 
 
@@ -28,8 +28,6 @@ body{
 
 
 }
-
-
 
 header{
     display: flex;
@@ -61,25 +59,29 @@ header img{
     /*background-color: orange;*/
 }
 
-
-
 .content{
     display: flex;
     width: 100%;
+    height: 100%;
     justify-content: space-between;
     background-color: red;
 
 }
 
+.wrapper-left{
+  width: 50%;
+    height: 100%;
+    margin-right:3px;
+    overflow-y: auto;
+
+}
 
 .section{
     display: flex;
     height : fit-content;
-
-
     padding-left: 0;
-
     transition-duration: 0.1s;
+
 }
 
 .category{
@@ -89,21 +91,11 @@ header img{
     margin: 4px auto;
     padding: 15px 0;
     /*background-image: url("../images/.png");*/
-
-
-
-}
-
-
-.wrapper-left{
-  width: 50%;
-  height: 100%;
-    overflow-y: scroll;
-    margin-right:3px;
-    margin-top: 10px ;
-    background-color: green;
+    overflow-y: auto;
 
 }
+
+
 
 
 
