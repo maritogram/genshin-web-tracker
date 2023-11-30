@@ -3,25 +3,31 @@
     src: url("zh-cn.ttf");
 }
 
+*{
+    box-sizing: border-box;
+    font-family: TypeFaceCH,serif;
+
+}
+
 
 header{
-   /*background-color: blue;*/
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    position: fixed;
     width: 100%;
+    height: 10vh;
     margin: 0;
     padding: 0;
-    height: 100px;
     z-index: 2;
-    font-size: 20px;
+    background-color: red;
+
 }
 
 
 header p{
     color:#E8CB9BFF;
     display: flex;
+    font-size: min(24px, 4vmin);
     align-items: center;
     font-family: TypeFaceCH,serif;
 
@@ -29,10 +35,17 @@ header p{
 
 
 header img{
-    margin: 20px;
+    height: min(200px, 6vmin);
+    margin: 0 7px;
+    max-height: 10vh;
+    width: auto;
 }
 
 
+
+html{
+    height: 100%;
+}
 
 body{
    background-image: url("../images/bg1.jpg");
@@ -42,6 +55,7 @@ body{
     margin:0;
     padding: 0;
     display: flex;
+    flex-direction: column;
 }
 
 
@@ -51,24 +65,31 @@ body{
     display: flex;
     flex-wrap:wrap;
     padding: 17px;
-    margin: 100px 1% 0 1%;
+    margin: 0 1%;
     justify-content: center;
     /*background-color: red;*/
+    overflow-y: scroll;
+    max-height: 90vh;
 }
 
 .cell{
     position: relative;
     text-align: center;
     margin: 20px;
-    /*background-color: blue;*/
+    background-color: Transparent;
+    border: none;
+}
+
+.container{
+    width: 100%;
+    height: auto;
 }
 
 .ins_image{
     position: absolute;
     left: 33px;
     top: 33px;
-    height: 220px;
-    backdrop-filter: ;
+    height: 53%;
 }
 
 
@@ -95,6 +116,15 @@ body{
     font-size: 23px;
 }
 
+
+@media only screen and (max-width: 600px) {
+
+
+   header{
+       flex-direction: column;
+       background-color: blue;
+   }
+}
 
 
 

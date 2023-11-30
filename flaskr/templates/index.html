@@ -7,18 +7,18 @@
 </head>
 <body>
     <header>
-            <p class="left">  <img loading="eager" class="main_image" alt="Wonders of the World" src="../static/images/acat_0.webp" width="75" height="75"> Achievements </p>
-            <p class="right"> Achievements completed: <span style="color:darkgrey; "> 0</span></p>
+            <p >  <img loading="eager" class="main_image" alt="Wonders of the World" src="../static/images/acat_0.webp" > Achievements </p>
+            <p> Achievements completed: <span style="color:darkgrey; "> 0</span></p>
     </header>
     <div class="guts">
         {% block content %}
         {% for name in names %}
-        <div class="cell">
-                    <img src=" ../static/images/ach_container.png">
+        <button class="cell">
+                    <img class="container" src=" ../static/images/ach_container.png">
                     <img class="ins_image" alt="Wonders of the World" src="../static/images/UI_AchievementIcon_O001.png">
                     <p class="card_title" style="font-size:{{font_sizer(name['title'])}};">{{ name['title'] }}</p>
                     <p class="percentage">100%</p>
-        </div>
+        </button>
         {% endfor %}
         {% endblock %}
     </div>
