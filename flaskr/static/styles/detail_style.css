@@ -4,6 +4,7 @@
 }
 
 *{
+    box-sizing: border-box;
     font-family: TypeFaceCH,serif;
 }
 
@@ -15,7 +16,7 @@
 body{
     display: grid;
     margin: 0;
-    padding: 0;
+    padding: 10px;
 
     grid-template-rows: 10% 90%;
     height: 100vh;
@@ -44,7 +45,6 @@ header p{
     align-items: center;
     font-size: min(24px, 4vmin);
     font-family: TypeFaceCH,serif;
-    /*background-color: blue;*/
 
 }
 
@@ -53,24 +53,24 @@ header p{
 }
 
 header img{
-    height: 100%;
+    margin: auto 0;
+    height: 90%;
     padding: 0 7px;
     width: auto;
     /*background-color: orange;*/
 }
 
-.content{
+#content{
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: space-between;
-    background-color: red;
 
 }
 
-.wrapper-left{
+#wrapper-left{
   width: 50%;
-    height: 100%;
+    height: calc(100% - 37px);
     margin-right:3px;
     overflow-y: auto;
 
@@ -78,15 +78,17 @@ header img{
 
 .section{
     display: flex;
-    height : fit-content;
     padding-left: 0;
     transition-duration: 0.1s;
 
+    max-height: 200px;
+    min-height: 100px;
 }
 
 .category{
     border: 4px solid #384450;
     background-color: rgba(45,51,67,93%);
+    height: fit-content;
     width: 95%;
     margin: 4px auto;
     padding: 15px 0;
@@ -95,26 +97,17 @@ header img{
 
 }
 
-
-
-
-
-
-#wrapper{
+#wrapper-right{
   position: relative;
   width: 100%;
 height: 100%;
-    background-color: orange;
 
 }
 
-
 .canvas{
-  border: solid;
   width: 100%;
   height: 100%;
-    z-index: 1000;
-
+    position: absolute;
 
   border-image-source: url("../images/back_canvas.png");
   /* top | right 228 | bottom 263  | left 200 */
@@ -124,16 +117,12 @@ height: 100%;
 
 }
 
-
 .paper{
-  border: solid;
-    border-width: 10px 0;
-  width: calc(100% - 45px);
-  height: calc(100% - 63px);
+  width: calc(100% - 2.6rem);
+  height: calc(100% - 4rem);
   position: relative;
   margin: 17px;
-  z-index: 1000;
-  word-wrap: break-word;
+    padding-top: 10px;
 
 
   border-image-source: url("../images/canvas_paper.png");
@@ -143,9 +132,10 @@ height: 100%;
 
 }
 
+
 .scroll-style{
     width: 98%;
-    height: 100%;
+    height: 98%;
     overflow-y: scroll;
 }
 
@@ -160,15 +150,15 @@ height: 100%;
 
 
 
-
-
-
 .progress{
         border: 2px solid #e0d7cf;
         margin: 4px 20px;
-
+        height: 15%;
 }
 
+.progress:first-of-type{
+    margin-top: 9px;
+}
 
 
 .cat-title{
@@ -233,16 +223,15 @@ height: 100%;
 
 
 .primo{
-    width: min(12vw, 52px);
+    max-width: 7vw;
+    width: 80%;
 
     height: auto;
     object-fit: contain;
 
-    margin: 0 10px ;
+    padding: 2%;
 
 }
-
-
 
 
 .completion{
@@ -275,67 +264,11 @@ height: 100%;
 
 
 
-/*Creds to pqina blog*/
-.masked-overflow {
-    /* scroll bar width, for use in mask calculations */
-    --scrollbar-width: 5px;
-
-    /* mask fade distance, for use in mask calculations */
-    --mask-height: 10px;
-
-    /* If content exceeds height of container, overflow! */
-    overflow-y: auto;
-
-    /* Need to make sure container has bottom space,
-  otherwise content at the bottom is always faded out */
-    padding-bottom: var(--mask-height);
-
-
-    /* Keep some space between content and scrollbar */
-
-    /* The CSS mask */
-
-    /* The content mask is a linear gradient from top to bottom */
-    --mask-image-content: linear-gradient(
-        to bottom,
-        transparent,
-        black var(--mask-height),
-        black calc(100% - var(--mask-height)),
-        transparent
-    );
-
-    /* Here we scale the content gradient to the width of the container
-  minus the scrollbar width. The height is the full container height */
-    --mask-size-content: calc(100% - var(--scrollbar-width)) 100%;
-
-    /* The scrollbar mask is a black pixel */
-    --mask-image-scrollbar: linear-gradient(black, black);
-
-    /* The width of our black pixel is the width of the scrollbar.
-  The height is the full container height */
-    --mask-size-scrollbar: var(--scrollbar-width) 100%;
-
-    /* Apply the mask image and mask size variables */
-    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
-    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
-
-    /* Position the content gradient in the top left, and the
-  scroll gradient in the top right */
-    mask-position: 0 0, 100% 0;
-
-    /* We don't repeat our mask images */
-    mask-repeat: no-repeat, no-repeat;
-}
-
 
 
 @media only screen and (max-width: 600px) {
-     .wrapper-left{
+     #wrapper-left{
         display: none;
-    }
-
-    .information{
-        padding-right: 5px;
     }
 
    .primo{
@@ -343,7 +276,7 @@ height: 100%;
    }
 
    body{
-       grid-template-rows: min-content 1fr;
+       grid-template-rows: min-content minmax(0, 1fr);
    }
 
    header{
@@ -361,6 +294,23 @@ height: 100%;
 
    header img{
        height: 40%;
+       margin-bottom: 0;
    }
+
+
+.paper{
+    border-width: 10px 0;
+  width: calc(100% - 33px);
+  height: calc(100% - 55px);
+    
+    right: 5px;
+    bottom: 2px;
+}
+
+.progress{
+    height: 18%;
+}
+
+
 }
 
