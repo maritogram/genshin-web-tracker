@@ -10,52 +10,50 @@
 }
 
 
+
+body{
+    display: grid;
+    margin: 0;
+    padding: 10px;
+
+    grid-template-rows: 10% 90%;
+    height: 100vh;
+
+
+  background-image: url("../images/bg1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+
+}
+
 header{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     width: 100%;
-    height: 10vh;
-    margin: 0;
-    padding: 0;
-    z-index: 2;
-    background-color: red;
-
 }
 
 
 header p{
     color:#E8CB9BFF;
     display: flex;
-    font-size: min(24px, 4vmin);
     align-items: center;
+    font-size: min(24px, 4vmin);
     font-family: TypeFaceCH,serif;
 
 }
 
+.right{
+    margin-left: auto;
+}
 
 header img{
-    height: min(200px, 6vmin);
-    margin: 0 7px;
-    max-height: 10vh;
+    margin: auto 0;
+    height: 90%;
+    padding: 0 7px;
     width: auto;
-}
-
-
-
-html{
-    height: 100%;
-}
-
-body{
-   background-image: url("../images/bg1.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    margin:0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+    /*background-color: orange;*/
 }
 
 
@@ -68,16 +66,21 @@ body{
     margin: 0 1%;
     justify-content: center;
     /*background-color: red;*/
-    overflow-y: scroll;
-    max-height: 90vh;
+    overflow: auto;
+
+    height: 100%;
 }
 
 .cell{
+    display: flex;
     position: relative;
-    text-align: center;
-    margin: 20px;
+    margin: 0.5%;
     background-color: Transparent;
     border: none;
+
+    width: 13vw;
+    height: auto;
+    background-color: green;
 }
 
 .container{
@@ -87,9 +90,11 @@ body{
 
 .ins_image{
     position: absolute;
-    left: 33px;
-    top: 33px;
-    height: 53%;
+    left: 13%;
+    top: 8%;
+    height: auto;
+    width: 77%;
+
 }
 
 
@@ -98,10 +103,10 @@ body{
     width: 85%;
     color: #e3e1d5;
     position: absolute;
-    top:55%;
-    margin: auto 9%;
+    top:48%;
+    left: 8%;
     overflow: hidden;
-    /*background-color: red;*/
+
 }
 
 .percentage{
@@ -113,16 +118,28 @@ body{
     margin: auto 9%;
     overflow: hidden;
     /*background-color: green;*/
-    font-size: 23px;
 }
 
 
 @media only screen and (max-width: 600px) {
 
 
-   header{
+ header{
        flex-direction: column;
-       background-color: blue;
+       align-items: center;
+   }
+
+   header p{
+       margin: 0;
+   }
+
+   .right{
+       margin: 0;
+   }
+
+   header img{
+       height: 40%;
+       margin-bottom: 0;
    }
 }
 

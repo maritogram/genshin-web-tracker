@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/styles/styles.css" />
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../static/scripts/detail_scripts.js"></script>
     <title>Title</title>
 </head>
 <body>
     <header>
-            <p >  <img loading="eager" class="main_image" alt="Wonders of the World" src="../static/images/acat_0.webp" > Achievements </p>
-            <p> Achievements completed: <span style="color:darkgrey; "> 0</span></p>
+            <img loading="eager" alt="Wonders of the World" src="../static/images/acat_0.webp" style="margin-right: 7px; max-width:20%; max-height: 9rem;">
+            <p> Achievements</p>
+
+            <p class="right"> Achievements completed: <span style="color:darkgrey; "> 0</span></p>
+
     </header>
     <div class="guts">
         {% block content %}
@@ -16,7 +21,7 @@
         <button class="cell">
                     <img class="container" src=" ../static/images/ach_container.png">
                     <img class="ins_image" alt="Wonders of the World" src="../static/images/UI_AchievementIcon_O001.png">
-                    <p class="card_title" style="font-size:{{font_sizer(name['title'])}};">{{ name['title'] }}</p>
+                    <p class="card_title">{{ name['title'] }}</p>
                     <p class="percentage">100%</p>
         </button>
         {% endfor %}
