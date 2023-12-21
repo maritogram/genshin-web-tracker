@@ -1,0 +1,55 @@
+
+.catalog{
+
+}
+
+.guts{
+    /*border-style: double;*/
+    display: flex;
+    flex-wrap:wrap;
+    padding: 17px;
+    margin: 100px 1% 0 1%;
+    justify-content: center;
+    /*background-color: red;*/
+}
+
+.cell{
+    position: relative;
+    text-align: center;
+    margin: 20px;
+    /*background-color: blue;*/
+}
+
+.ins_image{
+    position: absolute;
+    left: 33px;
+    top: 33px;
+    height: 220px;
+    backdrop-filter: ;
+}
+
+
+.card_title{
+    font-family: TypeFaceCH,serif;
+    width: 85%;
+    color: #e3e1d5;
+    position: absolute;
+    top:55%;
+    margin: auto 9%;
+    overflow: hidden;
+    /*background-color: red;*/
+}
+
+.percentage{
+     font-family: TypeFaceCH,serif;
+    width: 85%;
+    color:#E8CB9BFF;
+    position: absolute;
+    top:77%;
+    margin: auto 9%;
+    overflow: hidden;
+    /*background-color: green;*/
+    font-size: 23px;
+}
+
+
