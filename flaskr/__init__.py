@@ -1,7 +1,8 @@
 import os
 
 from flask import (Flask, jsonify)
-
+from . import db
+from flaskr.db import get_db
 
 
 
@@ -18,7 +19,6 @@ def create_app(test_config=None):
         app.config.from_pyfile('config.py', silent=True)
     else:
         # load the test config if passed inh
-
         app.config.from_mapping(test_config)
 
     # ensure the instance folder exists
@@ -27,11 +27,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import db
     db.init_app(app)
-
-
-    from flaskr.db import get_db
 
     @app.route('/api/catalog')
     def index():
@@ -41,7 +37,5 @@ def create_app(test_config=None):
         results = [dict(row) for row in names]
 
         return jsonify(results)
-
-
 
     return app
