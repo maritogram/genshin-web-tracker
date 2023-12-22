@@ -1,6 +1,5 @@
-
 import './header.css'
-import main_image from './images/acat_0.webp'
+import main_image from '../assets/acat_0.webp'
 export default function MyHeader(){
     return (
         <header>

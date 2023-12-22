@@ -1,6 +1,8 @@
 import os
 
-from flask import Flask
+from flask import (Flask, jsonify)
+
+
 
 
 def create_app(test_config=None):
@@ -28,9 +30,18 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import achievement
 
-    app.register_blueprint(achievement.bp)
-    app.add_url_rule('/', endpoint='index')
+    from flaskr.db import get_db
+
+    @app.route('/api/catalog')
+    def index():
+        database = get_db()
+        names = database.execute('SELECT * from category').fetchall()
+
+        results = [dict(row) for row in names]
+
+        return jsonify(results)
+
+
 
     return app

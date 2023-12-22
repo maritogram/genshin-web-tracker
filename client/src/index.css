@@ -1,9 +1,15 @@
+@font-face {
+  font-family: TypeFaceCH;
+  src: url("zh-cn.ttf");
+}
+
 body{
-   background-image: url("../public/main-background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    margin:0;
-    padding: 0;
-    display: flex;
+  background-image: url("./assets/bg1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin:0;
+  padding: 0;
+  display: flex;
+  font-family: TypeFaceCH, Serif;
 }
