@@ -3,32 +3,9 @@ import './home.css';
 
 import {useEffect, useState} from "react";
 
-function Cell(){
-    return(
-        <div className="cell">
-            <img src="/ach_container.png" />
-            <img className="ins_image" alt="Wonders of the World" src="/UI_AchievementIcon_A001.png"/>
-            <p className="card_title" style={{}}></p>
-            <p className="percentage">100%</p>
-        </div>
-    )
-
-}
-
-
-function Guts(catalog){
-    return(
-        <div className="guts">
-        </div>
-    )
-}
-
-
-
-function Home() {
+function AchievementCategories(){
 
     const [achievement, setAchievement]= useState([{}])
-
 
     useEffect(() => {
         fetch('/api/catalog').then(
@@ -39,11 +16,31 @@ function Home() {
             }
         )
     },[])
+    // console.log(achievement)
 
-
+    const categories = achievement.map(category =>
+        <div className="cell" key={category.cat_id}>
+            <img src="/ach_container.png"/>
+            <img className="ins_image" alt="Wonders of the World" src="/UI_AchievementIcon_A001.png"/>
+            <p className="card_title">{category.title}</p>
+            <p className="percentage">100%</p>
+        </div>
+    )
 
     return (
-        <Guts></Guts>
+        <div className="guts">
+            {categories}
+        </div>
+
+    )
+
+}
+
+
+function Home() {
+    return (
+        <AchievementCategories>
+        </AchievementCategories>
     );
 }
 

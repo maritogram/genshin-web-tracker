@@ -3,6 +3,8 @@
   src: url("zh-cn.ttf");
 }
 
+
+
 body{
   background-image: url("/bg1.jpg");
   background-size: cover;
@@ -10,6 +12,12 @@ body{
   background-attachment: fixed;
   margin:0;
   padding: 0;
+
+
+  /*USE DISPLAY TABLE IN THE FUTURE*/
   display: flex;
+  flex-direction: column;
+
   font-family: TypeFaceCH, Serif;
+  box-sizing: border-box;
 }

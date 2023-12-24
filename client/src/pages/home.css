@@ -3,10 +3,14 @@
     /*border-style: double;*/
     display: flex;
     flex-wrap:wrap;
-    padding: 17px;
-    margin: 100px 1% 0 1%;
     justify-content: center;
-    /*background-color: red;*/
+    height: 90vh;
+
+    /*USE TABLE SO IT IS 10% header, 90% guts*/
+
+    margin-top: auto;
+    background-color: red;
+    overflow: scroll;
 }
 
 .cell{
