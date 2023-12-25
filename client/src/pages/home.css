@@ -14,29 +14,28 @@
 }
 
 .cell{
-    position: relative;
 
 
     width: 279px;
     height: 420px;
     text-align: center;
     margin: 10px;
-    background-color: transparent;
+    background-color: blue;
     border: transparent;
 
      border-image-source: url("/ach_container.png");
-  /* top | right | bottom  | left */
-  border-image-slice: 29 139 fill;
-  border-image-width:auto;
+     /* top | right | bottom  | left */
+     border-image-slice: 29 139 fill;
+     border-image-width:auto;
 
 
 
 }
 
 .ins_image{
-    position: absolute;
-    left: 34px;
-    top: 33px;
+
+    margin: 0;
+    background-color: red;
     height: 50%;
     backdrop-filter: ;
 }
@@ -46,7 +45,6 @@
     font-family: TypeFaceCH,serif;
     width: 85%;
     color: #e3e1d5;
-    position: absolute;
     top:55%;
     margin: auto 9%;
     overflow: hidden;
@@ -57,7 +55,6 @@
     font-family: TypeFaceCH,serif;
     width: 85%;
     color:#E8CB9BFF;
-    position: absolute;
     top:77%;
     margin: auto 9%;
     overflow: hidden;
@@ -68,8 +65,8 @@
 
 @media only screen and (max-width: 600px) {
     .cell {
-        width: calc(270/3 * 1px);
-        height:  calc(420/3 * 1px);
+        width: calc(270/2 * 1px);
+        height:  calc(420/2 * 1px);
 
     }
 

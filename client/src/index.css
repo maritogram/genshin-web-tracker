@@ -11,13 +11,8 @@
 
 
 body{
-  background-image: url("/bg1.jpg");
-
     margin: 0;
     height: 100vh;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 
 }
 

@@ -3,7 +3,21 @@ import './home.css';
 
 import {useEffect, useState} from "react";
 
-function AchievementCategories(){
+
+
+function Cell({param}){
+    return (
+        <button className="cell" >
+            <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id +".webp"}/>
+            <p className="card_title">{param.title}</p>
+            <p className="percentage">100%</p>
+        </button>
+
+    )
+
+}
+
+function AchievementCategories() {
 
     const [achievement, setAchievement]= useState([{}])
 
@@ -16,29 +30,24 @@ function AchievementCategories(){
             }
         )
     },[])
-    // console.log(achievement)
 
-    const categories = achievement.map(category =>
-        <button className="cell" key={category.cat_id}>
-            <img className="ins_image" alt="Wonders of the World" src="/UI_AchievementIcon_A001.png"/>
-            {/*<p className="card_title">{category.title}</p>*/}
-            {/*<p className="percentage">100%</p>*/}
-        </button>
+   const cats=achievement.map((category) =>
+       // I don't know why the key error won't disappear with the original id's of my data, just add 0 for now
+       <Cell key={category.cat_id + 0} param={category}></Cell>
     )
 
-    return (
+    return(
         <div className="guts">
-            {categories}
+            {cats}
         </div>
-
     )
-
 }
 
 
 function Home() {
     return (
         <AchievementCategories>
+
         </AchievementCategories>
     );
 }
