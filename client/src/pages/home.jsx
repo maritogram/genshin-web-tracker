@@ -19,12 +19,11 @@ function AchievementCategories(){
     // console.log(achievement)
 
     const categories = achievement.map(category =>
-        <div className="cell" key={category.cat_id}>
-            <img src="/ach_container.png"/>
+        <button className="cell" key={category.cat_id}>
             <img className="ins_image" alt="Wonders of the World" src="/UI_AchievementIcon_A001.png"/>
-            <p className="card_title">{category.title}</p>
-            <p className="percentage">100%</p>
-        </div>
+            {/*<p className="card_title">{category.title}</p>*/}
+            {/*<p className="percentage">100%</p>*/}
+        </button>
     )
 
     return (

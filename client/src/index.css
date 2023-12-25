@@ -3,21 +3,37 @@
   src: url("zh-cn.ttf");
 }
 
+*{
+    box-sizing: border-box;
+    font-family: TypeFaceCH,serif;
+
+}
 
 
 body{
   background-image: url("/bg1.jpg");
+
+    margin: 0;
+    height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  margin:0;
-  padding: 0;
+
+}
+
+#root{
+   display: grid;
+    margin: 0;
+    padding: 10px;
+
+    grid-template-rows: 10% 90%;
+    height: 100%;
+}
 
 
-  /*USE DISPLAY TABLE IN THE FUTURE*/
-  display: flex;
-  flex-direction: column;
+@media only screen and (max-width: 600px) {
+    #root {
+        grid-template-rows: min-content minmax(0, 1fr);
+    }
 
-  font-family: TypeFaceCH, Serif;
-  box-sizing: border-box;
 }

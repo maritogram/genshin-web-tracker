@@ -1,30 +1,43 @@
 
 .guts{
-    /*border-style: double;*/
-    display: flex;
+   display: flex;
     flex-wrap:wrap;
+    margin: 0;
     justify-content: center;
-    height: 90vh;
+    /*background-color: red;*/
+    overflow: auto;
 
-    /*USE TABLE SO IT IS 10% header, 90% guts*/
-
-    margin-top: auto;
-    background-color: red;
-    overflow: scroll;
+    width: 100%;
+    height: 100%;
+    row-gap: 1%;
+    flex-direction: row;
 }
 
 .cell{
     position: relative;
+
+
+    width: 279px;
+    height: 420px;
     text-align: center;
-    margin: 20px;
-    /*background-color: blue;*/
+    margin: 10px;
+    background-color: transparent;
+    border: transparent;
+
+     border-image-source: url("/ach_container.png");
+  /* top | right | bottom  | left */
+  border-image-slice: 29 139 fill;
+  border-image-width:auto;
+
+
+
 }
 
 .ins_image{
     position: absolute;
-    left: 33px;
+    left: 34px;
     top: 33px;
-    height: 220px;
+    height: 50%;
     backdrop-filter: ;
 }
 
@@ -50,4 +63,14 @@
     overflow: hidden;
     /*background-color: green;*/
     font-size: 23px;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .cell {
+        width: calc(270/3 * 1px);
+        height:  calc(420/3 * 1px);
+
+    }
+
 }

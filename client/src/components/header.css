@@ -1,20 +1,8 @@
-@font-face {
-    font-family: TypeFaceCH;
-    src: url("zh-cn.ttf");
-}
-
 
 header{
-    /*background-color: blue;*/
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     width: 100%;
-    margin: 0;
-    padding: 0;
-    height: 100px;
-    z-index: 2;
-    font-size: 20px;
 }
 
 
@@ -22,11 +10,43 @@ header p{
     color:#E8CB9BFF;
     display: flex;
     align-items: center;
-    font-family: TypeFaceCH,serif;
-
+    font-size: min(24px, 4vmin);
 }
 
 
 header img{
-    margin: 20px;
+    height: 50%;
+    padding: 0 7px;
+    width: auto;
+    /*background-color: orange;*/
+
+    margin: auto 7px auto 0;
+    max-height: 9rem;
+    min-height: 24px;
+}
+
+.right{
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 600px) {
+
+    header{
+       flex-direction: column;
+       align-items: center;
+   }
+
+   header p{
+       margin: 0;
+   }
+
+   .right{
+       margin: 0;
+   }
+
+   header img{
+       height: 20px;
+        margin: 0;
+   }
+
 }
