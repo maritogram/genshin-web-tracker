@@ -3,6 +3,8 @@ header{
     display: flex;
     flex-direction: row;
     width: 100%;
+    padding: 0 5%;
+    /*background-color: blue;*/
 }
 
 
@@ -11,11 +13,12 @@ header p{
     display: flex;
     align-items: center;
     font-size: min(24px, 4vmin);
+    /*background-color: red;*/
 }
 
 
 header img{
-    height: 50%;
+    height: 100%;
     padding: 0 7px;
     width: auto;
     /*background-color: orange;*/
@@ -34,6 +37,7 @@ header img{
     header{
        flex-direction: column;
        align-items: center;
+        padding-bottom: 5%;
    }
 
    header p{

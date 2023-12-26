@@ -3,6 +3,7 @@ import {Route, Routes, BrowserRouter} from "react-router-dom";
 
 import Home from "./pages/home.jsx";
 import MyHeader from "./components/header.jsx";
+import MyFooter from "./components/footer.jsx";
 
 function App(props) {
     return (
@@ -11,6 +12,7 @@ function App(props) {
             <Routes>
                 <Route path="/" element={<Home />} />
             </Routes>
+            <MyFooter></MyFooter>
         </BrowserRouter>
     );
 }

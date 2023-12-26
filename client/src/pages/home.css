@@ -7,21 +7,36 @@
     /*background-color: red;*/
     overflow: auto;
 
+    padding: 0;
     width: 100%;
     height: 100%;
     row-gap: 1%;
     flex-direction: row;
 }
 
+.cell-wrapper{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     width: 203px;
+    height: 290px;
+    /*background-color: red;*/
+
+
+}
+
 .cell{
 
+    position: relative;
 
-    width: 279px;
-    height: 420px;
-    text-align: center;
-    margin: 10px;
-    background-color: blue;
-    border: transparent;
+    display: grid;
+
+    /*fix cells in phone view*/
+
+    width: calc((279*2)/3 *1px);
+    height: calc((420*2)/3 * 1px);
+
 
      border-image-source: url("/ach_container.png");
      /* top | right | bottom  | left */
@@ -29,44 +44,78 @@
      border-image-width:auto;
 
 
+    grid-template-rows: 143px 1fr 70px  ;
+    row-gap: 0;
+
+}
+
+
+.cell:hover{
+    width: calc((285*2)/3 *1px);
+    height: calc((430*2)/3 * 1px);
+    transition-duration: 0.1s;
+
+
 
 }
 
 .ins_image{
+    /*background-color: red;*/
+    height:auto;
+    width: 85%;
+    margin: 11% auto 0 9%;
 
-    margin: 0;
-    background-color: red;
-    height: 50%;
-    backdrop-filter: ;
+
+
 }
 
-
 .card_title{
-    font-family: TypeFaceCH,serif;
-    width: 85%;
+    position: absolute;
+    top:51%;
+    width: 91%;
     color: #e3e1d5;
-    top:55%;
-    margin: auto 9%;
-    overflow: hidden;
-    /*background-color: red;*/
+    margin-left: 4%;
+    font-size: 16px;
+    text-align: center;
+        /*background-color: green;*/
+
 }
 
 .percentage{
-    font-family: TypeFaceCH,serif;
+    position: absolute;
+    top:79%;
     width: 85%;
     color:#E8CB9BFF;
-    top:77%;
-    margin: auto 9%;
+    margin: 0 0 0 16px;
     overflow: hidden;
-    /*background-color: green;*/
-    font-size: 23px;
+    /*background-color: blue;*/
+    text-align: center;
 }
 
 
 @media only screen and (max-width: 600px) {
+
+    .cell-wrapper{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     width: calc(280/2 * 1px);
+    height: calc(430/2 * 1px);
+    /*background-color: red;*/
+
+
+}
+
     .cell {
         width: calc(270/2 * 1px);
         height:  calc(420/2 * 1px);
+
+    }
+
+
+    .cell:hover {
+      pointer-events: none;
 
     }
 

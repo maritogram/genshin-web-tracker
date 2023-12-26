@@ -7,11 +7,18 @@ import {useEffect, useState} from "react";
 
 function Cell({param}){
     return (
-        <button className="cell" >
-            <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id +".webp"}/>
-            <p className="card_title">{param.title}</p>
-            <p className="percentage">100%</p>
-        </button>
+        <div className="cell-wrapper">
+            <a href="" className="cell">
+
+                <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id + ".webp"}/>
+                 <p className="card_title">{param.title}</p>
+                 <p className="percentage">100%</p>
+
+
+
+            </a>
+        </div>
+
 
     )
 
@@ -19,11 +26,11 @@ function Cell({param}){
 
 function AchievementCategories() {
 
-    const [achievement, setAchievement]= useState([{}])
+    const [achievement, setAchievement] = useState([{}])
 
     useEffect(() => {
         fetch('/api/catalog').then(
-             res => res.json()
+            res => res.json()
         ).then(
             data => {
                 setAchievement(data)

@@ -5,8 +5,10 @@
 
 *{
     box-sizing: border-box;
-    font-family: TypeFaceCH,serif;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
 
+    font-family: TypeFaceCH,serif;
 }
 
 
@@ -21,7 +23,7 @@ body{
     margin: 0;
     padding: 10px;
 
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 7% 85% 8%;
     height: 100%;
 }
 
