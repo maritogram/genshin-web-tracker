@@ -3,20 +3,20 @@ import './home.css';
 
 import {useEffect, useState} from "react";
 
+import {Outlet, Link} from "react-router-dom";
 
 
 function Cell({param}){
     return (
         <div className="cell-wrapper">
-            <a href="" className="cell">
-
+            <Link to = {'category/' + param.cat_id} className="cell">
                 <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id + ".webp"}/>
                  <p className="card_title">{param.title}</p>
                  <p className="percentage">100%</p>
 
 
 
-            </a>
+            </Link>
         </div>
 
 

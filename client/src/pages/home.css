@@ -71,10 +71,10 @@
 
 .card_title{
     position: absolute;
-    top:51%;
+    top:52%;
     width: 91%;
     color: #e3e1d5;
-    margin-left: 4%;
+    margin-left: 6%;
     font-size: 16px;
     text-align: center;
         /*background-color: green;*/
@@ -86,7 +86,7 @@
     top:79%;
     width: 85%;
     color:#E8CB9BFF;
-    margin: 0 0 0 16px;
+    margin: 0 0 0 20px;
     overflow: hidden;
     /*background-color: blue;*/
     text-align: center;

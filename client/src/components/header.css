@@ -1,5 +1,7 @@
 
-header{
+
+
+.header{
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -8,7 +10,7 @@ header{
 }
 
 
-header p{
+.headerp{
     color:#E8CB9BFF;
     display: flex;
     align-items: center;
@@ -17,7 +19,7 @@ header p{
 }
 
 
-header img{
+.header img{
     height: 100%;
     padding: 0 7px;
     width: auto;
@@ -34,13 +36,13 @@ header img{
 
 @media only screen and (max-width: 600px) {
 
-    header{
+    .header{
        flex-direction: column;
        align-items: center;
         padding-bottom: 5%;
    }
 
-   header p{
+   .header p{
        margin: 0;
    }
 
@@ -48,7 +50,7 @@ header img{
        margin: 0;
    }
 
-   header img{
+   .header img{
        height: 20px;
         margin: 0;
    }
