@@ -12,7 +12,7 @@ function App(props) {
             <MyHeader></MyHeader>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/category" element={<Category />} />
+                <Route path="/category/:categoryId" element={<Category />} />
             </Routes>
             <MyFooter></MyFooter>
         </BrowserRouter>

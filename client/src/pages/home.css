@@ -44,7 +44,7 @@
      border-image-width:auto;
 
 
-    grid-template-rows: 143px 1fr 70px  ;
+    grid-template-rows: 143px 1fr 70px;
     row-gap: 0;
 
 }
@@ -55,15 +55,13 @@
     height: calc((430*2)/3 * 1px);
     transition-duration: 0.1s;
 
-
-
 }
 
 .ins_image{
     /*background-color: red;*/
     height:auto;
     width: 85%;
-    margin: 11% auto 0 9%;
+    margin: 11% auto 0 8.5%;
 
 
 

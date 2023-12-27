@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './category.css'
-
-
-
+import {useParams} from "react-router-dom";
 
 
 function SectionCat({param}){
@@ -48,7 +46,10 @@ function WrapperLeft() {
     )
 }
 
-function WrapperRight() {
+function WrapperRight({param}) {
+
+    let catId = useParams()
+    console.log(catId)
 
     return (
         <div id="wrapper-right">
@@ -60,7 +61,7 @@ function WrapperRight() {
                 <div className="section progress">
                         <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
                         <p className="information">
-                            <span className="title">Onward and Upward</span>
+                            <span className="title">"Hi</span>
                             <span className="description">A single stone births a thousand ripples. It seems like Ningguang's day off is not to be.</span>
                         </p>
                         <img className="primo" src="/5stprimo.webp"/>

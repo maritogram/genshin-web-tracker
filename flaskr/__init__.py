@@ -29,10 +29,20 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
+
     @app.route('/api/catalog')
-    def index():
+    def show_catalog():
         database = get_db()
         names = database.execute('SELECT * from category').fetchall()
+
+        results = [dict(row) for row in names]
+
+        return jsonify(results)
+
+    @app.route('/api/category/<int:category_id>')
+    def show_category(category_id):
+        database = get_db()
+        names = database.execute(f"SELECT * from achievement where category_id = {category_id}").fetchall()
 
         results = [dict(row) for row in names]
 
