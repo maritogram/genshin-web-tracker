@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './category.css'
-import {Link, useParams} from "react-router-dom";
+import {Link, ScrollRestoration, useLocation, useParams} from "react-router-dom";
+import ReactDOM from "react-dom/client";
 
 
 function SectionCat({param}){
@@ -19,7 +20,8 @@ function SectionCat({param}){
 
 function WrapperLeft() {
 
-     const [achievement, setAchievement] = useState([{}])
+
+    const [achievement, setAchievement] = useState([{}])
 
     useEffect(() => {
         fetch('/api/catalog').then(
@@ -67,9 +69,11 @@ function Info({param}){
 
 function WrapperRight() {
 
-    let {categoryId} = useParams()
+    const location = useLocation()
 
+    const {categoryId} = useParams()
     const [info, setInfo] = useState([{}])
+
 
     useEffect(() => {
         fetch('/api/category/' + categoryId).then(
@@ -77,12 +81,12 @@ function WrapperRight() {
                 data => setInfo(data)
             )
         )
-    }, []);
+    }, [location]);
 
 
 
     const achievements = info.map((ach)=>
-        <Info param={ach}></Info>
+        <Info key={ach.ach_id+0} param={ach}></Info>
     )
 
 
@@ -104,8 +108,7 @@ function Category(props) {
     return (
         <div id="content">
             <WrapperLeft></WrapperLeft>
-            <WrapperRight></WrapperRight>
-
+            <WrapperRight ></WrapperRight>
         </div>
     );
 }
