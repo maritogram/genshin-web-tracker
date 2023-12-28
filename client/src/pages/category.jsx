@@ -1,25 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import './category.css'
-import {Link, ScrollRestoration, useLocation, useParams} from "react-router-dom";
+import {Link, NavLink, ScrollRestoration, useLocation, useParams} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 
 
 function SectionCat({param}){
 
+    const location = useLocation()
+
+
+
     return (
-        <Link to={"/category/" + param.cat_id} className="section category">
+        <NavLink to={"/category/" + param.cat_id} className="section category">
             <img src="/cat1.png" width="auto" height="50%" style={{padding: 0}}/>
             <div className="cat-text">
                 <p className="cat-title">{param.title}</p>
                 <p className="cat-percent">100 %</p>
             </div>
-        </Link>
+        </NavLink>
     )
 }
 
 
 function WrapperLeft() {
-
 
     const [achievement, setAchievement] = useState([{}])
 
@@ -31,12 +34,13 @@ function WrapperLeft() {
         )
     },[])
 
+
+
+
    const sections=achievement.map((section) =>
        // I don't know why the key error won't disappear with the original id's of my data, just add 0 for now
        <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
     )
-
-
 
     return (
         <div id="wrapper-left">
@@ -105,9 +109,11 @@ function WrapperRight() {
 
 function Category(props) {
 
+
+
     return (
         <div id="content">
-            <WrapperLeft></WrapperLeft>
+            <WrapperLeft ></WrapperLeft>
             <WrapperRight ></WrapperRight>
         </div>
     );
