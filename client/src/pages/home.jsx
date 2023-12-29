@@ -3,19 +3,18 @@ import './home.css';
 
 import {useEffect, useState} from "react";
 
-import {Outlet, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {useQuery, useQueryClient} from "react-query";
 
 
 function Cell({param}){
+
     return (
         <div className="cell-wrapper">
             <Link to = {'category/' + param.cat_id} className="cell">
                 <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id + ".webp"}/>
                  <p className="card_title">{param.title}</p>
                  <p className="percentage">100%</p>
-
-
-
             </Link>
         </div>
 
@@ -26,26 +25,28 @@ function Cell({param}){
 
 function AchievementCategories() {
 
-    const [achievement, setAchievement] = useState([{}])
+    const fetchCategories = async () => {
+        const res = await fetch('/api/catalog')
+        if (!res.ok){
+            throw new Error('Network response was not ok.')
+        }
+        return res.json()
+    }
 
-    useEffect(() => {
-        fetch('/api/catalog').then(
-            res => res.json()
-        ).then(
-            data => {
-                setAchievement(data)
-            }
-        )
-    },[])
+    const {data,status} = useQuery("categories", fetchCategories)
 
-   const cats=achievement.map((category) =>
-       // I don't know why the key error won't disappear with the original id's of my data, just add 0 for now
-       <Cell key={category.cat_id + 0} param={category}></Cell>
-    )
+    if(status === 'loading'){
+        return <p> Loading...</p>
+    }
 
+    if(status === 'error'){
+        return <p> Error</p>
+    }
     return(
         <div className="guts">
-            {cats}
+            {data.map(cat=>(
+              <Cell key={cat.cat_id +0} param={cat}></Cell>
+            ))}
         </div>
     )
 }
