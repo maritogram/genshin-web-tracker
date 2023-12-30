@@ -8,3 +8,11 @@ footer{
     height: 100%;
     /*background-color: red;*/
 }
+
+@media only screen and (max-width: 600px) {
+
+    footer p{
+        font-size: 8px;
+    }
+
+}
