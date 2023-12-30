@@ -1,14 +1,12 @@
 import React, {useEffect, useState, useRef} from 'react';
 import './category.css'
 import {Link, NavLink, ScrollRestoration, useLocation, useParams} from "react-router-dom";
-import ReactDOM from "react-dom/client";
+import {useQuery} from "react-query";
 
 
 function SectionCat({param}){
 
     const location = useLocation()
-
-
 
     return (
         <NavLink to={"/category/" + param.cat_id} className="section category">
@@ -24,27 +22,32 @@ function SectionCat({param}){
 
 function WrapperLeft() {
 
-    const [achievement, setAchievement] = useState([{}])
+    console.log("Mounts ")
+    //need to refactor this as it is repeated two times
+    const fetchCategories = async () => {
+        const res = await fetch('/api/catalog')
+        if (!res.ok){
+            throw new Error('Network response was not ok.')
+        }
+        return res.json()
+    }
 
-    useEffect(() => {
-        fetch('/api/catalog').then(
-            res => res.json()
-        ).then(
-            data => setAchievement(data)
-        )
-    },[])
+    const {data,status} = useQuery("categories", fetchCategories)
 
+    if(status === 'loading'){
+        return <p> Loading...</p>
+    }
 
+    if(status === 'error'){
+        return <p> Error</p>
+    }
 
-
-   const sections=achievement.map((section) =>
-       // I don't know why the key error won't disappear with the original id's of my data, just add 0 for now
-       <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
-    )
 
     return (
         <div id="wrapper-left">
-            {sections}
+            {data.map((section) =>
+                <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
+            )}
         </div>
 
     )
@@ -70,26 +73,31 @@ function Info({param}){
     )
 }
 
-
-function WrapperRight() {
-
-    const location = useLocation()
+function WrapperRight({achList}) {
 
     const {categoryId} = useParams()
-    const [info, setInfo] = useState([{}])
 
+    const fetchAchievements = async () => {
+        const res = await fetch('/api/category/' + categoryId)
 
-    useEffect(() => {
-        fetch('/api/category/' + categoryId).then(
-            res => res.json().then(
-                data => setInfo(data)
-            )
-        )
-    }, [location]);
+        if(!res.ok){
+            throw new Error('Network response was not ok.')
+        }
 
+        return res.json()
+    }
 
+    const {data, status} = useQuery('category' + categoryId, fetchAchievements)
 
-    const achievements = info.map((ach)=>
+    if(status === 'loading'){
+        return <p> Loading...</p>
+    }
+
+    if(status === 'error'){
+        return <p> Error</p>
+    }
+
+    const achievements = data.map((ach)=>
         <Info key={ach.ach_id+0} param={ach}></Info>
     )
 
@@ -108,13 +116,10 @@ function WrapperRight() {
 }
 
 function Category(props) {
-
-
-
     return (
         <div id="content">
             <WrapperLeft ></WrapperLeft>
-            <WrapperRight ></WrapperRight>
+            <WrapperRight></WrapperRight>
         </div>
     );
 }
