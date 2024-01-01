@@ -2,12 +2,11 @@
 .guts{
    display: flex;
     flex-wrap:wrap;
-    margin: 0;
     justify-content: center;
     /*background-color: red;*/
     overflow: auto;
 
-    padding: 0;
+    padding:1%;
     width: 100%;
     height: 100%;
     row-gap: 1%;
@@ -19,74 +18,116 @@
     display: flex;
     align-items: center;
     justify-content: center;
-     width: 203px;
-    height: 290px;
+    width: 230px;
+    height: 350px;
     /*background-color: red;*/
 
 
 }
 
 .cell{
-
     position: relative;
-
     display: grid;
 
     /*fix cells in phone view*/
 
-    width: calc((279*2)/3 *1px);
-    height: calc((420*2)/3 * 1px);
+    width:90%;
+    height:90%;
 
 
-     border-image-source: url("/ach_container.png");
+    border-image-source: url("/ach_container.png");
      /* top | right | bottom  | left */
-     border-image-slice: 29 139 fill;
-     border-image-width:auto;
-
-
+    border-image-slice: 29 139 fill;
+    border-image-width:auto;
     grid-template-rows: 143px 1fr 70px;
-    row-gap: 0;
 
 }
 
 
 .cell:hover{
-    width: calc((285*2)/3 *1px);
-    height: calc((430*2)/3 * 1px);
-    transition-duration: 0.1s;
+
+    /*border-image-source: url("/back-cell.png");*/
+    /* !* top | right | bottom  | left *!*/
+    /*border-image-slice: 29 139 fill;*/
+    /*border-image-width:auto;*/
+    /*grid-template-rows: 143px 1fr 70px;*/
+
 
 }
 
 .ins_image{
     /*background-color: red;*/
     height:auto;
-    width: 85%;
-    margin: 11% auto 0 8.5%;
-
-
+    width: 83%;
+    margin: 11% auto 0 9.8%;
 
 }
+
 
 .card_title{
     position: absolute;
-    top:52%;
-    width: 91%;
+    width: 86%;
     color: #e3e1d5;
-    margin-left: 6%;
-    font-size: 16px;
+    margin-left: 8.4%;
     text-align: center;
-        /*background-color: green;*/
+
 
 }
 
+
+
+
+
+/* This is really ugly but it works until I figure out a way to automatically do it with js. This might be faster though.*/
+.font11, .font12, .font26, .font27, .font28, .font29{
+    top:48%;
+    font-size: 18px;
+}
+
+.font34, .font35, .font45, .font46, .font47{
+    top:51%;
+    font-size: 15px;
+}
+
+.font32, .font33, .font36{
+   top:50%;
+    font-size: 19px;
+}
+
+.font9, .font10, .font22, .font24, .font25, .font40, .font41, .font42{
+   top:47%;
+    font-size: 19px;
+}
+
+.font1, .font2, .font7, .font8, .font14, .font15, .font16, .font17, .font18, .font19, .font20, .font21, .font23, .font44, .font38{
+    top:47%;
+    font-size: 24px;
+}
+
+.font3, .font4, .font5, .font6, .font30, .font31, .font37, .font43{
+    top:49%;
+    font-size: 20px;
+}
+
+.font39{
+    top:51%;
+    font-size: 24px;
+
+}
+
+.font13{
+    top:46%;
+    font-size: 22px;
+}
+
+
 .percentage{
     position: absolute;
-    top:79%;
+    top:76%;
+    font-size: 19px;
     width: 85%;
     color:#E8CB9BFF;
-    margin: 0 0 0 20px;
-    overflow: hidden;
-    /*background-color: blue;*/
+    margin: 0 0 0 20%;
     text-align: center;
 }
 
@@ -105,7 +146,8 @@
 
 }
 
-    .cell {
+    .cell{
+
         width: calc(270/2 * 1px);
         height:  calc(420/2 * 1px);
 

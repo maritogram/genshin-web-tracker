@@ -13,7 +13,7 @@ function Cell({param}){
         <div className="cell-wrapper">
             <Link to = {'category/' + param.cat_id} className="cell">
                 <img className="ins_image" alt={param.title} src={"/cat/acat" + param.cat_id + ".webp"}/>
-                 <p className="card_title">{param.title}</p>
+                 <p className={"card_title font" + param.cat_id}>{param.title}</p>
                  <p className="percentage">100%</p>
             </Link>
         </div>
@@ -44,8 +44,8 @@ function AchievementCategories() {
     }
     return(
         <div className="guts">
-            {data.map(cat=>(
-              <Cell key={cat.cat_id +0} param={cat}></Cell>
+            {data.map(cat => (
+                <Cell key={cat.cat_id + 0} param={cat}></Cell>
             ))}
         </div>
     )
