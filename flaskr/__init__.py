@@ -1,6 +1,6 @@
 import os
 
-from flask import (Flask, jsonify)
+from flask import (Flask, jsonify, request)
 from . import db
 from flaskr.db import get_db
 
@@ -38,6 +38,18 @@ def create_app(test_config=None):
         results = [dict(row) for row in names]
 
         return jsonify(results)
+
+    @app.route('/api/category')
+    def search_whole():
+        args = request.args.get("query", 0)
+
+        if args:
+            database = get_db()
+            names = database.execute(f"SELECT * FROM achievement WHERE name LIKE '%{args}%' ").fetchall()
+            results = [dict(row) for row in names]
+            return results
+        return "Argument Not Found"
+
 
     @app.route('/api/category/<int:category_id>')
     def show_category(category_id):
