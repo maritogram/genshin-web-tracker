@@ -4,10 +4,26 @@ import {Link, NavLink, ScrollRestoration, useLocation, useParams} from "react-ro
 import {useQuery} from "react-query";
 
 
-function SectionCat({param}){
 
-    const location = useLocation()
 
+
+function SearchBar({achievements}){
+
+
+
+    return (
+        <input
+            className="search-bar"
+            type="search"
+            placeholder="Search for Achievements..."
+        />
+    )
+
+
+}
+
+
+function SectionCat({param}) {
     return (
         <NavLink to={"/category/" + param.cat_id} className="section category">
             <img src="/cat1.png" width="auto" height="50%" style={{padding: 0}}/>
@@ -20,9 +36,14 @@ function SectionCat({param}){
 }
 
 
-function WrapperLeft() {
+function WrapperLeft({achievements}) {
 
+
+    //FIX THIS WHY IT MOUNTS EVERYTIME CLICKED
     console.log("Mounts ")
+
+
+
     //need to refactor this as it is repeated two times
     const fetchCategories = async () => {
         const res = await fetch('/api/catalog')
@@ -35,32 +56,45 @@ function WrapperLeft() {
     const {data,status} = useQuery("categories", fetchCategories)
 
     if(status === 'loading'){
-        return <p> Loading...</p>
+         return (
+        <div id="wrapper-left">
+            <p>Loading..</p>
+        </div>
+        )
     }
-
     if(status === 'error'){
-        return <p> Error</p>
+        return (
+        <div id="wrapper-left">
+            <p>Error!</p>
+        </div>
+        )
     }
-
 
     return (
         <div id="wrapper-left">
-            {data.map((section) =>
-                <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
-            )}
+            <SearchBar></SearchBar>
+            <div className="categories">
+                {data.map((section) =>
+                    <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
+                )}
+            </div>
+
         </div>
+
 
     )
 }
 
 
-function Info({param}){
+function Info({param}) {
 
 
     return (
 
-            <div className="section progress">
-                <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
+
+        <div className="section progress">
+
+            <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
                 <p className="information">
                     <span className="title">{param.name}</span>
                     <span className="description">{param.description}</span>
@@ -73,9 +107,11 @@ function Info({param}){
     )
 }
 
-function WrapperRight({achList}) {
+function WrapperRight() {
 
     const {categoryId} = useParams()
+
+
 
     const fetchAchievements = async () => {
         const res = await fetch('/api/category/' + categoryId)
@@ -87,14 +123,34 @@ function WrapperRight({achList}) {
         return res.json()
     }
 
+
     const {data, status} = useQuery('category' + categoryId, fetchAchievements)
 
     if(status === 'loading'){
-        return <p> Loading...</p>
+         return (
+        <div id="wrapper-right">
+            <div className="canvas">
+            </div>
+            <div className="paper">
+                <div className="scroll-style ">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+    )
     }
-
     if(status === 'error'){
-        return <p> Error</p>
+         return (
+        <div id="wrapper-right">
+            <div className="canvas">
+            </div>
+            <div className="paper">
+                <div className="scroll-style ">
+                <p>Error!</p>
+                </div>
+            </div>
+        </div>
+    )
     }
 
     const achievements = data.map((ach)=>
@@ -115,10 +171,11 @@ function WrapperRight({achList}) {
     )
 }
 
-function Category(props) {
+function Category() {
+
     return (
         <div id="content">
-            <WrapperLeft ></WrapperLeft>
+            <WrapperLeft></WrapperLeft>
             <WrapperRight></WrapperRight>
         </div>
     );
