@@ -1,22 +1,39 @@
 import React, {useEffect, useState, useRef} from 'react';
 import './category.css'
-import {Link, NavLink, ScrollRestoration, useLocation, useParams} from "react-router-dom";
+import {Link, NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useQuery} from "react-query";
 
 
+function SearchBar(){
 
+    const navigate= useNavigate()
 
+    const [input, setInput] = useState("")
 
-function SearchBar({achievements}){
+     const handleChange = (e) => {
+        e.preventDefault()
+         setInput(e.target.value)
+    }
 
+    const handleSubmit = (e) => {
+            e.preventDefault()
+        console.log(input)
+        navigate("../category?s=" + input)
+
+    }
 
 
     return (
-        <input
-            className="search-bar"
-            type="search"
-            placeholder="Search for Achievements..."
-        />
+        <form className="search" onSubmit={handleSubmit}>
+            <input
+                className="search-bar"
+                type="search"
+                placeholder="Search for Achievements..."
+                onSubmit={handleSubmit}
+                onChange={handleChange}
+            />
+        </form>
+
     )
 
 
@@ -41,7 +58,6 @@ function WrapperLeft({achievements}) {
 
     //FIX THIS WHY IT MOUNTS EVERYTIME CLICKED
     console.log("Mounts ")
-
 
 
     //need to refactor this as it is repeated two times
@@ -90,8 +106,6 @@ function Info({param}) {
 
 
     return (
-
-
         <div className="section progress">
 
             <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
@@ -109,22 +123,24 @@ function Info({param}) {
 
 function WrapperRight() {
 
-    const {categoryId} = useParams()
-
-
-
     const fetchAchievements = async () => {
-        const res = await fetch('/api/category/' + categoryId)
-
+        const res = await fetch('/api/achievements')
         if(!res.ok){
             throw new Error('Network response was not ok.')
         }
-
         return res.json()
     }
 
+    const {categoryId} = useParams()
 
-    const {data, status} = useQuery('category' + categoryId, fetchAchievements)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const search = searchParams.get('s')
+
+
+
+
+
+    const {data, status} = useQuery('achievements', fetchAchievements)
 
     if(status === 'loading'){
          return (
@@ -153,8 +169,17 @@ function WrapperRight() {
     )
     }
 
-    const achievements = data.map((ach)=>
-        <Info key={ach.ach_id+0} param={ach}></Info>
+
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+    //I don't think this might be that efficient, but it's better than have a lot of people doing multiple api calls considering each search is one api call.
+    const filtered = data.filter(({category_id, name})=>
+    {
+        if (categoryId !== undefined){
+           return parseInt(categoryId) === (category_id)
+        }else{
+            return (name.toLowerCase().includes(search.toLowerCase()))
+        }
+    }
     )
 
 
@@ -164,7 +189,9 @@ function WrapperRight() {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                {achievements}
+                    {filtered.map((ach)=>
+                        <Info key={ach.ach_id+0} param={ach}></Info>
+                    )}
                 </div>
             </div>
         </div>

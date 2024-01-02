@@ -30,6 +30,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
 
+
     @app.route('/api/catalog')
     def show_catalog():
         database = get_db()
@@ -39,22 +40,13 @@ def create_app(test_config=None):
 
         return jsonify(results)
 
-    @app.route('/api/category')
-    def search_whole():
-        args = request.args.get("query", 0)
+    @app.route('/api/achievements')
+    def show_category():
+        database = get_db().cursor()
 
-        if args:
-            database = get_db()
-            names = database.execute(f"SELECT * FROM achievement WHERE name LIKE '%{args}%' ").fetchall()
-            results = [dict(row) for row in names]
-            return results
-        return "Argument Not Found"
+        query = "SELECT * FROM achievement"
+        names = database.execute(query)
 
-
-    @app.route('/api/category/<int:category_id>')
-    def show_category(category_id):
-        database = get_db()
-        names = database.execute(f"SELECT * from achievement where category_id = {category_id}").fetchall()
 
         results = [dict(row) for row in names]
 
