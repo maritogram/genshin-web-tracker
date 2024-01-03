@@ -41,8 +41,6 @@
 
 .section{
     display: flex;
-    padding-left: 0;
-
     height: fit-content;
 }
 
@@ -71,6 +69,15 @@
     margin:0 ;
     height: fit-content;
 
+
+}
+
+
+.cat-percent{
+    text-align: left;
+    margin: 3px;
+        font-size: min(18px, 3vmin);
+    color: #bcb1a4;
 
 }
 
@@ -156,22 +163,19 @@ height: 100%;
 
 
 
-
-
-
-.cat-percent{
-    text-align: left;
-    margin: 3px;
-        font-size: min(18px, 3vmin);
-    color: #bcb1a4;
-
-}
-
-
 .progress:hover, .progress:active{
     margin: 4px 10px;
 }
 
+
+
+
+.s-title{
+    background-color: #e0d2bc;
+    margin: 4px 20px;
+    padding: 4px 12px;
+    color: #8e6d4c;
+}
 
 .left-img{
     padding: 0;
