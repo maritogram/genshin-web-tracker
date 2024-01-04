@@ -6,24 +6,24 @@ import {useQuery} from "react-query";
 
 function SearchBar(){
 
-     const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('s')
 
     const navigate= useNavigate()
     const [input, setInput] = useState("")
 
-     const handleChange = (e) => {
+    const handleChange = (e) => {
         e.preventDefault()
-         setInput(e.target.value)
+         setInput(e.target.value.trim())
+        console.log(input)
     }
 
     const handleSubmit = (e) => {
-            e.preventDefault()
-        if(input !== search){
+        e.preventDefault()
 
+        if(input !== search && input){
                     navigate("../category?s=" + input)
         }
-
 
     }
 
@@ -94,8 +94,7 @@ function WrapperLeft({data,status}) {
 }
 
 
-function Info({param, }) {
-
+function Info({param}) {
 
     return (
         <div className={"section progress"}>
@@ -158,7 +157,6 @@ function WrapperRight({categories}) {
     }
 
 
-
     let i = 0;
 
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
@@ -190,7 +188,6 @@ function WrapperRight({categories}) {
 
                         const sTitle = categories[ach.category_id - 1].title
 
-
                         if((categoryId === undefined) && (before !== sTitle)){
                             before = sTitle
                             return(
@@ -203,8 +200,6 @@ function WrapperRight({categories}) {
                             return (<Info key={ach.ach_id+0} param={ach}></Info>)
 
                         }
-
-
                     })}
                 </div>
             </div>
