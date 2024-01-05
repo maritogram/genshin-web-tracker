@@ -13,8 +13,10 @@ function App(props) {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/category/:categoryId" element={<Category />} />
+                <Route path="/category" element={<Category />} />
             </Routes>
             <MyFooter></MyFooter>
+
         </BrowserRouter>
     );
 }

@@ -9,7 +9,6 @@
     padding:1%;
     width: 100%;
     height: 100%;
-    row-gap: 1%;
     flex-direction: row;
 }
 
@@ -19,7 +18,7 @@
     align-items: center;
     justify-content: center;
     width: 230px;
-    height: 350px;
+    height: 358px;
     /*background-color: red;*/
 
 
@@ -46,11 +45,11 @@
 
 .cell:hover{
 
-    /*border-image-source: url("/back-cell.png");*/
-    /* !* top | right | bottom  | left *!*/
-    /*border-image-slice: 29 139 fill;*/
-    /*border-image-width:auto;*/
-    /*grid-template-rows: 143px 1fr 70px;*/
+    border-image-source: url("/back-cell.png");
+     /* top | right | bottom  | left */
+    border-image-slice: 29 139 fill;
+    border-image-width:auto;
+    grid-template-rows: 143px 1fr 70px;
 
 
 }
@@ -70,13 +69,7 @@
     color: #e3e1d5;
     margin-left: 8.4%;
     text-align: center;
-
-
 }
-
-
-
-
 
 /* This is really ugly but it works until I figure out a way to automatically do it with js. This might be faster though.*/
 .font11, .font12, .font26, .font27, .font28, .font29{
@@ -116,9 +109,10 @@
 }
 
 .font13{
-    top:46%;
+    top:52%;
     font-size: 22px;
 }
+
 
 
 .percentage{
@@ -127,7 +121,7 @@
     font-size: 19px;
     width: 85%;
     color:#E8CB9BFF;
-    margin: 0 0 0 20%;
+    margin: 0 0 0 11%;
     text-align: center;
 }
 

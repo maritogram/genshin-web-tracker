@@ -1,7 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import './category.css'
 import {Link, NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useQuery} from "react-query";
+import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
+import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
 
 function SearchBar(){
@@ -41,36 +43,43 @@ function SearchBar(){
 
 }
 
+function CategoryCard({category}) {
 
-function SectionCat({param}) {
+    const categoryTitle = category.title
+    const categoryId = category.cat_id
+
     return (
-        <NavLink to={"/category/" + param.cat_id} className="section category">
-            <img src="/cat1.png" width="auto" height="50%" style={{padding: 0}}/>
+        <NavLink to={"/category/" + categoryId} className="section category">
+            <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
             <div className="cat-text">
-                <p className="cat-title">{param.title}</p>
+                <p className="cat-title">{categoryTitle}</p>
                 <p className="cat-percent">100 %</p>
             </div>
         </NavLink>
     )
 }
 
+function DisplayedCategories({categories}){
 
-function WrapperLeft({data,status}) {
+    return(
+        categories.map((category) =>
+            <CategoryCard key={category.cat_id + 0} category={category}></CategoryCard>
+        )
+    )
 
-    //need to refactor this as it is repeated two times
+}
 
-    if(status === 'loading'){
+function WrapperLeft({categories,dataStatus}) {
+
+    if(dataStatus === 'loading'){
          return (
-        <div id="wrapper-left">
             <p>Loading..</p>
-        </div>
         )
     }
-    if(status === 'error'){
+
+    if(dataStatus === 'error'){
         return (
-        <div id="wrapper-left">
             <p>Error!</p>
-        </div>
         )
     }
 
@@ -78,44 +87,47 @@ function WrapperLeft({data,status}) {
         <div id="wrapper-left">
             <SearchBar></SearchBar>
             <div className="categories">
-                {data.map((section) =>
-                    <SectionCat key={section.cat_id + 0} param={section}></SectionCat>
-                )}
+                <DisplayedCategories categories={categories}></DisplayedCategories>
             </div>
-
         </div>
-
-
     )
 }
 
 
-function Info({param, highlight=false, searchString}) {
+function AchievementCardTitle({achievement, highlight=false, searchString}){
 
-    let title = param.name
+    const title = achievement.name;
 
-    let printTitle = <span className='title'>{title}</span>
+     if (highlight) {
+        const firstInstance = title.toLowerCase().indexOf(searchString.toLowerCase());
 
-    if (highlight) {
-        const firstInstance = title.toLowerCase().indexOf(searchString.toLowerCase())
+        const leftPart = title.slice(0, firstInstance);
+        const middlePart = title.slice(firstInstance, (firstInstance + searchString.length));
+        const rightPart = title.slice((firstInstance + searchString.length), title.length);
 
-        const leftPart = title.slice(0, firstInstance)
-        const middlePart = title.slice(firstInstance, (firstInstance + searchString.length))
-        const rightPart = title.slice((firstInstance + searchString.length), title.length)
+         return (
+             <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+         )
 
-        printTitle = <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+     }
 
-    }
+     return (
+         <span className='title'>{title}</span>
+     )
 
+}
+
+
+function AchievementCard({achievement, highlight = false, searchString}) {
 
     return (
         <div className={"section progress"}>
-            <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
+            <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
             <p className="information">
-                {printTitle}
-                <span className="description">{param.description}</span>
+                <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                <span className="description">{achievement.description}</span>
             </p>
-            <img className="primo" src="/5stprimo.webp"/>
+            <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
             <div className="completion">
                 <button className="claim" type="button">Mark</button>
             </div>
@@ -123,94 +135,86 @@ function Info({param, highlight=false, searchString}) {
     )
 }
 
-function WrapperRight({categories}) {
 
+function DisplayedAchievements({totalAchievements, categories}){
 
-    const fetchAchievements = async () => {
-        const res = await fetch('/api/achievements')
-        if (!res.ok) {
-            throw new Error('Network response was not ok.')
-        }
-        return res.json()
-    }
-
-    const {categoryId} = useParams()
+    const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const search = searchParams.get('s')
+    const search = searchParams.get('s'); //The search query string.
 
-
-    const {data, status} = useQuery('achievements', fetchAchievements)
-
-    if (status === 'loading') {
-        return (
-            <div id="wrapper-right">
-            <div className="canvas">
-            </div>
-            <div className="paper">
-                <div className="scroll-style ">
-                    <p>Loading...</p>
-                </div>
-            </div>
-        </div>
-    )
-    }
-    if(status === 'error'){
-         return (
-        <div id="wrapper-right">
-            <div className="canvas">
-            </div>
-            <div className="paper">
-                <div className="scroll-style ">
-                <p>Error!</p>
-                </div>
-            </div>
-        </div>
-    )
-    }
-
-
-    let i = 0;
-
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-    //I don't think this might be that efficient, but it's better than having a lot of people do multiple api calls considering each search is one api call.
-    const filtered = data.filter(({category_id, name})=> {
+    /*
+    Filters all the achievements depending on what needs to be displayed.
+    If the category ID was found it will return true for all the achievements that contain such ID.
+    If no category ID was found it means that specific achievements are being looked for. Therefore,
+    we see if the search query is included in the title of the achievement. If it is, we increment the match count and
+    return the respective boolean.
+     */
+    let matchCount = 0;
+    const filteredAchievements = totalAchievements.filter(({category_id, name})=> {
         if (categoryId !== undefined){
-            return parseInt(categoryId) === (category_id)
+            return parseInt(categoryId) === (category_id);
         }else{
-
-            const tf = name.toLowerCase().includes(search.toLowerCase())
-            if (tf) i++
-            return (tf)
+            const match = name.toLowerCase().includes(search.toLowerCase());
+            if (match) matchCount++;
+            return (match)
         }
     })
 
-    // string that will store the title of the achievement just returned in the map method below.
-    let before = ""
+    /*
+    Decides how each achievement should be rendered.
+    If the user is looking at a specific category (categoryId exists), simply render them.
+    If the above isn't the case, we know the search function is being used. This means that we will also need to render
+    the categories of the rendered achievements. For this we check if the previous achievement belongs to the current
+    achievement's category, if it doesn't we render the title of the category as to declare a new section of achievements.
+    */
+    let previousTitle = ""
+    const outputAchievements = (currentAchievement) => {
+        const currentTitle = categories[currentAchievement.category_id - 1].title;
 
-    const outputAchievements = (ach) => {
-        const sTitle = categories[ach.category_id - 1].title
-
-        if(categoryId != undefined){
-           return <Info key={ach.ach_id + 0} param={ach}></Info>
+        if(categoryId !== undefined){
+           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement}></AchievementCard>
         }
 
-        if((categoryId === undefined) && (before !== sTitle)){
-            before = sTitle
+        if(previousTitle !== currentTitle){
+            previousTitle = currentTitle;
             return(
                 <>
-
-                    {/*//FIX KEY ISSUE idk*/}
-
-                    <div className={"section s-title"} key={ach.category_id - 1}>{sTitle}</div>
-                    <Info key={ach.ach_id + 1} param={ach} highlight={true} searchString={search}></Info>
+                    {/*//FIX KEY ISSUE */}
+                    <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
+                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search}></AchievementCard>
                 </>
             )
         } else {
-            return (<Info key={ach.ach_id +0} param={ach} highlight={true} searchString={search}></Info>)
+            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search}></AchievementCard>)
         }
     }
 
+    return(
+        <>
+            {filteredAchievements.map(outputAchievements)}
+        </>
+    )
+
+
+}
+
+
+function WrapperRight({categories}) {
+
+    const {data, status} = useFetchAchievements();
+
+    if (status === 'loading') {
+        return (
+            <p>Loading</p>
+        )
+    }
+
+    if(status === 'error'){
+         return (
+             <p>Error</p>
+         )
+    }
 
     return (
         <div id="wrapper-right">
@@ -218,7 +222,7 @@ function WrapperRight({categories}) {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    {filtered.map(outputAchievements)}
+                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>
                 </div>
             </div>
         </div>
@@ -227,19 +231,11 @@ function WrapperRight({categories}) {
 
 function Category() {
 
-    const fetchCategories = async () => {
-        const res = await fetch('/api/catalog')
-        if (!res.ok){
-            throw new Error('Network response was not ok.')
-        }
-        return res.json()
-    }
-
-    const {data,status} = useQuery("categories", fetchCategories)
+    const {data, status} = useFetchCategories();
 
     return (
         <div id="content">
-            <WrapperLeft data={data} status={status}></WrapperLeft>
+            <WrapperLeft categories={data} dataStatus={status}></WrapperLeft>
             <WrapperRight categories={data}></WrapperRight>
         </div>
     );

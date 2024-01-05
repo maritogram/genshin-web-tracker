@@ -1,10 +1,9 @@
 import React from 'react';
 import './home.css';
 
-import {useEffect, useState} from "react";
+import {Link, ScrollRestoration} from "react-router-dom";
 
-import {Link} from "react-router-dom";
-import {useQuery, useQueryClient} from "react-query";
+import {useFetchCategories} from '../hooks/useFetchCategories.jsx'
 
 
 function Cell({param}){
@@ -25,24 +24,22 @@ function Cell({param}){
 
 function AchievementCategories() {
 
-    const fetchCategories = async () => {
-        const res = await fetch('/api/catalog')
-        if (!res.ok){
-            throw new Error('Network response was not ok.')
-        }
-        return res.json()
+    const {data, status} = useFetchCategories();
+
+     if(status === 'loading'){
+         return (
+            <p>Loading..</p>
+        )
     }
 
-    const {data,status} = useQuery("categories", fetchCategories)
-
-    if(status === 'loading'){
-        return <p> Loading...</p>
+    if(status === 'error') {
+        return (
+            <p>Error!</p>
+        )
     }
 
-    if(status === 'error'){
-        return <p> Error</p>
-    }
-    return(
+
+    return (
         <div className="guts">
             {data.map(cat => (
                 <Cell key={cat.cat_id + 0} param={cat}></Cell>
@@ -55,7 +52,6 @@ function AchievementCategories() {
 function Home() {
     return (
         <AchievementCategories>
-
         </AchievementCategories>
     );
 }

@@ -11,8 +11,6 @@ import {Outlet, Link} from "react-router-dom";
                 <p className="headerp"> Achievements</p>
             </Link>
             <p className="right headerp"> Achievements completed: <span style={{color: "white"}}> 0</span></p>
-
-
         </header>
     )
 }
