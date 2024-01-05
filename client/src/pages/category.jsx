@@ -15,7 +15,6 @@ function SearchBar(){
     const handleChange = (e) => {
         e.preventDefault()
          setInput(e.target.value.trim())
-        console.log(input)
     }
 
     const handleSubmit = (e) => {
@@ -33,7 +32,6 @@ function SearchBar(){
                 className="search-bar"
                 type="search"
                 placeholder="Search for Achievements..."
-                onSubmit={handleSubmit}
                 onChange={handleChange}
             />
         </form>
@@ -58,8 +56,6 @@ function SectionCat({param}) {
 
 
 function WrapperLeft({data,status}) {
-
-    console.log("mounts")
 
     //need to refactor this as it is repeated two times
 
@@ -94,13 +90,29 @@ function WrapperLeft({data,status}) {
 }
 
 
-function Info({param}) {
+function Info({param, highlight=false, searchString}) {
+
+    let title = param.name
+
+    let printTitle = <span className='title'>{title}</span>
+
+    if (highlight) {
+        const firstInstance = title.toLowerCase().indexOf(searchString.toLowerCase())
+
+        const leftPart = title.slice(0, firstInstance)
+        const middlePart = title.slice(firstInstance, (firstInstance + searchString.length))
+        const rightPart = title.slice((firstInstance + searchString.length), title.length)
+
+        printTitle = <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+
+    }
+
 
     return (
         <div className={"section progress"}>
             <img className="left-img" src="/UI_AchievementIcon_1_0.png"/>
             <p className="information">
-                <span className="title">{param.name}</span>
+                {printTitle}
                 <span className="description">{param.description}</span>
             </p>
             <img className="primo" src="/5stprimo.webp"/>
@@ -112,6 +124,7 @@ function Info({param}) {
 }
 
 function WrapperRight({categories}) {
+
 
     const fetchAchievements = async () => {
         const res = await fetch('/api/achievements')
@@ -168,14 +181,35 @@ function WrapperRight({categories}) {
 
             const tf = name.toLowerCase().includes(search.toLowerCase())
             if (tf) i++
-
             return (tf)
-
         }
     })
 
     // string that will store the title of the achievement just returned in the map method below.
     let before = ""
+
+    const outputAchievements = (ach) => {
+        const sTitle = categories[ach.category_id - 1].title
+
+        if(categoryId != undefined){
+           return <Info key={ach.ach_id + 0} param={ach}></Info>
+        }
+
+        if((categoryId === undefined) && (before !== sTitle)){
+            before = sTitle
+            return(
+                <>
+
+                    {/*//FIX KEY ISSUE idk*/}
+
+                    <div className={"section s-title"} key={ach.category_id - 1}>{sTitle}</div>
+                    <Info key={ach.ach_id + 1} param={ach} highlight={true} searchString={search}></Info>
+                </>
+            )
+        } else {
+            return (<Info key={ach.ach_id +0} param={ach} highlight={true} searchString={search}></Info>)
+        }
+    }
 
 
     return (
@@ -184,23 +218,7 @@ function WrapperRight({categories}) {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    {filtered.map((ach)=> {
-
-                        const sTitle = categories[ach.category_id - 1].title
-
-                        if((categoryId === undefined) && (before !== sTitle)){
-                            before = sTitle
-                            return(
-                                <>
-                                    <div className={"section s-title"} >{sTitle}</div>
-                                    <Info key={ach.ach_id+0} param={ach}></Info>
-                                </>
-                            )
-                        } else {
-                            return (<Info key={ach.ach_id+0} param={ach}></Info>)
-
-                        }
-                    })}
+                    {filtered.map(outputAchievements)}
                 </div>
             </div>
         </div>
