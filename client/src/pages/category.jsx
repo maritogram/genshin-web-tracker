@@ -1,7 +1,6 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React, { useState } from 'react';
 import './category.css'
-import {Link, NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {useQuery} from "react-query";
+import {NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
@@ -120,6 +119,26 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 
 function AchievementCard({achievement, highlight = false, searchString}) {
 
+    const markAchievement = (e) =>{
+        e.preventDefault()
+
+        let achievementObject =  localStorage.getItem("achievements");
+
+        if(achievementObject == null || achievementObject === "[object Object]") {
+            achievementObject = {} // Initialize the object if it doesn't exist.
+        } else {
+            achievementObject=JSON.parse(achievementObject) // If it does exist parse it to an object.
+        }
+
+        Object.assign(achievementObject, {[achievement.ach_id]: true});
+        localStorage.setItem("achievements", JSON.stringify(achievementObject))
+
+    }
+
+    const unmarkAchievement = (e) => {
+
+    }
+
     return (
         <div className={"section progress"}>
             <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
@@ -129,7 +148,13 @@ function AchievementCard({achievement, highlight = false, searchString}) {
             </p>
             <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
             <div className="completion">
-                <button className="claim" type="button">Mark</button>
+                <button
+                    className="claim"
+                    type="button"
+                    onClick={ markAchievement }
+                >
+                    Mark
+                </button>
             </div>
         </div>
     )
@@ -222,7 +247,7 @@ function WrapperRight({categories}) {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>
+                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>.
                 </div>
             </div>
         </div>
