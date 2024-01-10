@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './category.css'
 import {NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
@@ -117,27 +117,23 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 }
 
 
-function AchievementCard({achievement, highlight = false, searchString}) {
+function AchievementCard({achievement, highlight = false, searchString, marked, setMarked}) {
+
+
 
     const markAchievement = (e) =>{
         e.preventDefault()
-
-        let achievementObject =  localStorage.getItem("achievements");
-
-        if(achievementObject == null || achievementObject === "[object Object]") {
-            achievementObject = {} // Initialize the object if it doesn't exist.
-        } else {
-            achievementObject=JSON.parse(achievementObject) // If it does exist parse it to an object.
-        }
-
+        const achievementObject = JSON.parse(localStorage.getItem("achievements"))
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
+        setMarked(marked+1)
     }
 
     const unmarkAchievement = (e) => {
 
     }
+
 
     return (
         <div className={"section progress"}>
@@ -163,10 +159,20 @@ function AchievementCard({achievement, highlight = false, searchString}) {
 
 function DisplayedAchievements({totalAchievements, categories}){
 
+    const [marked,setMarked] = useState(0)
+
+    let achievementsObject = JSON.parse(localStorage.getItem("achievements"))
+    useEffect(() => {
+        achievementsObject = JSON.parse(localStorage.getItem("achievements"))
+    }, [marked]);
+
+
+
     const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
     const [searchParams, setSearchParams] = useSearchParams();
     const search = searchParams.get('s'); //The search query string.
+
 
     /*
     Filters all the achievements depending on what needs to be displayed.
@@ -198,7 +204,7 @@ function DisplayedAchievements({totalAchievements, categories}){
         const currentTitle = categories[currentAchievement.category_id - 1].title;
 
         if(categoryId !== undefined){
-           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement}></AchievementCard>
+           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked}></AchievementCard>
         }
 
         if(previousTitle !== currentTitle){
@@ -215,9 +221,18 @@ function DisplayedAchievements({totalAchievements, categories}){
         }
     }
 
+
+
     return(
         <>
-            {filteredAchievements.map(outputAchievements)}
+            {filteredAchievements.sort((a,b)=>{
+
+                if(achievementsObject[a.ach_id]){
+                    return 1
+                } else{
+                    return -1
+                }
+            }).map(outputAchievements)}
         </>
     )
 
@@ -241,13 +256,14 @@ function WrapperRight({categories}) {
          )
     }
 
+
     return (
         <div id="wrapper-right">
             <div className="canvas">
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>.
+                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>
                 </div>
             </div>
         </div>
@@ -257,6 +273,10 @@ function WrapperRight({categories}) {
 function Category() {
 
     const {data, status} = useFetchCategories();
+
+    //Initializes the object where the marked achievements will be marked.
+    const achievementObject =  localStorage.getItem("achievements");
+    if(achievementObject == null || achievementObject === "[object Object]") localStorage.setItem("achievements", "{}");
 
     return (
         <div id="content">
