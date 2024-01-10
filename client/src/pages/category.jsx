@@ -117,7 +117,7 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 }
 
 
-function AchievementCard({achievement, highlight = false, searchString, marked, setMarked}) {
+function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed}) {
 
 
 
@@ -127,6 +127,7 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
+        // this might not be good, but works for now
         setMarked(marked+1)
     }
 
@@ -134,10 +135,9 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
 
     }
 
-
     return (
-        <div className={"section progress"}>
-            <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
+        <div className={(completed) ? " section progress completed" : "section progress"}>
+            <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
             <p className="information">
                 <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
                 <span className="description">{achievement.description}</span>
@@ -154,6 +154,7 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
             </div>
         </div>
     )
+
 }
 
 
@@ -204,7 +205,7 @@ function DisplayedAchievements({totalAchievements, categories}){
         const currentTitle = categories[currentAchievement.category_id - 1].title;
 
         if(categoryId !== undefined){
-           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked}></AchievementCard>
+           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
         }
 
         if(previousTitle !== currentTitle){
@@ -213,11 +214,11 @@ function DisplayedAchievements({totalAchievements, categories}){
                 <>
                     {/*//FIX KEY ISSUE */}
                     <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
-                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search}></AchievementCard>
+                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
                 </>
             )
         } else {
-            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search}></AchievementCard>)
+            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>)
         }
     }
 
