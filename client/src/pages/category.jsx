@@ -93,6 +93,8 @@ function WrapperLeft({categories,dataStatus}) {
 }
 
 
+
+
 function AchievementCardTitle({achievement, highlight=false, searchString}){
 
     const title = achievement.name;
@@ -117,9 +119,8 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 }
 
 
-function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed}) {
 
-
+function AchievementCardButton({achievement,marked,setMarked, completed}){
 
     const markAchievement = (e) =>{
         e.preventDefault()
@@ -131,9 +132,53 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
         setMarked(marked+1)
     }
 
-    const unmarkAchievement = (e) => {
+     const unmarkAchievement = (e) => {
+        e.preventDefault()
+        const achievementObject = JSON.parse(localStorage.getItem("achievements"))
+        Object.assign(achievementObject, {[achievement.ach_id]: false});
+        localStorage.setItem("achievements", JSON.stringify(achievementObject))
+
+        // this might not be good, but works for now
+        setMarked(marked-1)
 
     }
+
+
+
+
+    if (completed){
+        return (
+        <div className="completion done">
+            <p> Completed</p>
+            <button
+                className="unclaim"
+                type="button"
+                onClick={ unmarkAchievement }
+            >
+                Unmark
+            </button>
+        </div>
+        )
+    } else{
+        return (
+            <div className="completion">
+                <button
+                    className="claim"
+                    type="button"
+                    onClick={markAchievement}
+                >
+                    Mark
+                </button>
+            </div>
+        )
+    }
+
+
+}
+
+
+function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed}) {
+
 
     return (
         <div className={(completed) ? " section progress completed" : "section progress"}>
@@ -143,15 +188,7 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
                 <span className="description">{achievement.description}</span>
             </p>
             <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-            <div className="completion">
-                <button
-                    className="claim"
-                    type="button"
-                    onClick={ markAchievement }
-                >
-                    Mark
-                </button>
-            </div>
+            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
         </div>
     )
 
@@ -214,29 +251,35 @@ function DisplayedAchievements({totalAchievements, categories}){
                 <>
                     {/*//FIX KEY ISSUE */}
                     <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
-                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
+                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
                 </>
             )
         } else {
-            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>)
+            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>)
         }
     }
 
 
+ if(categoryId !== undefined) {
+     return (
+         <>
+             {filteredAchievements.sort((a, b) => {
 
-    return(
-        <>
-            {filteredAchievements.sort((a,b)=>{
-
-                if(achievementsObject[a.ach_id]){
-                    return 1
-                } else{
-                    return -1
-                }
-            }).map(outputAchievements)}
-        </>
-    )
-
+                 if (achievementsObject[a.ach_id]) {
+                     return 1
+                 } else {
+                     return -1
+                 }
+             }).map(outputAchievements)}
+         </>
+     )
+ } else{
+     return (
+         <>
+             {filteredAchievements.map(outputAchievements)}
+         </>
+     )
+ }
 
 }
 

@@ -166,11 +166,12 @@ height: 100%;
         transition-duration: 0.1s;
 
         height: 15%;
+    background-color: #f2ece6;
 }
 
 
 .completed{
-    background-color: #ebe3d8;
+    background-color: #ebe2d7;
 }
 
 .progress:hover, .progress:active{
@@ -202,6 +203,7 @@ height: 100%;
     flex-direction: column;
     width: 100%;
     color: #3d3f4c;
+    transition-duration: 1s;
 }
 
 .title{
@@ -209,11 +211,9 @@ height: 100%;
 }
 
 .description{
-    font-size: min(3vmin, 18px);
+    font-size: 16px;
     color: #bcb1a4;
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;
-    overflow: auto;
+    height: fit-content;
 
 }
 
@@ -248,7 +248,44 @@ height: 100%;
     justify-content: center;
 
     font-family: TypeFaceCH,serif;
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+
 }
+
+.completion p{
+    /*background-color:red;*/
+    padding: 0;
+    font-size: 21px;
+
+
+}
+
+
+.done{
+    background-image: url("/completed-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+
+}
+
+.unclaim{
+    position: absolute;
+    background-color: #f2ece6;
+        border: 3px solid #ebe4db;
+
+     border-radius: 100rem;
+        width: 80%;
+        height: 35%;
+    color:#bba791;
+        font-size: min(3vmin,19px);
+    top:65%;
+
+
+}
+
 
 .claim{
     background-color: #b7513d;
