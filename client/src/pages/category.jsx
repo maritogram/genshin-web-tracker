@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import './category.css'
 import {NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
@@ -7,7 +7,7 @@ import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
 function SearchBar(){
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const search = searchParams.get('s')
 
     const navigate= useNavigate()
@@ -122,12 +122,14 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 
 function AchievementCardButton({achievement,marked,setMarked, completed}){
 
+    console.log(marked)
     const markAchievement = (e) =>{
         e.preventDefault()
         const achievementObject = JSON.parse(localStorage.getItem("achievements"))
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
+        console.log("this runs?")
         // this might not be good, but works for now
         setMarked(marked+1)
     }
@@ -195,20 +197,12 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
 }
 
 
-function DisplayedAchievements({totalAchievements, categories}){
-
-    const [marked,setMarked] = useState(0)
-
-    let achievementsObject = JSON.parse(localStorage.getItem("achievements"))
-    useEffect(() => {
-        achievementsObject = JSON.parse(localStorage.getItem("achievements"))
-    }, [marked]);
-
+function DisplayedAchievements({totalAchievements, categories, marked, setMarked}){
 
 
     const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const search = searchParams.get('s'); //The search query string.
 
 
@@ -242,7 +236,7 @@ function DisplayedAchievements({totalAchievements, categories}){
         const currentTitle = categories[currentAchievement.category_id - 1].title;
 
         if(categoryId !== undefined){
-           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
+           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={JSON.parse(localStorage.getItem("achievements"))[currentAchievement.ach_id]}></AchievementCard>
         }
 
         if(previousTitle !== currentTitle){
@@ -263,9 +257,9 @@ function DisplayedAchievements({totalAchievements, categories}){
  if(categoryId !== undefined) {
      return (
          <>
-             {filteredAchievements.sort((a, b) => {
+             {filteredAchievements.sort((a) => {
 
-                 if (achievementsObject[a.ach_id]) {
+                 if (JSON.parse(localStorage.getItem("achievements"))[a.ach_id]) {
                      return 1
                  } else {
                      return -1
@@ -284,7 +278,7 @@ function DisplayedAchievements({totalAchievements, categories}){
 }
 
 
-function WrapperRight({categories}) {
+function WrapperRight({categories, marked, setMarked}) {
 
     const {data, status} = useFetchAchievements();
 
@@ -307,25 +301,21 @@ function WrapperRight({categories}) {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    <DisplayedAchievements totalAchievements={data} categories={categories}></DisplayedAchievements>
+                    <DisplayedAchievements totalAchievements={data} categories={categories} marked={marked} setMarked={setMarked}></DisplayedAchievements>
                 </div>
             </div>
         </div>
     )
 }
 
-function Category() {
+function Category({marked, setMarked}) {
 
     const {data, status} = useFetchCategories();
-
-    //Initializes the object where the marked achievements will be marked.
-    const achievementObject =  localStorage.getItem("achievements");
-    if(achievementObject == null || achievementObject === "[object Object]") localStorage.setItem("achievements", "{}");
 
     return (
         <div id="content">
             <WrapperLeft categories={data} dataStatus={status}></WrapperLeft>
-            <WrapperRight categories={data}></WrapperRight>
+            <WrapperRight marked={marked} setMarked={setMarked} categories={data}></WrapperRight>
         </div>
     );
 }
