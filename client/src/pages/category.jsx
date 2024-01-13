@@ -42,51 +42,69 @@ function SearchBar(){
 
 }
 
-function CategoryCard({category}) {
+function CategoryCard({category, achievements}) {
+
+    //Should probably spend some more time in this part
 
     const categoryTitle = category.title
     const categoryId = category.cat_id
+
+
+    const achievementsFromCategory = achievements.filter(({category_id})=> {
+            return parseInt(categoryId) === (category_id);
+    })
+    const firstAchievementFromCategory =  achievementsFromCategory[0].ach_id;
+    const lastAchievementFromCategory =  achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
+
+    const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
+
+
+    /*
+    First gets all the keys (achievement ids) from the local storage object. If they are between the valid achievements
+    and their value is true, add it to the filtered array.
+     */
+    let percentage = 0;
+    const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element)=>{
+        if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory){
+            if(achievementsObject[element]) return true;
+        }
+        return false
+    })
+
+    percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
+
+
 
     return (
         <NavLink to={"/category/" + categoryId} className="section category">
             <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
             <div className="cat-text">
                 <p className="cat-title">{categoryTitle}</p>
-                <p className="cat-percent">100 %</p>
+                <p className="cat-percent">{percentage}%</p>
             </div>
         </NavLink>
     )
 }
 
-function DisplayedCategories({categories}){
+
+function DisplayedCategories({categories, achievements}){
 
     return(
         categories.map((category) =>
-            <CategoryCard key={category.cat_id + 0} category={category}></CategoryCard>
+            <CategoryCard key={category.cat_id + 0} category={category} achievements={achievements}></CategoryCard>
         )
     )
 
 }
 
-function WrapperLeft({categories,dataStatus}) {
+function WrapperLeft({categories, achievements}) {
 
-    if(dataStatus === 'loading'){
-         return (
-            <p>Loading..</p>
-        )
-    }
-
-    if(dataStatus === 'error'){
-        return (
-            <p>Error!</p>
-        )
-    }
 
     return (
         <div id="wrapper-left">
             <SearchBar></SearchBar>
             <div className="categories">
-                <DisplayedCategories categories={categories}></DisplayedCategories>
+                <DisplayedCategories categories={categories} achievements={achievements}></DisplayedCategories>
             </div>
         </div>
     )
@@ -122,14 +140,12 @@ function AchievementCardTitle({achievement, highlight=false, searchString}){
 
 function AchievementCardButton({achievement,marked,setMarked, completed}){
 
-    console.log(marked)
     const markAchievement = (e) =>{
         e.preventDefault()
         const achievementObject = JSON.parse(localStorage.getItem("achievements"))
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
-        console.log("this runs?")
         // this might not be good, but works for now
         setMarked(marked+1)
     }
@@ -199,12 +215,12 @@ function AchievementCard({achievement, highlight = false, searchString, marked, 
 
 function DisplayedAchievements({totalAchievements, categories, marked, setMarked}){
 
+    const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
 
     const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
     const [searchParams] = useSearchParams();
     const search = searchParams.get('s'); //The search query string.
-
 
     /*
     Filters all the achievements depending on what needs to be displayed.
@@ -236,7 +252,7 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
         const currentTitle = categories[currentAchievement.category_id - 1].title;
 
         if(categoryId !== undefined){
-           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={JSON.parse(localStorage.getItem("achievements"))[currentAchievement.ach_id]}></AchievementCard>
+           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
         }
 
         if(previousTitle !== currentTitle){
@@ -259,7 +275,7 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
          <>
              {filteredAchievements.sort((a) => {
 
-                 if (JSON.parse(localStorage.getItem("achievements"))[a.ach_id]) {
+                 if (achievementsObject[a.ach_id]) {
                      return 1
                  } else {
                      return -1
@@ -278,21 +294,9 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
 }
 
 
-function WrapperRight({categories, marked, setMarked}) {
+function WrapperRight({categories, marked, setMarked, achievementData, achievementStatus}) {
 
-    const {data, status} = useFetchAchievements();
 
-    if (status === 'loading') {
-        return (
-            <p>Loading</p>
-        )
-    }
-
-    if(status === 'error'){
-         return (
-             <p>Error</p>
-         )
-    }
 
 
     return (
@@ -301,7 +305,7 @@ function WrapperRight({categories, marked, setMarked}) {
             </div>
             <div className="paper">
                 <div className="scroll-style ">
-                    <DisplayedAchievements totalAchievements={data} categories={categories} marked={marked} setMarked={setMarked}></DisplayedAchievements>
+                    <DisplayedAchievements totalAchievements={achievementData} categories={categories} marked={marked} setMarked={setMarked}></DisplayedAchievements>
                 </div>
             </div>
         </div>
@@ -310,12 +314,26 @@ function WrapperRight({categories, marked, setMarked}) {
 
 function Category({marked, setMarked}) {
 
-    const {data, status} = useFetchCategories();
+    const {data:categoryData, status:categoryStatus} = useFetchCategories();
+
+    const {data:achievementData, status:achievementStatus} = useFetchAchievements();
+
+    if (achievementStatus  === 'loading') {
+        return (
+            <p>Loading</p>
+        )
+    }
+
+    if(achievementStatus === 'error'){
+         return (
+             <p>Error</p>
+         )
+    }
 
     return (
         <div id="content">
-            <WrapperLeft categories={data} dataStatus={status}></WrapperLeft>
-            <WrapperRight marked={marked} setMarked={setMarked} categories={data}></WrapperRight>
+            <WrapperLeft categories={categoryData} achievements={achievementData}  ></WrapperLeft>
+            <WrapperRight marked={marked} setMarked={setMarked} categories={categoryData} achievementData={achievementData}  ></WrapperRight>
         </div>
     );
 }
