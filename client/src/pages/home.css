@@ -126,6 +126,36 @@
 }
 
 
+.progress-outer{
+    top:84%;
+    background-color:#5d677d;
+    position: absolute;
+    height: 1.8%;
+    width: 70%;
+    margin-left: auto;
+    left: 16%;
+    border-radius: 50px;
+    border: solid 0 transparent;
+
+
+}
+
+.progress-bar{
+
+    height: 100%;
+    width: 0%;
+    background-color: #d2c0a1;
+
+    animation-duration: 1s;
+    justify-content: center;
+    border-radius: 50px;
+    border: solid 0 transparent;
+
+}
+
+
+
+
 @media only screen and (max-width: 600px) {
 
     .cell-wrapper{
