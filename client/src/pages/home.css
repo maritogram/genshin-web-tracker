@@ -130,7 +130,7 @@
     top:84%;
     background-color:#5d677d;
     position: absolute;
-    height: 1.8%;
+    height: 5px;
     width: 70%;
     margin-left: auto;
     left: 16%;
@@ -143,7 +143,6 @@
 .progress-bar{
 
     height: 100%;
-    width: 0%;
     background-color: #d2c0a1;
 
     animation-duration: 1s;
@@ -183,9 +182,52 @@
 
     }
 
+/* This is really ugly but it works until I figure out a way to automatically do it with js. This might be faster though.*/
+.font11, .font12, .font26, .font27, .font28, .font29{
+    top:48%;
+    font-size: 12px;
+}
 
-    .card_title{
-        font-size: 10px;
-    }
+.font34, .font35, .font45, .font46, .font47{
+    top:51%;
+    font-size: 10px;
+}
+
+.font32, .font33, .font36{
+   top:50%;
+    font-size: 12px;
+}
+
+.font9, .font10, .font22, .font24, .font25, .font40, .font41, .font42{
+   top:47%;
+    font-size: 13px;
+}
+
+.font1, .font2, .font7, .font8, .font14, .font15, .font16, .font17, .font18, .font19, .font20, .font21, .font23, .font44, .font38{
+    top:47%;
+    font-size: 16px;
+}
+
+.font3, .font4, .font5, .font6, .font30, .font31, .font37, .font43{
+    top:49%;
+    font-size: 13px;
+}
+
+.font39{
+    top:51%;
+    font-size: 16px;
+
+}
+
+.font13{
+    top:52%;
+    font-size: 15px;
+}
+
+.percentage{
+    font-size: 13px;
+
+}
+
 
 }

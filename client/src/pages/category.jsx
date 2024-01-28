@@ -80,7 +80,7 @@ function CategoryCard({category, achievements}) {
             <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
             <div className="cat-text">
                 <p className="cat-title">{categoryTitle}</p>
-                <p className="cat-percent">{percentage}%</p>
+                <p className="cat-percent">{percentage} %</p>
             </div>
         </NavLink>
     )
@@ -195,20 +195,48 @@ function AchievementCardButton({achievement,marked,setMarked, completed}){
 }
 
 
-function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed}) {
+function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed, instance, beforeCompleted}) {
 
 
-    return (
-        <div className={(completed) ? " section progress completed" : "section progress"}>
-            <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
-            <p className="information">
-                <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                <span className="description">{achievement.description}</span>
-            </p>
-            <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-        </div>
-    )
+    if(completed){
+
+        //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO HERE I LEFT OF
+        // if()
+
+
+        return (
+            <div className={"section progress completed"}>
+                <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
+                <p className="information">
+                    <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                    <span className="description">{achievement.description}</span>
+                </p>
+                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+            </div>
+        )
+
+    } else{
+
+        if(instance === 1 || beforeCompleted)
+         return (
+            <div className={"section progress"}>
+                <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
+                <p className="information">
+                    <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                    <span className="description">{achievement.description}</span>
+                </p>
+                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+            </div>
+        )
+    }
+
+
+
+
+
+
 
 }
 
@@ -248,11 +276,34 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
     achievement's category, if it doesn't we render the title of the category as to declare a new section of achievements.
     */
     let previousTitle = ""
-    const outputAchievements = (currentAchievement) => {
+    const outputAchievements = (currentAchievement, index, array) => {
         const currentTitle = categories[currentAchievement.category_id - 1].title;
+        const previousAchievement = array[index - 1]
+
+        let instances = 1;
+
+        // Get number of times this achievement repeats
+        if(previousAchievement !== undefined){
+            while ( (array[index - instances] !== undefined) && currentAchievement.name === array[index - instances].name){
+                instances += 1;
+            }
+        }
+
+        console.log(currentAchievement.name, instances)
+
+
+
+        let beforeCompleted = false;
+        if(previousAchievement !== undefined){
+            if (instances > 1    && achievementsObject[previousAchievement.ach_id]) beforeCompleted = true;
+        }
+
+
 
         if(categoryId !== undefined){
-           return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
+
+            return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} beforeCompleted={beforeCompleted}></AchievementCard>
+
         }
 
         if(previousTitle !== currentTitle){
@@ -261,7 +312,7 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
                 <>
                     {/*//FIX KEY ISSUE */}
                     <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
-                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>
+                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} ></AchievementCard>
                 </>
             )
         } else {
@@ -273,9 +324,9 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
  if(categoryId !== undefined) {
      return (
          <>
-             {filteredAchievements.sort((a) => {
+             {filteredAchievements.sort((a,b) => {
 
-                 if (achievementsObject[a.ach_id]) {
+                 if (achievementsObject[a.ach_id] && a.name !== b.name) {
                      return 1
                  } else {
                      return -1

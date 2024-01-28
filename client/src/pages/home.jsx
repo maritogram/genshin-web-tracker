@@ -25,9 +25,6 @@ function Cell({category, achievements}){
 
 
     const categoryId = category.cat_id
-    console.log(categoryId)
-
-    console.log(achievements)
 
 
     const achievementsFromCategory = achievements.filter(({category_id})=> {
