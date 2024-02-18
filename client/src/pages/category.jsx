@@ -195,48 +195,92 @@ function AchievementCardButton({achievement,marked,setMarked, completed}){
 }
 
 
-function AchievementCard({achievement, highlight = false, searchString, marked, setMarked, completed, instance, beforeCompleted}) {
+function AchievementCard({filteredAchievements,achievement, highlight = false, searchString, marked, setMarked, completed, instance, achievementsObject}) {
+
+   const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
+   const nextAchievement = filteredAchievements[index + 1];
+   const previousAchievement = filteredAchievements[index - 1];
+
 
 
     if(completed){
 
-        //TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO HERE I LEFT OF
-        // if()
+
+        // if((nextAchievement !== undefined) && (nextAchievement.name === achievement.name) ){
+        //
+        //     return <> Hidden completed</>
+        // }
+
+
+
+
 
 
         return (
-            <div className={"section progress completed"}>
-                <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
-                <p className="information">
-                    <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                    <span className="description">{achievement.description}</span>
-                </p>
-                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-            </div>
+                    <div className={"section progress completed"}>
+                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_1.png"/>
+                        <p className="information">
+                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                            <span className="description">{achievement.description}</span>
+                        </p>
+                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                    </div>
         )
+
 
     } else{
 
-        if(instance === 1 || beforeCompleted)
-         return (
-            <div className={"section progress"}>
-                <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
-                <p className="information">
-                    <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                    <span className="description">{achievement.description}</span>
-                </p>
-                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-            </div>
-        )
+        //Checks if it's part of a multipart achievement.
+        if((previousAchievement !== undefined) && (previousAchievement.name === achievement.name)){
+
+            if(achievementsObject[previousAchievement.ach_id] === true ) {
+
+                const trueInstance = (instance === 1) ? 3 : instance;
+                const starsIcons = "/UI_AchievementIcon_" + trueInstance + "_0.png";
+
+
+                return (
+                <div className={"section progress"}>
+                    <img alt="Achievement Icon" className="left-img" src={starsIcons}/>
+                    <p className="information">
+                        <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                        <span className="description">{achievement.description}</span>
+                    </p>
+                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                </div>
+              )
+
+
+
+            } else {
+                return (
+                    <>
+                        <p> Hidden | Requirements not met</p>
+                    </>
+                )
+
+
+
+            }
+        } else {
+
+              return (
+                <div className={"section progress"}>
+                    <img alt="Achievement Icon" className="left-img" src={(completed) ? "/UI_AchievementIcon_1_1.png" : "/UI_AchievementIcon_1_0.png"}/>
+                    <p className="information">
+                        <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                        <span className="description">{achievement.description}</span>
+                    </p>
+                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                </div>
+              )
+        }
+
+
     }
-
-
-
-
-
-
 
 }
 
@@ -280,29 +324,19 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
         const currentTitle = categories[currentAchievement.category_id - 1].title;
         const previousAchievement = array[index - 1]
 
-        let instances = 1;
 
-        // Get number of times this achievement repeats
-        if(previousAchievement !== undefined){
-            while ( (array[index - instances] !== undefined) && currentAchievement.name === array[index - instances].name){
-                instances += 1;
-            }
+        let instances = (previousAchievement === undefined) ? 1 : 0;
+
+        while ( (array[index + instances ] !== undefined) && currentAchievement.name === array[index + instances].name){
+            instances += 1;
         }
 
-        console.log(currentAchievement.name, instances)
-
-
-
-        let beforeCompleted = false;
-        if(previousAchievement !== undefined){
-            if (instances > 1    && achievementsObject[previousAchievement.ach_id]) beforeCompleted = true;
-        }
 
 
 
         if(categoryId !== undefined){
 
-            return <AchievementCard key={currentAchievement.ach_id + 0} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} beforeCompleted={beforeCompleted}></AchievementCard>
+            return <AchievementCard key={currentAchievement.ach_id + 0} filteredAchievements={filteredAchievements} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} achievementsObject={achievementsObject}></AchievementCard>
 
         }
 
@@ -312,11 +346,11 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
                 <>
                     {/*//FIX KEY ISSUE */}
                     <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
-                    <AchievementCard key={currentAchievement.ach_id + 1} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} ></AchievementCard>
+                    <AchievementCard key={currentAchievement.ach_id + 1} filteredAchievements={filteredAchievements} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} instance={instances} achievementsObject={achievementsObject}></AchievementCard>
                 </>
             )
         } else {
-            return (<AchievementCard key={currentAchievement.ach_id +0} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}></AchievementCard>)
+            return (<AchievementCard key={currentAchievement.ach_id +0} filteredAchievements={filteredAchievements} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]}  instance={instances} achievementsObject={achievementsObject}></AchievementCard>)
         }
     }
 

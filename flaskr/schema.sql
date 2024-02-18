@@ -15,5 +15,7 @@ CREATE TABLE achievement (
     primos INT NOT NULL,
     category_id INT NOT NULL,
     requirements VARCHAR,
+    multiprt INT NOT NULL,
+    part INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category (cat_id)
 );

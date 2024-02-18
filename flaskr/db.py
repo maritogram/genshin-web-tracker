@@ -52,8 +52,12 @@ def init_db():
         # Check if the first row contains heading, if so, continue to next row
         if row.th:
             continue
+
         # grab the title of the row
         title = row.td.next_sibling.next_sibling
+
+        print("Collecting achievements from: {}".format(title.text))
+
         # grab the total achievement
         total_achievements = title.next_sibling.next_sibling
         # grab the total primos
@@ -98,7 +102,7 @@ def init_db():
                 only_digit = 0
 
             cur.execute(
-                "INSERT INTO achievement(name,description, requirements ,primos, category_id) VALUES(?,?,?,?,?) ON CONFLICT DO NOTHING",
+                "INSERT INTO achievement(name,description, requirements ,primos, category_id, multiprt, part) VALUES(?,?,?,?,?, false, 1) ON CONFLICT DO NOTHING",
                 (
                     cur_title.text.strip(),
                     cur_desc.text.strip(),
@@ -108,11 +112,24 @@ def init_db():
                 ),
             )
 
+        print("Done.\n\n")
+
         db.commit()
+
+    test = cur.execute("SELECT name, COUNT(name) FROM ACHIEVEMENT GROUP BY name  HAVING COUNT(name) > 1 ORDER BY COUNT(name) DESC").fetchall()
+
+    for m in test:
+        print(m[0], m[1])
+
+    # multipart achievement shit, I hate this
+    x = cur.execute("SELECT * FROM ACHIEVEMENT").fetchall()
+    # for row in x:
+
+
+
 
     cur.close()
     db.close()
-
 
 
 @click.command('init-db')
