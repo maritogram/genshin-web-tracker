@@ -102,31 +102,36 @@ def init_db():
                 only_digit = 0
 
             cur.execute(
-                "INSERT INTO achievement(name,description, requirements ,primos, category_id, multiprt, part) VALUES(?,?,?,?,?, false, 1) ON CONFLICT DO NOTHING",
+                "INSERT INTO achievement(name,description, requirements ,primos, category_id, multiprt, part) VALUES("
+                "?,?,?,?,?, false, 1) ON CONFLICT DO NOTHING",
                 (
                     cur_title.text.strip(),
                     cur_desc.text.strip(),
                     cur_requirements.text.strip(),
                     only_digit,
                     id_for,
+
                 ),
             )
 
-        print("Done.\n\n")
-
         db.commit()
 
-    test = cur.execute("SELECT name, COUNT(name) FROM ACHIEVEMENT GROUP BY name  HAVING COUNT(name) > 1 ORDER BY COUNT(name) DESC").fetchall()
+    # multipart achievement shit, I hate this. vvvvv
+    all_multiparts = cur.execute("""SELECT a.*
+                                    FROM ACHIEVEMENT a
+                                    JOIN(SELECT name, COUNT(name)
+                                    FROM ACHIEVEMENT 
+                                    GROUP BY name
+                                    HAVING COUNT(name) > 2 ) b 
+                                    ON a.name = b.name""").fetchall()
 
-    for m in test:
-        print(m[0], m[1])
+    print("\nMarking multipart achievements...")
+    for achievement in all_multiparts:
+        # assuming all multiprt achievements are 3 part...
+        cur_part = (all_multiparts.index(achievement) % 3) + 1
+        cur.execute("UPDATE ACHIEVEMENT SET multiprt = 1, part = ? WHERE ach_id = ?", (cur_part, achievement[0]))
 
-    # multipart achievement shit, I hate this
-    x = cur.execute("SELECT * FROM ACHIEVEMENT").fetchall()
-    # for row in x:
-
-
-
+    db.commit()
 
     cur.close()
     db.close()
