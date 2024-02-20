@@ -4,6 +4,8 @@ import {NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
+import {animated, useInView, useSpring} from "@react-spring/web";
+
 
 function SearchBar(){
 
@@ -234,7 +236,12 @@ function AchievementCardButton({achievement,marked,setMarked, completed, previou
 
 function AchievementCard({filteredAchievements,achievement, highlight = false, searchString, marked, setMarked, completed, achievementsObject}) {
 
+
    const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
+
+   //HERE MAYBE
+   // const adjustIndex = filteredAchievements.forEach()
+
    const nextAchievement = filteredAchievements[index + 1];
    const previousAchievement = filteredAchievements[index - 1];
 
@@ -272,6 +279,21 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
     } else{
 
 
+        const [ref, springs] = useInView(
+            () => ({
+                from: {
+                    opacity: 0
+                },
+                to: {
+                    opacity: 1,
+                     delay : 30 * index
+                },
+            })
+        );
+
+
+
+
         //Checks if it's part of a multipart achievement.
         if(achievement.multiprt === 1){
 
@@ -283,31 +305,44 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
                     const starImageURL = "/UI_AchievementIcon_3_" + (achievement.part - 1) + ".png"
 
                     return (
+
+
+                            <div className={"section progress"}>
+                                <img alt="Achievement Icon" className="left-img" src={starImageURL}/>
+                                <p className="information">
+                                    <AchievementCardTitle achievement={achievement} highlight={highlight}
+                                                          searchString={searchString}></AchievementCardTitle>
+                                    <span className="description">{achievement.description}</span>
+                                </p>
+                                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                                       completed={completed}
+                                                       previous={previousAchievement}></AchievementCardButton>
+                            </div>
+
+
+
+                    )
+
+                }
+            } else {
+
+
+
+
+                return (
+                    <animated.div ref={ref} style={springs}>
                         <div className={"section progress"}>
-                            <img alt="Achievement Icon" className="left-img" src={starImageURL}/>
+                            <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_0.png"/>
                             <p className="information">
                                 <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                       searchString={searchString}></AchievementCardTitle>
                                 <span className="description">{achievement.description}</span>
                             </p>
                             <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed} previous={previousAchievement}></AchievementCardButton>
+                            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
                         </div>
-                    )
-
-                }
-            } else {
-
-                return (
-                    <div className={"section progress"}>
-                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_0.png"/>
-                        <p className="information">
-                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                            <span className="description">{achievement.description}</span>
-                        </p>
-                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-                    </div>
+                    </animated.div>
                 )
 
 
@@ -315,21 +350,20 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
 
 
 
-
-
-
         } else {
 
               return (
-                <div className={"section progress"}>
-                    <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
-                    <p className="information">
-                        <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                        <span className="description">{achievement.description}</span>
-                    </p>
-                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                    <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-                </div>
+                   <animated.div ref={ref} style={springs}>
+                    <div className={"section progress"}>
+                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
+                        <p className="information">
+                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                            <span className="description">{achievement.description}</span>
+                        </p>
+                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                    </div>
+                   </animated.div>
               )
         }
 
