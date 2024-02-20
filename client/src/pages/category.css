@@ -6,11 +6,12 @@
     margin: auto;
     justify-content: space-between;
 
+
 }
 
 
 #wrapper-left{
-    width: 50%;
+
     height: calc(100% - 37px);
     /*background-color: red;*/
     display: flex;
@@ -28,9 +29,11 @@
 
 .search-bar{
 
-    color:#f6f1ec;
+    width: 95%;
+
+    color:white;
     height: 50px;
-    margin: 5px 0;
+    margin: 5px auto;
     border-radius: 24px;
     padding: 15px;
     font-size: 20px;
@@ -55,7 +58,6 @@
 .category{
     border: 4px solid #384450;
     background-color: rgba(45,51,67,88%);
-    height: fit-content;
     width: 95%;
     margin: 4px auto;
     padding: 15px 0;
@@ -71,7 +73,7 @@
 .cat-title{
 
     color:#f6f1ec;
-        font-size: 21px;
+        font-size: 20px;
     text-align: left;
     margin:0 ;
     height: fit-content;
@@ -128,11 +130,12 @@ height: 100%;
 }
 
 .paper{
-  width: calc(100% - 2.6rem);
-  height: calc(100% - 4rem);
+  width: calc(100% - 45px);
+  height: calc(100% - 65px);
   position: relative;
   margin: 17px;
     padding-top: 10px;
+
 
 
   border-image-source: url("/canvas_paper.png");
@@ -144,8 +147,8 @@ height: 100%;
 
 
 .scroll-style{
-    width: 98%;
-    height: 98%;
+
+    height:calc(100% - 15px);
     overflow-y: scroll;
     overflow-anchor: none;
 }
@@ -164,15 +167,19 @@ height: 100%;
 .progress{
         border: 2px solid #e0d7cf;
         margin: 4px 20px;
+
         transition-duration: 0.1s;
 
-        height: fit-content;
-    background-color: #f2ece6;
+    min-height: 100px;
+
+
+    background-color: #f5f1eb;
+
 }
 
 
 .completed{
-    background-color: #ebe2d7;
+    background-color: #f0e9dc   ;
 }
 
 .progress:hover, .progress:active{
@@ -190,12 +197,13 @@ height: 100%;
 }
 
 .left-img{
+    margin: auto;
     padding: 0;
-   width: 19px;
-    height: auto;
+    width: auto;
+    height: 80px;
     object-fit: contain;
 
-   flex-basis: 10%;
+
 }
 
 .information{
@@ -205,48 +213,50 @@ height: 100%;
     width: 100%;
     color: #3d3f4c;
     transition-duration: 1s;
+    margin: auto;
+    height: fit-content;
 
 
 }
 
 .title{
-    font-size: min(24px, 4vmin);
+    font-size: 20px;
     height: fit-content;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
 }
 
 .description{
-    font-size: 16px;
-    color: #bcb1a4;
+    font-size: 15px;
+    color: #bca791;
     height: fit-content;
-    overflow: auto;
+    margin-bottom: 5px;
 
 }
 
-.description::-webkit-scrollbar{
-    display: none;
-}
 
 
 .primo{
-    max-width: 7vw;
-    width: 100px;
-
-    height: auto;
+    margin: auto;
+    padding-right: 10px;
+    width: auto;
+    height: 50px;
     object-fit: contain;
 
-    padding: 2%;
 
 }
 
 
 .completion{
-    flex-basis: 60%;
-    background-color: #ebe3d8;
-    margin: 0;
 
-    max-width: 150px;
+    flex-basis: 50%;
+    background-color: #f0e9dc;;
 
-    color: #b2a295;
+
+    max-width: 128px;
+
+    color: #beaa95;
 
     display: flex;
     align-items: center;
@@ -254,15 +264,14 @@ height: 100%;
 
     font-family: TypeFaceCH,serif;
     text-align: center;
-    flex-direction: column;
+    flex-direction: row;
     position: relative;
-
 }
 
 .completion p{
     /*background-color:red;*/
     padding: 0;
-    font-size: 21px;
+    font-size: 17px;
 
 
 }
@@ -270,7 +279,8 @@ height: 100%;
 
 .done{
     background-image: url("/completed-background.png");
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
 
 
@@ -278,15 +288,18 @@ height: 100%;
 
 .unclaim{
     position: absolute;
-    background-color: #f2ece6;
-        border: 3px solid #ebe4db;
+    background-color: rgba(245,241,235,74%);
+        border: 1px solid #e0d7cf;
 
      border-radius: 100rem;
-        width: 80%;
-        height: 35%;
-    color:#bba791;
-        font-size: min(3vmin,19px);
-    top:65%;
+        width: 95%;
+        height: fit-content;
+
+    color:#beaa95;
+    font-size: 15px;
+
+    padding: 0;
+    top:75%;
     cursor: pointer;
 
 
@@ -304,6 +317,7 @@ height: 100%;
     font-size: min(3vmin,19px);
     padding: 0 15%;
     cursor: pointer;
+
 }
 
 
@@ -316,7 +330,15 @@ height: 100%;
     }
 
    .primo{
-       display: none;
+       width: 50px;
+   }
+
+   .left-img{
+       width: 50px;
+   }
+
+   .information{
+       padding: 10px;
    }
 
    body{
