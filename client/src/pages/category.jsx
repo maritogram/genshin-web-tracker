@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import './category.css'
-import {NavLink, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {NavLink, useNavigate, useOutletContext, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
@@ -475,7 +475,9 @@ function WrapperRight({categories, marked, setMarked, achievementData, achieveme
     )
 }
 
-function Category({marked, setMarked}) {
+function Category() {
+
+     const [marked,setMarked] = useOutletContext();
 
     const {data:categoryData, status:categoryStatus} = useFetchCategories();
 
