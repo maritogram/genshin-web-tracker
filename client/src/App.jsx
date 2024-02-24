@@ -32,7 +32,6 @@ const router = createBrowserRouter([
 
         ]
     },
-    {path: "*", Component: Root,},
 
 ])
 
@@ -41,22 +40,22 @@ export default function App(){
 
 };
 
-function Root(){
-
-
-    return (
-            <Routes>
-                {/*<Route element={<Layout/>}>*/}
-                {/*    <Route path="/" element={<Home marked={marked} setMarked={setMarked} />} />*/}
-                {/*<Route path="/category/:categoryId" element={<Category marked={marked} setMarked={setMarked} />} />*/}
-                {/*<Route path="/category" element={<Category marked={marked} setMarked={setMarked} />} />*/}
-                {/*</Route>*/}
-            </Routes>
-
-    );
-
-
-}
+// function Root(){
+//
+//
+//     return (
+//             <Routes>
+//                 {/*<Route element={<Layout/>}>*/}
+//                 {/*    <Route path="/" element={<Home marked={marked} setMarked={setMarked} />} />*/}
+//                 {/*<Route path="/category/:categoryId" element={<Category marked={marked} setMarked={setMarked} />} />*/}
+//                 {/*<Route path="/category" element={<Category marked={marked} setMarked={setMarked} />} />*/}
+//                 {/*</Route>*/}
+//             </Routes>
+//
+//     );
+//
+//
+// }
 
 
 

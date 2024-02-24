@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import './category.css'
 import {NavLink, useNavigate, useOutletContext, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
@@ -44,13 +44,12 @@ function SearchBar(){
 
 }
 
-function CategoryCard({category, achievements}) {
+const CategoryCard = forwardRef(function CategoryCard({category, achievements}, ref) {
 
     //Should probably spend some more time in this part
 
     const categoryTitle = category.title
     const categoryId = category.cat_id
-
 
     const achievementsFromCategory = achievements.filter(({category_id})=> {
             return parseInt(categoryId) === (category_id);
@@ -76,37 +75,62 @@ function CategoryCard({category, achievements}) {
     percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
 
 
-
     return (
-        <NavLink to={"/category/" + categoryId} className="section category">
+        <NavLink to={"/category/" + categoryId} className="section category" ref={ref}>
             <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
             <div className="cat-text">
                 <p className="cat-title">{categoryTitle}</p>
                 <p className="cat-percent">{percentage} %</p>
             </div>
+
         </NavLink>
     )
-}
-
-
-function DisplayedCategories({categories, achievements}){
-
-    return(
-        categories.map((category) =>
-            <CategoryCard key={category.cat_id + 0} category={category} achievements={achievements}></CategoryCard>
-        )
-    )
-
-}
+})
 
 function WrapperLeft({categories, achievements}) {
+
+    const itemsRef = useRef(null);
+
+     const {categoryId} = useParams()
+
+    function getMap(){
+        if(!itemsRef.current){
+            itemsRef.current = new Map();
+        }
+
+        return itemsRef.current;
+    }
+
+
+    // Shhhh, works
+    useEffect(() => {
+        if(categoryId !== undefined && getMap().has(parseInt(categoryId)) )//{
+            getMap().get(parseInt(categoryId)).scrollIntoView();
+        // } else {
+        //     console.log("ref hasn't been set, or no specific category")
+        // }
+    }, []);
+
 
 
     return (
         <div id="wrapper-left">
             <SearchBar></SearchBar>
             <div className="categories">
-                <DisplayedCategories categories={categories} achievements={achievements}></DisplayedCategories>
+                {
+                    categories.map((category) => <CategoryCard key={category.cat_id + 0} category={category} achievements={achievements}
+                        ref={ (node) => {
+                                          const map = getMap();
+                                          if (node) {
+                                              map.set(category.cat_id, node);
+                                          } else {
+                                              map.delete(category.cat_id);
+                                          }
+                                      }}
+                        ></CategoryCard>
+
+                    )
+                }
             </div>
         </div>
     )
@@ -279,17 +303,16 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
     } else{
 
 
-        const [ref, springs] = useInView(
-            () => ({
+        const springs = useSpring({
                 from: {
                     opacity: 0
                 },
                 to: {
                     opacity: 1,
-                     delay : 30 * index
+
                 },
-            })
-        );
+                delay: 30 * (index % 15),
+            });
 
 
 
@@ -331,7 +354,7 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
 
 
                 return (
-                    <animated.div ref={ref} style={springs}>
+                    <animated.div style={springs}>
                         <div className={"section progress"}>
                             <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_0.png"/>
                             <p className="information">
@@ -353,7 +376,7 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
         } else {
 
               return (
-                   <animated.div ref={ref} style={springs}>
+                   <animated.div style={springs}>
                     <div className={"section progress"}>
                         <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
                         <p className="information">
