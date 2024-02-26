@@ -321,7 +321,7 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
         if(achievement.multiprt === 1){
 
             if(achievement.part !== 1){
-
+                    console.log(filteredAchievements)
                 // If it's not the first part, then check if the previous is complete
                 if (achievementsObject[previousAchievement.ach_id] === true) {
 
@@ -409,7 +409,7 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
     Filters all the achievements depending on what needs to be displayed.
     If the category ID was found it will return true for all the achievements that contain such ID.
     If no category ID was found it means that specific achievements are being looked for. Therefore,
-    we see if the search query is included in the title of the achievement. If it is, we increment the match count and
+    we see if the search query is includedso4 in the title of the achievement. If it is, we increment the match count and
     return the respective boolean.
      */
     let matchCount = 0;
@@ -433,7 +433,6 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
     let previousTitle = ""
     const outputAchievements = (currentAchievement, index, array) => {
         const currentTitle = categories[currentAchievement.category_id - 1].title;
-
 
         if(categoryId !== undefined){
 
@@ -461,11 +460,25 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
          <>
              {filteredAchievements.sort((a,b) => {
 
-                 if (achievementsObject[a.ach_id] && a.name !== b.name) {
-                     return 1
+
+                 // I feel like this can be simplified, I'll research later.
+
+                 if(a.ach_id < b.ach_id){
+                      if ((achievementsObject[a.ach_id]) && a.name !== b.name) {
+                        return 1
+                      } else {
+                          return -1
+                      }
                  } else {
-                     return -1
+                      if ((achievementsObject[b.ach_id]) && a.name !== b.name) {
+                        return -1
+                      } else{
+                          return 1
+                      }
+
+
                  }
+
              }).map(outputAchievements)}
          </>
      )
