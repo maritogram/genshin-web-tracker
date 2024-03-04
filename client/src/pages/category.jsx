@@ -5,26 +5,27 @@ import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
 import {animated, useInView, useSpring} from "@react-spring/web";
+import ProgressBar from "../components/percentage.jsx";
 
 
-function SearchBar(){
+function SearchBar() {
 
     const [searchParams] = useSearchParams();
     const search = searchParams.get('s')
 
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const [input, setInput] = useState("")
 
     const handleChange = (e) => {
         e.preventDefault()
-         setInput(e.target.value.trim())
+        setInput(e.target.value.trim())
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if(input !== search && input){
-                    navigate("../category?s=" + input)
+        if (input !== search && input) {
+            navigate("../category?s=" + input)
         }
 
     }
@@ -51,11 +52,11 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
     const categoryTitle = category.title
     const categoryId = category.cat_id
 
-    const achievementsFromCategory = achievements.filter(({category_id})=> {
-            return parseInt(categoryId) === (category_id);
+    const achievementsFromCategory = achievements.filter(({category_id}) => {
+        return parseInt(categoryId) === (category_id);
     })
-    const firstAchievementFromCategory =  achievementsFromCategory[0].ach_id;
-    const lastAchievementFromCategory =  achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
+    const firstAchievementFromCategory = achievementsFromCategory[0].ach_id;
+    const lastAchievementFromCategory = achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
 
     const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
 
@@ -65,9 +66,9 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
     and their value is true, add it to the filtered array.
      */
     let percentage = 0;
-    const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element)=>{
-        if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory){
-            if(achievementsObject[element]) return true;
+    const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element) => {
+        if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory) {
+            if (achievementsObject[element]) return true;
         }
         return false
     })
@@ -91,10 +92,10 @@ function WrapperLeft({categories, achievements}) {
 
     const itemsRef = useRef(null);
 
-     const {categoryId} = useParams()
+    const {categoryId} = useParams()
 
-    function getMap(){
-        if(!itemsRef.current){
+    function getMap() {
+        if (!itemsRef.current) {
             itemsRef.current = new Map();
         }
 
@@ -104,7 +105,7 @@ function WrapperLeft({categories, achievements}) {
 
     // Shhhh, works
     useEffect(() => {
-        if(categoryId !== undefined && getMap().has(parseInt(categoryId)) )//{
+        if (categoryId !== undefined && getMap().has(parseInt(categoryId)))//{
             getMap().get(parseInt(categoryId)).scrollIntoView();
         // } else {
         //     console.log("ref hasn't been set, or no specific category")
@@ -112,23 +113,22 @@ function WrapperLeft({categories, achievements}) {
     }, []);
 
 
-
     return (
         <div id="wrapper-left">
             <SearchBar></SearchBar>
             <div className="categories">
                 {
-                    categories.map((category) => <CategoryCard key={category.cat_id + 0} category={category} achievements={achievements}
-                        ref={ (node) => {
-                                          const map = getMap();
-                                          if (node) {
-                                              map.set(category.cat_id, node);
-                                          } else {
-                                              map.delete(category.cat_id);
-                                          }
-                                      }}
+                    categories.map((category) => <CategoryCard key={category.cat_id + 0} category={category}
+                                                               achievements={achievements}
+                                                               ref={(node) => {
+                                                                   const map = getMap();
+                                                                   if (node) {
+                                                                       map.set(category.cat_id, node);
+                                                                   } else {
+                                                                       map.delete(category.cat_id);
+                                                                   }
+                                                               }}
                         ></CategoryCard>
-
                     )
                 }
             </div>
@@ -137,85 +137,79 @@ function WrapperLeft({categories, achievements}) {
 }
 
 
-
-
-function AchievementCardTitle({achievement, highlight=false, searchString}){
+function AchievementCardTitle({achievement, highlight = false, searchString}) {
 
     const title = achievement.name;
 
-     if (highlight) {
+    if (highlight) {
         const firstInstance = title.toLowerCase().indexOf(searchString.toLowerCase());
 
         const leftPart = title.slice(0, firstInstance);
         const middlePart = title.slice(firstInstance, (firstInstance + searchString.length));
         const rightPart = title.slice((firstInstance + searchString.length), title.length);
 
-         return (
-             <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
-         )
+        return (
+            <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+        )
 
-     }
+    }
 
-     return (
-         <span className='title'>{title}</span>
-     )
+    return (
+        <span className='title'>{title}</span>
+    )
 
 }
 
 
+function AchievementCardButton({achievement, marked, setMarked, completed, previous = null}) {
 
-function AchievementCardButton({achievement,marked,setMarked, completed, previous = null}){
-
-    const markAchievement = (e) =>{
+    const markAchievement = (e) => {
         e.preventDefault()
         const achievementObject = JSON.parse(localStorage.getItem("achievements"))
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
         // this might not be good, but works for now
-        setMarked(marked+1)
+        setMarked(marked + 1)
     }
 
-     const unmarkAchievement = (e) => {
+    const unmarkAchievement = (e) => {
 
-         e.preventDefault()
+        e.preventDefault()
         const achievementObject = JSON.parse(localStorage.getItem("achievements"))
 
-         if(previous!= null){
-             Object.assign(achievementObject, {[previous.ach_id]: false});
+        if (previous != null) {
+            Object.assign(achievementObject, {[previous.ach_id]: false});
 
-         } else {
-             Object.assign(achievementObject, {[achievement.ach_id]: false});
-         }
-
+        } else {
+            Object.assign(achievementObject, {[achievement.ach_id]: false});
+        }
 
 
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
         // this might not be good, but works for now
-        setMarked(marked-1)
+        setMarked(marked - 1)
 
     }
 
 
-
-
-    if (completed){
+    if (completed) {
         return (
-        <div className="completion done">
-            <p> Completed</p>
-            <button
-                className="unclaim"
-                type="button"
-                onClick={ unmarkAchievement }
-            >
-                Unmark
-            </button>
-        </div>
+            <div className="completion done">
+                <p> Completed</p>
+                <button
+                    className="unclaim"
+                    type="button"
+                    onClick={unmarkAchievement}
+                >
+                    Unmark
+                </button>
+            </div>
         )
-    } else{
+    } else {
 
-        if(previous!= null){
+        if (previous != null) {
             return (
                 <div className="completion">
                     <button
@@ -258,70 +252,81 @@ function AchievementCardButton({achievement,marked,setMarked, completed, previou
 }
 
 
-function AchievementCard({filteredAchievements,achievement, highlight = false, searchString, marked, setMarked, completed, achievementsObject}) {
+function AchievementCard({
+                             filteredAchievements,
+                             achievement,
+                             highlight = false,
+                             searchString,
+                             marked,
+                             setMarked,
+                             completed,
+                             achievementsObject
+                         }) {
 
 
-   const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
+    const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
 
-   //HERE MAYBE
-   // const adjustIndex = filteredAchievements.forEach()
+    //HERE MAYBE
+    // const adjustIndex = filteredAchievements.forEach()
 
-   const nextAchievement = filteredAchievements[index + 1];
-   const previousAchievement = filteredAchievements[index - 1];
+    const nextAchievement = filteredAchievements[index + 1];
+    const previousAchievement = filteredAchievements[index - 1];
 
 
-    if(completed){
+    if (completed) {
 
-        if(achievement.multiprt !== 1){
-             return (
-                    <div className={"section progress completed"}>
-                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_1.png"/>
-                        <p className="information">
-                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                            <span className="description">{achievement.description}</span>
-                        </p>
-                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-                    </div>
-             )
-        }
-
-        if(achievement.part === 3){
+        if (achievement.multiprt !== 1) {
             return (
-                    <div className={"section progress completed"}>
-                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_3.png"/>
-                        <p className="information">
-                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
-                            <span className="description">{achievement.description}</span>
-                        </p>
-                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
-                    </div>
-             )
+                <div className={"section progress completed"}>
+                    <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_1.png"/>
+                    <p className="information">
+                        <AchievementCardTitle achievement={achievement} highlight={highlight}
+                                              searchString={searchString}></AchievementCardTitle>
+                        <span className="description">{achievement.description}</span>
+                    </p>
+                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                           completed={completed}></AchievementCardButton>
+                </div>
+            )
         }
 
-    } else{
+        if (achievement.part === 3) {
+            return (
+                <div className={"section progress completed"}>
+                    <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_3.png"/>
+                    <p className="information">
+                        <AchievementCardTitle achievement={achievement} highlight={highlight}
+                                              searchString={searchString}></AchievementCardTitle>
+                        <span className="description">{achievement.description}</span>
+                    </p>
+                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                           completed={completed}></AchievementCardButton>
+                </div>
+            )
+        }
+
+    } else {
 
 
         const springs = useSpring({
-                from: {
-                    opacity: 0
-                },
-                to: {
-                    opacity: 1,
+            from: {
+                opacity: 0
+            },
+            to: {
+                opacity: 1,
 
-                },
-                delay: 30 * (index % 15),
-            });
-
-
+            },
+            delay: 30 * (index % 15),
+        });
 
 
         //Checks if it's part of a multipart achievement.
-        if(achievement.multiprt === 1){
+        if (achievement.multiprt === 1) {
 
-            if(achievement.part !== 1){
-                    console.log(filteredAchievements)
+            if (achievement.part !== 1) {
+                console.log(filteredAchievements)
                 // If it's not the first part, then check if the previous is complete
                 if (achievementsObject[previousAchievement.ach_id] === true) {
 
@@ -330,27 +335,24 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
                     return (
 
 
-                            <div className={"section progress"}>
-                                <img alt="Achievement Icon" className="left-img" src={starImageURL}/>
-                                <p className="information">
-                                    <AchievementCardTitle achievement={achievement} highlight={highlight}
-                                                          searchString={searchString}></AchievementCardTitle>
-                                    <span className="description">{achievement.description}</span>
-                                </p>
-                                <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                                <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
-                                                       completed={completed}
-                                                       previous={previousAchievement}></AchievementCardButton>
-                            </div>
-
+                        <div className={"section progress"}>
+                            <img alt="Achievement Icon" className="left-img" src={starImageURL}/>
+                            <p className="information">
+                                <AchievementCardTitle achievement={achievement} highlight={highlight}
+                                                      searchString={searchString}></AchievementCardTitle>
+                                <span className="description">{achievement.description}</span>
+                            </p>
+                            <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                                   completed={completed}
+                                                   previous={previousAchievement}></AchievementCardButton>
+                        </div>
 
 
                     )
 
                 }
             } else {
-
-
 
 
                 return (
@@ -363,7 +365,8 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
                                 <span className="description">{achievement.description}</span>
                             </p>
                             <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                            <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                                   completed={completed}></AchievementCardButton>
                         </div>
                     </animated.div>
                 )
@@ -372,22 +375,23 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
             }
 
 
-
         } else {
 
-              return (
-                   <animated.div style={springs}>
+            return (
+                <animated.div style={springs}>
                     <div className={"section progress"}>
                         <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
                         <p className="information">
-                            <AchievementCardTitle achievement={achievement} highlight={highlight} searchString={searchString}></AchievementCardTitle>
+                            <AchievementCardTitle achievement={achievement} highlight={highlight}
+                                                  searchString={searchString}></AchievementCardTitle>
                             <span className="description">{achievement.description}</span>
                         </p>
                         <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
-                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked} completed={completed}></AchievementCardButton>
+                        <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
+                                               completed={completed}></AchievementCardButton>
                     </div>
-                   </animated.div>
-              )
+                </animated.div>
+            )
         }
 
 
@@ -396,11 +400,9 @@ function AchievementCard({filteredAchievements,achievement, highlight = false, s
 }
 
 
-function DisplayedAchievements({totalAchievements, categories, marked, setMarked}){
+function DisplayedAchievements({categoryId, totalAchievements, categories, marked, setMarked}) {
 
     const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
-
-    const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
     const [searchParams] = useSearchParams();
     const search = searchParams.get('s'); //The search query string.
@@ -413,10 +415,10 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
     return the respective boolean.
      */
     let matchCount = 0;
-    const filteredAchievements = totalAchievements.filter(({category_id, name})=> {
-        if (categoryId !== undefined){
+    const filteredAchievements = totalAchievements.filter(({category_id, name}) => {
+        if (categoryId !== undefined) {
             return parseInt(categoryId) === (category_id);
-        }else{
+        } else {
             const match = name.toLowerCase().includes(search.toLowerCase());
             if (match) matchCount++;
             return (match)
@@ -434,107 +436,191 @@ function DisplayedAchievements({totalAchievements, categories, marked, setMarked
     const outputAchievements = (currentAchievement, index, array) => {
         const currentTitle = categories[currentAchievement.category_id - 1].title;
 
-        if(categoryId !== undefined){
+        if (categoryId !== undefined) {
 
-            return <AchievementCard key={currentAchievement.ach_id + 0} filteredAchievements={filteredAchievements} achievement={currentAchievement} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} achievementsObject={achievementsObject}></AchievementCard>
+            return <AchievementCard key={currentAchievement.ach_id + 0} filteredAchievements={filteredAchievements}
+                                    achievement={currentAchievement} marked={marked} setMarked={setMarked}
+                                    completed={achievementsObject[currentAchievement.ach_id]}
+                                    achievementsObject={achievementsObject}></AchievementCard>
 
         }
 
-        if(previousTitle !== currentTitle){
+        if (previousTitle !== currentTitle) {
             previousTitle = currentTitle;
-            return(
+            return (
                 <>
                     {/*//FIX KEY ISSUE */}
                     <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
-                    <AchievementCard key={currentAchievement.ach_id + 1} filteredAchievements={filteredAchievements} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} achievementsObject={achievementsObject}></AchievementCard>
+                    <AchievementCard key={currentAchievement.ach_id + 1} filteredAchievements={filteredAchievements}
+                                     achievement={currentAchievement} highlight={true} searchString={search}
+                                     marked={marked} setMarked={setMarked}
+                                     completed={achievementsObject[currentAchievement.ach_id]}
+                                     achievementsObject={achievementsObject}></AchievementCard>
                 </>
             )
         } else {
-            return (<AchievementCard key={currentAchievement.ach_id +0} filteredAchievements={filteredAchievements} achievement={currentAchievement} highlight={true} searchString={search} marked={marked} setMarked={setMarked} completed={achievementsObject[currentAchievement.ach_id]} achievementsObject={achievementsObject}></AchievementCard>)
+            return (<AchievementCard key={currentAchievement.ach_id + 0} filteredAchievements={filteredAchievements}
+                                     achievement={currentAchievement} highlight={true} searchString={search}
+                                     marked={marked} setMarked={setMarked}
+                                     completed={achievementsObject[currentAchievement.ach_id]}
+                                     achievementsObject={achievementsObject}></AchievementCard>)
         }
     }
 
 
- if(categoryId !== undefined) {
-     return (
-         <>
-             {filteredAchievements.sort((a,b) => {
+    if (categoryId !== undefined) {
+        return (
+            <>
+                {filteredAchievements.sort((a, b) => {
 
 
-                 // I feel like this can be simplified, I'll research later.
+                    // I feel like this can be simplified, I'll research later.
 
-                 if(a.ach_id < b.ach_id){
-                      if ((achievementsObject[a.ach_id]) && a.name !== b.name) {
-                        return 1
-                      } else {
-                          return -1
-                      }
-                 } else {
-                      if ((achievementsObject[b.ach_id]) && a.name !== b.name) {
-                        return -1
-                      } else{
-                          return 1
-                      }
+                    if (a.ach_id < b.ach_id) {
+                        if ((achievementsObject[a.ach_id]) && a.name !== b.name) {
+                            return 1
+                        } else {
+                            return -1
+                        }
+                    } else {
+                        if ((achievementsObject[b.ach_id]) && a.name !== b.name) {
+                            return -1
+                        } else {
+                            return 1
+                        }
 
 
-                 }
+                    }
 
-             }).map(outputAchievements)}
-         </>
-     )
- } else{
-     return (
-         <>
-             {filteredAchievements.map(outputAchievements)}
-         </>
-     )
- }
+                }).map(outputAchievements)}
+            </>
+        )
+    } else {
+        return (
+            <>
+                {filteredAchievements.map(outputAchievements)}
+            </>
+        )
+    }
 
 }
 
 
-function WrapperRight({categories, marked, setMarked, achievementData, achievementStatus}) {
+function WrapperRight({categories, marked, setMarked, achievements}) {
 
 
+    const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
+
+    if (categoryId != undefined) {
+
+    }
 
 
-    return (
-        <div id="wrapper-right">
-            <div className="canvas">
-            </div>
-            <div className="paper">
-                <div className="scroll-style ">
-                    <DisplayedAchievements totalAchievements={achievementData} categories={categories} marked={marked} setMarked={setMarked}></DisplayedAchievements>
+    if (categoryId === undefined || categoryId <= 2) {
+
+        return (
+            <div id="wrapper-right">
+                <div className="canvas">
+                </div>
+                <div className="paper">
+                    <div></div>
+                    <div className="scroll-style ">
+                        <DisplayedAchievements categoryId={categoryId} totalAchievements={achievements}
+                                               categories={categories} marked={marked}
+                                               setMarked={setMarked}></DisplayedAchievements>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+
+        const achievementsFromCategory = achievements.filter(({category_id}) => {
+            return parseInt(categoryId) === (category_id);
+        })
+
+        const firstAchievementFromCategory = achievementsFromCategory[0].ach_id;
+        const lastAchievementFromCategory = achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
+
+        const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
+
+
+        /*
+        First gets all the keys (achievement ids) from the local storage object. If they are between the valid achievements
+        and their value is true, add it to the filtered array.
+         */
+        let percentage = 0;
+        const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element) => {
+            if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory) {
+                if (achievementsObject[element]) return true;
+            }
+            return false
+        })
+
+        percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
+
+
+        return (
+            <div id="wrapper-right">
+                <div className="canvas">
+                </div>
+                <div className="paper">
+
+
+                    <div className="progression ">
+                        <div className="card-wrapper">
+                            <img alt="Purple Background" className="purple-background"
+                                 src="/Background_Item_4_Star.webp"/>
+                            <img alt="Calling card" className="card"
+                                 src="/Item_Achievement_Explorer.webp"/>
+                        </div>
+                        <div>
+                            <div>
+
+                            </div>
+                            <ProgressBar percentage={percentage}></ProgressBar>
+                        </div>
+
+
+                    </div>
+                    <div className="scroll-style ">
+                        <DisplayedAchievements categoryId={categoryId} totalAchievements={achievements}
+                                               categories={categories} marked={marked}
+                                               setMarked={setMarked}></DisplayedAchievements>
+                    </div>
+                </div>
+            </div>
+        )
+
+    }
+
+
 }
 
 function Category() {
 
-     const [marked,setMarked] = useOutletContext();
+    const [marked, setMarked] = useOutletContext();
 
-    const {data:categoryData, status:categoryStatus} = useFetchCategories();
+    const {data: categoryData, status: categoryStatus} = useFetchCategories();
 
-    const {data:achievementData, status:achievementStatus} = useFetchAchievements();
+    const {data: achievementData, status: achievementStatus} = useFetchAchievements();
 
-    if (achievementStatus  === 'loading') {
+    if (achievementStatus === 'loading') {
         return (
             <p>Loading</p>
         )
     }
 
-    if(achievementStatus === 'error'){
-         return (
-             <p>Error</p>
-         )
+    if (achievementStatus === 'error') {
+        return (
+            <p>Error</p>
+        )
     }
 
     return (
         <div id="content">
-            <WrapperLeft categories={categoryData} achievements={achievementData}  ></WrapperLeft>
-            <WrapperRight marked={marked} setMarked={setMarked} categories={categoryData} achievementData={achievementData}  ></WrapperRight>
+            <WrapperLeft categories={categoryData} achievements={achievementData}></WrapperLeft>
+            <WrapperRight marked={marked} setMarked={setMarked} categories={categoryData}
+                          achievements={achievementData}></WrapperRight>
         </div>
     );
 }
