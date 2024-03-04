@@ -13,7 +13,7 @@
 }
 
 
-#wrapper-left {
+#wrapper_left {
 
     height: 100%;
 
@@ -32,7 +32,7 @@
     align-items: center;
 }
 
-.search-bar {
+.search_bar {
 
     width: 95%;
 
@@ -86,40 +86,64 @@
     background-color: #f2ece6;
     height: 100px;
     display: flex;
+    flex-basis: 1fr 1fr;
 
-     border: 2px solid #e0d7cf;
+    border: 2px solid #e0d7cf;
     margin: 0 20px 15px 20px;
 
 
-
 }
 
-.card-wrapper{
+.card_wrapper {
     position: relative;
     padding: 8px 15px;
+    width: fit-content;
+    /*background: red;*/
 }
 
-.card{
+.card {
     position: absolute;
-    right: 190px;
+    right: 14px;
     object-fit: contain;
     height: 85%;
 }
 
 
-.purple-background{
-
-
-    height: 100%;
-
+.purple_background {
+    width: 80px;
     object-fit: contain;
-
     border-radius: calc(.3vh + .3vw);
+    opacity: 85%;
 
 }
 
 
-.cat-title {
+.progress_outer {
+    background-color: #5d677d;
+    position: absolute;
+    height: 5px;
+    width: 70%;
+    margin-left: auto;
+    border-radius: 50px;
+    border: solid 0 transparent;
+
+
+}
+
+.progress_bar {
+
+    height: 100%;
+    background-color: red;
+
+    transition-duration: 1s;
+    justify-content: center;
+    border-radius: 50px;
+    border: solid 0 transparent;
+
+}
+
+
+.cat_title {
 
     color: #f6f1ec;
     font-size: 20px;
@@ -131,7 +155,7 @@
 }
 
 
-.cat-percent {
+.cat_percent {
     text-align: left;
     margin: 3px;
     font-size: 17px;
@@ -139,7 +163,10 @@
 
 }
 
-#wrapper-left a.active {
+
+
+
+.active {
 
     transform: scaleX(1.02);
     background-color: #f2ece6;
@@ -151,14 +178,14 @@
 
 }
 
-#wrapper-left a.active .cat-title {
+.active .cat_title {
 
     color: #3d3f4c;
 
 }
 
 
-#wrapper-right {
+#wrapper_right {
     position: relative;
     width: 100%;
 
@@ -196,7 +223,7 @@
 }
 
 
-.scroll-style {
+.scroll_style {
 
     height: calc(100% - 15px);
     overflow-y: scroll;
@@ -206,11 +233,11 @@
 }
 
 
-.scroll-style::-webkit-scrollbar {
+.scroll_style::-webkit-scrollbar {
     width: 5px;
 }
 
-.scroll-style::-webkit-scrollbar-thumb {
+.scroll_style::-webkit-scrollbar-thumb {
     background-color: #d8d0cf;
 }
 
@@ -243,14 +270,14 @@
 }
 
 
-.s-title {
+.s_title {
     background-color: #e0d2bc;
     margin: 4px 20px;
     padding: 4px 12px;
     color: #8e6d4c;
 }
 
-.left-img {
+.left_img {
     margin: auto;
     padding: 0;
     width: auto;
@@ -372,7 +399,7 @@
 
 
 @media only screen and (max-width: 600px) {
-    #wrapper-left {
+    #wrapper_left {
         display: none;
     }
 

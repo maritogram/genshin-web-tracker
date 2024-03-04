@@ -18,7 +18,7 @@
 
 }
 
-.cell-wrapper{
+.cell_wrapper{
 
     display: flex;
     align-items: center;
@@ -50,12 +50,12 @@
 
 
 .cell:hover{
-
     border-image-source: url("/back-cell.png");
-     /* top | right | bottom  | left */
+    /* top | right | bottom  | left */
     border-image-slice: 29 139 fill;
     border-image-width:auto;
     grid-template-rows: 143px 1fr 70px;
+    scale: 1.1;
 
 
 }
@@ -124,16 +124,16 @@
 .percentage{
     position: absolute;
     top:76%;
-    font-size: 19px;
-    width: 85%;
+    font-size: 16px;
+    width: 83%;
     color:#E8CB9BFF;
     margin: 0 0 0 11%;
     text-align: center;
 }
 
 
-.progress-outer{
-    top:84%;
+.progress_outer{
+    top:83%;
     background-color:#5d677d;
     position: absolute;
     height: 5px;
@@ -146,7 +146,7 @@
 
 }
 
-.progress-bar{
+.progress_bar{
 
     height: 100%;
     background-color: #d2c0a1;

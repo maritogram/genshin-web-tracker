@@ -1,11 +1,10 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
-import './category.css'
+import styles from './category.module.css'
 import {NavLink, useNavigate, useOutletContext, useParams, useSearchParams} from "react-router-dom";
 import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
-import {animated, useInView, useSpring} from "@react-spring/web";
-import ProgressBar from "../components/percentage.jsx";
+import {animated, useSpring} from "@react-spring/web";
 
 
 function SearchBar() {
@@ -31,9 +30,9 @@ function SearchBar() {
     }
 
     return (
-        <form className="search" onSubmit={handleSubmit}>
+        <form className={styles.search} onSubmit={handleSubmit}>
             <input
-                className="search-bar"
+                className={styles.search_bar}
                 type="search"
                 placeholder="Search for Achievements..."
                 onChange={handleChange}
@@ -77,13 +76,13 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
 
 
     return (
-        <NavLink to={"/category/" + categoryId} className="section category" ref={ref}>
+        <NavLink to={"/category/" + categoryId} className={({isActive}) => isActive ? `${styles.section} ${styles.category} ${styles.active}` : `${styles.section} ${styles.category}`}
+                 ref={ref}>
             <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
-            <div className="cat-text">
-                <p className="cat-title">{categoryTitle}</p>
-                <p className="cat-percent">{percentage} %</p>
+            <div className={styles.cat_text}>
+                <p className={styles.cat_title}>{categoryTitle}</p>
+                <p className={styles.cat_percent}>{percentage} %</p>
             </div>
-
         </NavLink>
     )
 })
@@ -114,9 +113,9 @@ function WrapperLeft({categories, achievements}) {
 
 
     return (
-        <div id="wrapper-left">
+        <div id="wrapper_left">
             <SearchBar></SearchBar>
-            <div className="categories">
+            <div className={styles.categories}>
                 {
                     categories.map((category) => <CategoryCard key={category.cat_id + 0} category={category}
                                                                achievements={achievements}
@@ -149,13 +148,13 @@ function AchievementCardTitle({achievement, highlight = false, searchString}) {
         const rightPart = title.slice((firstInstance + searchString.length), title.length);
 
         return (
-            <span className="title">{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+            <span className={styles.title}>{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
         )
 
     }
 
     return (
-        <span className='title'>{title}</span>
+        <span className={styles.title}>{title}</span>
     )
 
 }
@@ -196,10 +195,10 @@ function AchievementCardButton({achievement, marked, setMarked, completed, previ
 
     if (completed) {
         return (
-            <div className="completion done">
+            <div className={`${styles.completion} ${styles.done}`}>
                 <p> Completed</p>
                 <button
-                    className="unclaim"
+                    className={styles.unclaim}
                     type="button"
                     onClick={unmarkAchievement}
                 >
@@ -211,16 +210,16 @@ function AchievementCardButton({achievement, marked, setMarked, completed, previ
 
         if (previous != null) {
             return (
-                <div className="completion">
+                <div className={styles.completion}>
                     <button
-                        className="claim"
+                        className={styles.claim}
                         type="button"
                         onClick={markAchievement}
                     >
                         Mark
                     </button>
                     <button
-                        className="unclaim"
+                        className={styles.unclaim}
                         type="button"
                         onClick={unmarkAchievement}
                     >
@@ -236,9 +235,9 @@ function AchievementCardButton({achievement, marked, setMarked, completed, previ
 
 
         return (
-            <div className="completion">
+            <div className={styles.completion}>
                 <button
-                    className="claim"
+                    className={styles.claim}
                     type="button"
                     onClick={markAchievement}
                 >
@@ -277,14 +276,14 @@ function AchievementCard({
 
         if (achievement.multiprt !== 1) {
             return (
-                <div className={"section progress completed"}>
-                    <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_1.png"/>
-                    <p className="information">
+                <div className={`${styles.section} ${styles.progress} ${styles.completed}`}>
+                    <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_1_1.png"/>
+                    <p className={styles.information}>
                         <AchievementCardTitle achievement={achievement} highlight={highlight}
                                               searchString={searchString}></AchievementCardTitle>
-                        <span className="description">{achievement.description}</span>
+                        <span className={styles.description}>{achievement.description}</span>
                     </p>
-                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                     <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                            completed={completed}></AchievementCardButton>
                 </div>
@@ -293,14 +292,14 @@ function AchievementCard({
 
         if (achievement.part === 3) {
             return (
-                <div className={"section progress completed"}>
-                    <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_3.png"/>
-                    <p className="information">
+                <div className={`${styles.section} ${styles.progress} ${styles.completed}`}>
+                    <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_3_3.png"/>
+                    <p className={styles.information}>
                         <AchievementCardTitle achievement={achievement} highlight={highlight}
                                               searchString={searchString}></AchievementCardTitle>
-                        <span className="description">{achievement.description}</span>
+                        <span className={styles.description}>{achievement.description}</span>
                     </p>
-                    <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                    <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                     <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                            completed={completed}></AchievementCardButton>
                 </div>
@@ -326,7 +325,6 @@ function AchievementCard({
         if (achievement.multiprt === 1) {
 
             if (achievement.part !== 1) {
-                console.log(filteredAchievements)
                 // If it's not the first part, then check if the previous is complete
                 if (achievementsObject[previousAchievement.ach_id] === true) {
 
@@ -335,14 +333,14 @@ function AchievementCard({
                     return (
 
 
-                        <div className={"section progress"}>
-                            <img alt="Achievement Icon" className="left-img" src={starImageURL}/>
-                            <p className="information">
+                        <div className={`${styles.section} ${styles.progress}`}>
+                            <img alt="Achievement Icon" className={styles.left_img} src={starImageURL}/>
+                            <p className={styles.information}>
                                 <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                       searchString={searchString}></AchievementCardTitle>
-                                <span className="description">{achievement.description}</span>
+                                <span className={styles.description}>{achievement.description}</span>
                             </p>
-                            <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                    completed={completed}
                                                    previous={previousAchievement}></AchievementCardButton>
@@ -357,14 +355,14 @@ function AchievementCard({
 
                 return (
                     <animated.div style={springs}>
-                        <div className={"section progress"}>
-                            <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_3_0.png"/>
-                            <p className="information">
+                        <div className={`${styles.section} ${styles.progress}`}>
+                            <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_3_0.png"/>
+                            <p className={styles.information}>
                                 <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                       searchString={searchString}></AchievementCardTitle>
-                                <span className="description">{achievement.description}</span>
+                                <span className={styles.description}>{achievement.description}</span>
                             </p>
-                            <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                    completed={completed}></AchievementCardButton>
                         </div>
@@ -379,14 +377,14 @@ function AchievementCard({
 
             return (
                 <animated.div style={springs}>
-                    <div className={"section progress"}>
-                        <img alt="Achievement Icon" className="left-img" src="/UI_AchievementIcon_1_0.png"/>
-                        <p className="information">
+                    <div className={`${styles.section} ${styles.progress}`}>
+                        <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_1_0.png"/>
+                        <p className={styles.information}>
                             <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                   searchString={searchString}></AchievementCardTitle>
-                            <span className="description">{achievement.description}</span>
+                            <span className={styles.description}>{achievement.description}</span>
                         </p>
-                        <img alt="Primogems" className="primo" src="/5stprimo.webp"/>
+                        <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                         <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                completed={completed}></AchievementCardButton>
                     </div>
@@ -450,7 +448,7 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
             return (
                 <>
                     {/*//FIX KEY ISSUE */}
-                    <div className={"section s-title"} key={currentAchievement.category_id - 1}>{currentTitle}</div>
+                    <div className={`${styles.section} ${styles.s_title}`} key={currentAchievement.category_id - 1}>{currentTitle}</div>
                     <AchievementCard key={currentAchievement.ach_id + 1} filteredAchievements={filteredAchievements}
                                      achievement={currentAchievement} highlight={true} searchString={search}
                                      marked={marked} setMarked={setMarked}
@@ -519,12 +517,12 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
     if (categoryId === undefined || categoryId <= 2) {
 
         return (
-            <div id="wrapper-right">
-                <div className="canvas">
+            <div id={styles.wrapper_right}>
+                <div className={styles.canvas}>
                 </div>
-                <div className="paper">
+                <div className={styles.paper}>
                     <div></div>
-                    <div className="scroll-style ">
+                    <div className={styles.scroll_style}>
                         <DisplayedAchievements categoryId={categoryId} totalAchievements={achievements}
                                                categories={categories} marked={marked}
                                                setMarked={setMarked}></DisplayedAchievements>
@@ -560,29 +558,33 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
 
 
         return (
-            <div id="wrapper-right">
-                <div className="canvas">
+            <div id={styles.wrapper_right}>
+                <div  className={styles.canvas}>
                 </div>
-                <div className="paper">
+                <div  className={styles.paper}>
 
 
-                    <div className="progression ">
-                        <div className="card-wrapper">
-                            <img alt="Purple Background" className="purple-background"
+                    <div className={styles.progression}>
+                        <div className={styles.card_wrapper}>
+                            <img alt="Purple Background" className={styles.purple_background}
                                  src="/Background_Item_4_Star.webp"/>
-                            <img alt="Calling card" className="card"
+                            <img alt="Calling card" className={styles.card}
                                  src="/Item_Achievement_Explorer.webp"/>
                         </div>
                         <div>
                             <div>
 
                             </div>
-                            <ProgressBar percentage={percentage}></ProgressBar>
+
+                            <div className={styles.progress_outer}>
+                                <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
+                            </div>
+
                         </div>
 
 
                     </div>
-                    <div className="scroll-style ">
+                    <div className={styles.scroll_style}>
                         <DisplayedAchievements categoryId={categoryId} totalAchievements={achievements}
                                                categories={categories} marked={marked}
                                                setMarked={setMarked}></DisplayedAchievements>
@@ -617,7 +619,7 @@ function Category() {
     }
 
     return (
-        <div id="content">
+        <div id={styles.content}>
             <WrapperLeft categories={categoryData} achievements={achievementData}></WrapperLeft>
             <WrapperRight marked={marked} setMarked={setMarked} categories={categoryData}
                           achievements={achievementData}></WrapperRight>

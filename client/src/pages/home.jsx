@@ -1,31 +1,18 @@
 import React from 'react';
-import './home.css';
+import styles    from './home.module.css';
 
-import {Link, ScrollRestoration} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {useFetchCategories} from '../hooks/useFetchCategories.jsx'
 import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
 
 
 
-function ProgressBar({percentage}){
-
-    return (
-        <div className="progress-outer">
-            <div className="progress-bar" style={{width: percentage + "%"}}></div>
-        </div>
-
-
-    )
-
-}
 
 
 function Cell({category, achievements}){
 
-
     const categoryId = category.cat_id
-
 
     const achievementsFromCategory = achievements.filter(({category_id})=> {
             return parseInt(categoryId) === (category_id);
@@ -40,24 +27,27 @@ function Cell({category, achievements}){
     First gets all the keys (achievement ids) from the local storage object. If they are between the valid achievements
     and their value is true, add it to the filtered array.
      */
-    let percentage = 0;
+
     const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element)=>{
         if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory){
             if(achievementsObject[element]) return true;
         }
         return false
     })
-
+    let percentage = 0;
     percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
 
 
+
     return (
-        <div className="cell-wrapper">
-            <Link to = {'category/' + category.cat_id} className="cell">
-                <img className="ins_image" alt={category.title} src={"/cat/acat" + category.cat_id + ".webp"}/>
-                <p className={"card_title font" + category.cat_id}>{category.title}</p>
-                <p className="percentage">{percentage}%</p>
-                <ProgressBar percentage={percentage}></ProgressBar>
+        <div className={styles.cell_wrapper}>
+            <Link to={'category/' + category.cat_id} className={styles.cell}>
+                <img className={styles.ins_image} alt={category.title} src={"/cat/acat" + category.cat_id + ".webp"}/>
+                <p className={`${styles.card_title} ${styles[`font${categoryId}`]}`}>{category.title}</p>
+                <p className={styles.percentage}>{percentage}%</p>
+                <div className={styles.progress_outer}>
+                    <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
+                </div>
             </Link>
         </div>
 
@@ -69,7 +59,7 @@ function Cell({category, achievements}){
 function AchievementCategories() {
 
 
-    const {data:categoryData, status:categoryStatus} = useFetchCategories();
+    const {data: categoryData, status: categoryStatus} = useFetchCategories();
     const {data:achievementData, status:achievementStatus} = useFetchAchievements();
 
     if (achievementStatus  === 'loading') {
@@ -86,7 +76,7 @@ function AchievementCategories() {
 
 
     return (
-        <div className="guts">
+        <div className={styles.guts}>
             {categoryData.map(cat => (
                 <Cell key={cat.cat_id + 0} category={cat} achievements={achievementData}></Cell>
             ))}
