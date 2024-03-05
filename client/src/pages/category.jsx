@@ -150,7 +150,6 @@ function AchievementCardTitle({achievement, highlight = false, searchString}) {
         return (
             <span className={styles.title}>{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
         )
-
     }
 
     return (
@@ -317,7 +316,7 @@ function AchievementCard({
                 opacity: 1,
 
             },
-            delay: 30 * (index % 15),
+            delay: 60 * (index % 15),
         });
 
 
@@ -562,8 +561,6 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
                 <div  className={styles.canvas}>
                 </div>
                 <div  className={styles.paper}>
-
-
                     <div className={styles.progression}>
                         <div className={styles.card_wrapper}>
                             <img alt="Purple Background" className={styles.purple_background}
@@ -571,17 +568,17 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
                             <img alt="Calling card" className={styles.card}
                                  src="/Item_Achievement_Explorer.webp"/>
                         </div>
-                        <div>
-                            <div>
-
-                            </div>
-
+                        <div className={styles.progression_info_wrapper}>
+                            <div className={styles.achievement_progress} style={{color: "#84603d", fontSize: "20px"}}>Achievement Progress <span style={{float:"right"}}>{percentage}%</span></div>
                             <div className={styles.progress_outer}>
                                 <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
                             </div>
+                            <div className={styles.achievement_progress} style={{color: "#bca791", fontSize:"17px"}}>Complete the following achievements to receive a namecard style</div>
 
                         </div>
-
+                        <div className={percentage !== "100" ? `${styles.completion}` : `${styles.completion} ${styles.done}` } >
+                            {percentage !== "100" ? "In progress" : "Completed"}
+                        </div>
 
                     </div>
                     <div className={styles.scroll_style}>

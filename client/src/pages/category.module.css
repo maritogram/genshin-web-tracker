@@ -86,24 +86,30 @@
     background-color: #f2ece6;
     height: 100px;
     display: flex;
-    flex-basis: 1fr 1fr;
-
     border: 2px solid #e0d7cf;
     margin: 0 20px 15px 20px;
-
 
 }
 
 .card_wrapper {
     position: relative;
-    padding: 8px 15px;
+    padding: 8px 0 0 15px;
     width: fit-content;
     /*background: red;*/
 }
 
+.progression_info_wrapper {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+
+
+}
+
 .card {
     position: absolute;
-    right: 14px;
+    right: -1px;
     object-fit: contain;
     height: 85%;
 }
@@ -118,33 +124,38 @@
 }
 
 
+
+
+.achievement_progress{
+    width: 95%;
+    margin: 5px auto;
+}
+
 .progress_outer {
     background-color: #5d677d;
-    position: absolute;
     height: 5px;
-    width: 70%;
-    margin-left: auto;
-    border-radius: 50px;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: calc(1vh + 1vw);
     border: solid 0 transparent;
 
 
 }
 
 .progress_bar {
-
     height: 100%;
-    background-color: red;
-
+    background-color: #f8ba3f;
     transition-duration: 1s;
     justify-content: center;
-    border-radius: 50px;
+    border-radius: calc(1vh + 1vw);
     border: solid 0 transparent;
 
 }
 
 
-.cat_title {
 
+
+.cat_title {
     color: #f6f1ec;
     font-size: 20px;
     text-align: left;
