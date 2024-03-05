@@ -17,20 +17,18 @@
     color:#E8CB9BFF;
     display: flex;
     align-items: center;
-    font-size: 24px;
+    font-size: min(2vh, 20px);
     /*background-color: red;*/
 }
 
 
 .header img{
-    height: 100%;
-    padding: 0 7px;
+    height: 1.5vh;
     width: auto;
     /*background-color: orange;*/
 
     margin: auto 7px auto 0;
-    max-height: 9rem;
-    min-height: 24px;
+
 }
 
 .right{

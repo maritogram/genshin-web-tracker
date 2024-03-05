@@ -36,6 +36,7 @@ function SearchBar() {
                 type="search"
                 placeholder="Search for Achievements..."
                 onChange={handleChange}
+
             />
         </form>
 
@@ -113,7 +114,7 @@ function WrapperLeft({categories, achievements}) {
 
 
     return (
-        <div id="wrapper_left">
+        <div id={styles.wrapper_left}>
             <SearchBar></SearchBar>
             <div className={styles.categories}>
                 {
@@ -569,14 +570,14 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
                                  src="/Item_Achievement_Explorer.webp"/>
                         </div>
                         <div className={styles.progression_info_wrapper}>
-                            <div className={styles.achievement_progress} style={{color: "#84603d", fontSize: "20px"}}>Achievement Progress <span style={{float:"right"}}>{percentage}%</span></div>
+                            <div className={styles.achievement_progress} style={{color: "#84603d", fontSize: "20px", display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>Achievement Progress  <span style={{marginLeft:"auto"}}>{percentage}%</span></div>
                             <div className={styles.progress_outer}>
                                 <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
                             </div>
                             <div className={styles.achievement_progress} style={{color: "#bca791", fontSize:"17px"}}>Complete the following achievements to receive a namecard style</div>
 
                         </div>
-                        <div className={percentage !== "100" ? `${styles.completion}` : `${styles.completion} ${styles.done}` } >
+                        <div className={percentage !== "100" ? `${styles.completion}` : `${styles.completion} ${styles.done}` }>
                             {percentage !== "100" ? "In progress" : "Completed"}
                         </div>
 

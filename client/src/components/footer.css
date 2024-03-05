@@ -1,8 +1,7 @@
 footer p{
 text-align: center;
     color: white;
-    font-size: 12px;
-
+    font-size: min(1vh, 10px);
 }
 
 footer{
@@ -15,7 +14,7 @@ footer{
 @media only screen and (max-width: 600px) {
 
     footer p{
-        font-size: 8px;
+        font-size: 1px;
     }
 
 }

@@ -40,22 +40,31 @@
     height: 18px;
     margin: 5px auto;
     border-radius: 24px;
-    padding: 15px;
-    font-size: 16px;
-    background-color: rgb(0 0 0 / 20%);
+    padding: 18px;
+    font-size: 20px;
+    background-color: rgb(0 0 0 / 30%);
 
-    border: 2px solid #888a97;
+    border: 2px solid rgba(255, 255, 255, 30%);
+    /*box-shadow: 0 0 1rem -8px black ;*/
+
+    background-image: url("/UI_Icon_Search.png");
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: 10px;
+    text-indent: 20px;
+    background-blend-mode: darken;
 
 }
 
 .categories {
-    height: calc(100% - 37px);
+    height: calc(100% - 80px);
     overflow-y: auto;
     /*background-color: blue;*/
+    padding-top: 10px;
 
-    scroll-padding-top: .4%;
+    scroll-padding-top: .6%;
 
-    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 100%) .5% 99.5%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, rgb(0 0 0 / 100%) 1% 99%, transparent);
 }
 
 .section {
@@ -72,7 +81,7 @@
 
     background-color: rgba(45, 51, 67, 88%);
     width: 95%;
-    margin: 4px auto;
+    margin: 6px auto;
     padding: 15px 10px 15px 0;
     /*background-image: url("../images/.png");*/
     overflow-y: auto;
@@ -84,14 +93,17 @@
 
 .progression {
     background-color: #f2ece6;
-    height: 100px;
+    min-height: 100px;
     display: flex;
     border: 2px solid #e0d7cf;
     margin: 0 20px 15px 20px;
+    height: fit-content;
 
 }
 
 .card_wrapper {
+    flex: 1 10 80px;
+    margin: auto;
     position: relative;
     padding: 8px 0 0 15px;
     width: fit-content;
@@ -99,11 +111,10 @@
 }
 
 .progression_info_wrapper {
-    flex-basis: 100%;
+    flex: 1 1 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
-
 
 }
 
@@ -111,7 +122,7 @@
     position: absolute;
     right: -1px;
     object-fit: contain;
-    height: 85%;
+    height: 83px;
 }
 
 
@@ -124,11 +135,10 @@
 }
 
 
-
-
 .achievement_progress{
     width: 95%;
     margin: 5px auto;
+
 }
 
 .progress_outer {
@@ -264,6 +274,7 @@
 
     background-color: #f5f1eb;
 
+
 }
 
 
@@ -372,7 +383,6 @@
     background-position: center;
     background-repeat: no-repeat;
 
-
 }
 
 .unclaim {
@@ -409,46 +419,34 @@
 }
 
 
-@media only screen and (max-width: 600px) {
+@media screen and (width <= 1024px) {
     #wrapper_left {
         display: none;
-    }
-
-    .primo {
-        width: 50px;
-    }
-
-    .left-img {
-        width: 50px;
-    }
-
-    .information {
-        padding: 10px;
-    }
-
-    body {
-        grid-template-rows: min-content minmax(0, 1fr);
-    }
-
-
-    .paper {
-        border-width: 10px 0;
-        width: calc(100% - 33px);
-        height: calc(100% - 55px);
-
-        right: 5px;
-        bottom: 2px;
 
     }
 
-    .progress {
-        height: fit-content;
+
+    /*.title{*/
+    /*    font-size: 1px;*/
+    /*}*/
+
+    /*.description{*/
+    /*    font-size: 1px;*/
+    /*}*/
+
+    .left_img{
+        height: 40px;
     }
 
-    .claim {
-        width: fit-content;
-        height: 30px;
+
+
+    .section{
+        flex-direction: column;
     }
+
+
+
+
 
 
 }
