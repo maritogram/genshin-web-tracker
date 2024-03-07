@@ -10,6 +10,7 @@
     backface-visibility: hidden;
 
 
+
 }
 
 
@@ -102,13 +103,33 @@
 }
 
 .card_wrapper {
-    flex: 1 10 80px;
-    margin: auto;
     position: relative;
-    padding: 8px 0 0 15px;
-    width: fit-content;
+    margin: 8px 0 0 15px;
+    width: 105px;
     /*background: red;*/
+    display: flex;
+    align-items: center;
+    align-content: center;
+
 }
+
+.card {
+    position: absolute;
+    right: -.3%;
+    object-fit: contain;
+    width: 99%;
+    /*display: none;*/
+}
+
+
+.purple_background {
+    width: 100%;
+    /*object-fit: contain;*/
+    border-radius: calc(.3vh + .3vw);
+    opacity: 85%;
+
+}
+
 
 .progression_info_wrapper {
     flex: 1 1 100%;
@@ -118,27 +139,25 @@
 
 }
 
-.card {
-    position: absolute;
-    right: -1px;
-    object-fit: contain;
-    height: 83px;
-}
 
 
-.purple_background {
-    width: 80px;
-    object-fit: contain;
-    border-radius: calc(.3vh + .3vw);
-    opacity: 85%;
-
-}
-
-
-.achievement_progress{
+.achievement_progress, .achievement_progress_title, .achievement_progress_desc{
     width: 95%;
     margin: 5px auto;
 
+}
+
+.achievement_progress_title{
+   color: #84603d;
+   font-size: 20px;
+   display:flex;
+   flex-wrap:wrap;
+   justify-content:space-between;
+}
+
+.achievement_progress_desc{
+   color: #bca791;
+   font-size:17px;
 }
 
 .progress_outer {
@@ -155,7 +174,6 @@
 .progress_bar {
     height: 100%;
     background-color: #f8ba3f;
-    transition-duration: 1s;
     justify-content: center;
     border-radius: calc(1vh + 1vw);
     border: solid 0 transparent;
@@ -167,7 +185,7 @@
 
 .cat_title {
     color: #f6f1ec;
-    font-size: 20px;
+    font-size: 1.25rem;
     text-align: left;
     margin: 0;
     height: fit-content;
@@ -221,16 +239,16 @@
     border-image-source: url("/back_canvas.png");
     /* top | right 228 | bottom 263  | left 200 */
     border-image-slice: 110 228 263 210 fill;
-    border-image-width: auto;
+    border-image-width:  75px 128px 183px 130px;
 
 
 }
 
 .paper {
-    width: calc(100% - 45px);
-    height: calc(100% - 65px);
+    width: calc(100% - 25px);
+    height: calc(100% - 40px);
     position: relative;
-    margin: 17px;
+    margin: 10px 8px;
     padding-top: 10px;
 
     border-image-source: url("/canvas_paper.png");
@@ -266,7 +284,6 @@
 .progress {
     border: 2px solid #e0d7cf;
     margin: 4px 20px;
-
 
     min-height: 100px;
 
@@ -305,7 +322,7 @@
     width: auto;
     height: 80px;
     object-fit: contain;
-
+    order: 1;
 
 }
 
@@ -318,6 +335,7 @@
     transition-duration: 1s;
     margin: auto;
     height: fit-content;
+    order: 1;
 
 
 }
@@ -349,12 +367,13 @@
     width: auto;
     height: 50px;
     object-fit: contain;
+    order: 2;
 
 
 }
 
 
-.completion {
+.completion, .progression_completion {
     flex-basis: 50%;
     background-color: #f0e9dc;;
     max-width: 128px;
@@ -363,14 +382,20 @@
     align-items: center;
     justify-content: center;
     font-family: TypeFaceCH, serif;
-    text-align: center;
-    flex-direction: row;
     position: relative;
+    order:2;
+
+}
+
+.completion{
+    min-height: 100px;
+}
+.progression_completion{
+    color:#84603d;
 }
 
 .completion p {
     /*background-color:red;*/
-    padding: 0;
     font-size: 18px;
 
 
@@ -407,47 +432,132 @@
 
 .claim {
     background-color: #b7513d;
-    border-radius: calc(1vh + 1vw);
+    border-radius: calc(2vh + 2vw);
     border: 3px solid #a74f41;
     max-width: fit-content;
     height: fit-content;
     color: #ffebe5;
     font-size: 17px;
-    padding: 2% 15%;
+    padding: 2px 20px;
     cursor: pointer;
 
 }
 
 
-@media screen and (width <= 1024px) {
+@media screen and (width <= 1278px) {
     #wrapper_left {
         display: none;
 
     }
 
 
-    /*.title{*/
-    /*    font-size: 1px;*/
-    /*}*/
+    @media (width <= 740px) {
 
-    /*.description{*/
-    /*    font-size: 1px;*/
-    /*}*/
+        .progress{
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .left_img{
-        height: 40px;
+        .left_img{
+             height: 60px;
+            margin: 0;
+            order: 1;
+        }
+
+        .primo{
+            height: 30px;
+            order: 1;
+            margin: auto 0;
+
+        }
+
+        .information{
+            text-align: center;
+            text-wrap: normal;
+            order:2;
+
+        }
+
+
+        .completion{
+            width: 100%;
+            max-width: none;
+            padding:30px 0 ;
+            order:2;
+            flex-basis: 100%;
+            border-top: #dfceb8 solid 2px;
+
+        }
+
+        .completion p{
+            margin: 0;
+        }
+
+
+        .progression{
+            flex-wrap: wrap;
+            height: fit-content;
+
+        }
+
+        .card_wrapper {
+            width: 10px;
+            flex-basis: 10%;
+        }
+
+        .progression_info_wrapper{
+            flex-basis: 80%;
+        }
+
+        .achievement_progress{
+            font-size: 10px;
+        }
+
+        .achievement_progress_title{
+            font-size: 16px;
+        }
+
+         .achievement_progress_desc{
+            font-size: 12px;
+        }
+
+
+        .progression_completion{
+            width: 100%;
+            flex-basis: auto;
+            max-width: none;
+            padding: 5px 0 ;
+            border-top: #dfceb8 solid 2px;
+            font-size: 12px;
+        }
+
+        .title{
+            font-size: 18px;
+        }
+
+        .description{
+            font-size: 14px;
+        }
+
+        .progress{
+             margin: 25px 20px;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
-
-
-
-    .section{
-        flex-direction: column;
-    }
-
-
-
-
-
 
 }
+
+
+
 

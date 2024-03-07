@@ -65,7 +65,7 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
     First gets all the keys (achievement ids) from the local storage object. If they are between the valid achievements
     and their value is true, add it to the filtered array.
      */
-    let percentage = 0;
+
     const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element) => {
         if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory) {
             if (achievementsObject[element]) return true;
@@ -73,6 +73,7 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
         return false
     })
 
+    let percentage = 0;
     percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
 
 
@@ -165,6 +166,7 @@ function AchievementCardButton({achievement, marked, setMarked, completed, previ
     const markAchievement = (e) => {
         e.preventDefault()
         const achievementObject = JSON.parse(localStorage.getItem("achievements"))
+
         Object.assign(achievementObject, {[achievement.ach_id]: true});
         localStorage.setItem("achievements", JSON.stringify(achievementObject))
 
@@ -265,10 +267,20 @@ function AchievementCard({
 
     const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
 
+    const springs = useSpring({
+            from: {
+                opacity: 0
+            },
+            to: {
+                opacity: 1,
+
+            },
+            delay: 60 * (index % 15),
+    });
+
     //HERE MAYBE
     // const adjustIndex = filteredAchievements.forEach()
-
-    const nextAchievement = filteredAchievements[index + 1];
+    // const nextAchievement = filteredAchievements[index + 1];
     const previousAchievement = filteredAchievements[index - 1];
 
 
@@ -308,19 +320,6 @@ function AchievementCard({
 
     } else {
 
-
-        const springs = useSpring({
-            from: {
-                opacity: 0
-            },
-            to: {
-                opacity: 1,
-
-            },
-            delay: 60 * (index % 15),
-        });
-
-
         //Checks if it's part of a multipart achievement.
         if (achievement.multiprt === 1) {
 
@@ -331,16 +330,14 @@ function AchievementCard({
                     const starImageURL = "/UI_AchievementIcon_3_" + (achievement.part - 1) + ".png"
 
                     return (
-
-
                         <div className={`${styles.section} ${styles.progress}`}>
                             <img alt="Achievement Icon" className={styles.left_img} src={starImageURL}/>
+                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <p className={styles.information}>
                                 <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                       searchString={searchString}></AchievementCardTitle>
                                 <span className={styles.description}>{achievement.description}</span>
                             </p>
-                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                    completed={completed}
                                                    previous={previousAchievement}></AchievementCardButton>
@@ -357,12 +354,12 @@ function AchievementCard({
                     <animated.div style={springs}>
                         <div className={`${styles.section} ${styles.progress}`}>
                             <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_3_0.png"/>
+                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <p className={styles.information}>
                                 <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                       searchString={searchString}></AchievementCardTitle>
                                 <span className={styles.description}>{achievement.description}</span>
                             </p>
-                            <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                    completed={completed}></AchievementCardButton>
                         </div>
@@ -379,12 +376,13 @@ function AchievementCard({
                 <animated.div style={springs}>
                     <div className={`${styles.section} ${styles.progress}`}>
                         <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_1_0.png"/>
+                        <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                         <p className={styles.information}>
                             <AchievementCardTitle achievement={achievement} highlight={highlight}
                                                   searchString={searchString}></AchievementCardTitle>
                             <span className={styles.description}>{achievement.description}</span>
                         </p>
-                        <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
+
                         <AchievementCardButton achievement={achievement} marked={marked} setMarked={setMarked}
                                                completed={completed}></AchievementCardButton>
                     </div>
@@ -486,8 +484,6 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
                         } else {
                             return 1
                         }
-
-
                     }
 
                 }).map(outputAchievements)}
@@ -570,14 +566,14 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
                                  src="/Item_Achievement_Explorer.webp"/>
                         </div>
                         <div className={styles.progression_info_wrapper}>
-                            <div className={styles.achievement_progress} style={{color: "#84603d", fontSize: "20px", display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}>Achievement Progress  <span style={{marginLeft:"auto"}}>{percentage}%</span></div>
+                            <div className={styles.achievement_progress_title}>Achievement Progress  <span style={{marginLeft:"auto"}}>{percentage}%</span></div>
                             <div className={styles.progress_outer}>
                                 <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
                             </div>
-                            <div className={styles.achievement_progress} style={{color: "#bca791", fontSize:"17px"}}>Complete the following achievements to receive a namecard style</div>
+                            <div className={styles.achievement_progress_desc}>Complete the following achievements to receive a namecard style</div>
 
                         </div>
-                        <div className={percentage !== "100" ? `${styles.completion}` : `${styles.completion} ${styles.done}` }>
+                        <div className={percentage !== "100" ? `${styles.progression_completion}` : `${styles.progression_completion} ${styles.done}` }>
                             {percentage !== "100" ? "In progress" : "Completed"}
                         </div>
 
