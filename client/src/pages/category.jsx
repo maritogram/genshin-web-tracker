@@ -468,24 +468,19 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
         return (
             <>
                 {filteredAchievements.sort((a, b) => {
-
-
-                    // I feel like this can be simplified, I'll research later.
-
                     if (a.ach_id < b.ach_id) {
-                        if ((achievementsObject[a.ach_id]) && a.name !== b.name) {
-                            return 1
+                        if(a.multiprt === 0){
+                            return (achievementsObject[a.ach_id]) ? 1 : -1
                         } else {
-                            return -1
+                            return (achievementsObject[a.ach_id + (3 - a.part)]) ? 1 : -1
                         }
                     } else {
-                        if ((achievementsObject[b.ach_id]) && a.name !== b.name) {
-                            return -1
+                        if(b.multiprt === 0){
+                             return (achievementsObject[b.ach_id]) ? -1 : 1
                         } else {
-                            return 1
+                            return (achievementsObject[b.ach_id + (3 - b.part)]) ? -1 : 1
                         }
                     }
-
                 }).map(outputAchievements)}
             </>
         )
