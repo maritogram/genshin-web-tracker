@@ -275,7 +275,7 @@ function AchievementCard({
                 opacity: 1,
 
             },
-            delay: 60 * (index % 15),
+            delay: 80 ,
     });
 
     //HERE MAYBE

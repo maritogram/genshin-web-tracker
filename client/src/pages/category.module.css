@@ -94,7 +94,7 @@
 
 .progression {
     background-color: #f2ece6;
-    min-height: 100px;
+    min-height: 90px;
     display: flex;
     border: 2px solid #e0d7cf;
     margin: 0 20px 15px 20px;
@@ -103,48 +103,47 @@
 }
 
 .card_wrapper {
-    position: relative;
-    margin: 8px 0 0 15px;
+    margin: auto -10px auto 8px;
     width: 105px;
     /*background: red;*/
     display: flex;
-    align-items: center;
-    align-content: center;
+
 
 }
 
 .card {
-    position: absolute;
-    right: -.3%;
+    position: relative;
+    top: 1px;
+    right: 75px;
     object-fit: contain;
-    width: 99%;
+    width: 65px;
     /*display: none;*/
 }
 
 
 .purple_background {
-    width: 100%;
+    height: 65px;
     /*object-fit: contain;*/
-    border-radius: calc(.3vh + .3vw);
-    opacity: 85%;
+    border-radius: calc(5px);
+    filter:      contrast(1.2) opacity(90%);
+    margin: auto 10px ;
 
 }
 
 
 .progression_info_wrapper {
-    flex: 1 1 100%;
+    flex:100%;
+
     display: flex;
     flex-direction: column;
+    /*background-color: red;*/
     margin: auto;
-
 }
 
 
 
 .achievement_progress, .achievement_progress_title, .achievement_progress_desc{
-    width: 95%;
-    margin: 5px auto;
-
+    width: 100%;
 }
 
 .achievement_progress_title{
@@ -153,6 +152,7 @@
    display:flex;
    flex-wrap:wrap;
    justify-content:space-between;
+
 }
 
 .achievement_progress_desc{
@@ -163,8 +163,7 @@
 .progress_outer {
     background-color: #5d677d;
     height: 5px;
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
     border-radius: calc(1vh + 1vw);
     border: solid 0 transparent;
 
@@ -290,22 +289,34 @@
     backface-visibility: hidden;
 
     background-color: #f5f1eb;
-
-
-}
-
-
-.completed {
-    background-color: #f0e9dc;
+    transition: 100ms ease-out;
 }
 
 .progress:hover, .progress:active {
     /*margin: 4px 15px;*/
 
 
-    transform: scaleX(1.009);
+    transform: scale(1.009);
+    box-shadow: 0 0 10px 3px #e0d7cf;
+    transition: 100ms ease-in;
+    background-color: #faf8f2;
 
+    .completion{
+        background-color: #f4eee2;
+    }
 
+}
+
+.completed {
+    background-color: #f0e9dc;
+}
+
+.completed:hover{
+    background-color: #f4eee2;
+
+    .completion{
+        background-color: #f4eee2;
+    }
 }
 
 
@@ -392,6 +403,7 @@
 }
 .progression_completion{
     color:#84603d;
+    margin-left: 15px;
 }
 
 .completion p {
@@ -500,13 +512,36 @@
 
         }
 
-        .card_wrapper {
-            width: 10px;
-            flex-basis: 10%;
+        .progression_completion{
+            margin: 0;
         }
 
+
+
+        .card_wrapper{
+            margin: auto;
+            position: relative;
+            width: auto;
+
+        }
+
+         .card{
+            position: absolute;
+            width: 40px;
+            right: 10px;
+        }
+
+        .purple_background{
+            width: auto;
+            height: 40px;
+
+        }
+
+
+
         .progression_info_wrapper{
-            flex-basis: 80%;
+            margin: 5px 10px ;
+
         }
 
         .achievement_progress{
