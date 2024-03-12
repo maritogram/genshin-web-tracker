@@ -40,7 +40,7 @@
     height:90%;
 
 
-    border-image-source: url("/ach_container.png");
+    border-image-source: url("/ach_container.webp");
      /* top | right | bottom  | left */
     border-image-slice: 29 139 fill;
     border-image-width:auto;

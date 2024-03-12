@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles    from './home.module.css';
 
 import {Link} from "react-router-dom";
@@ -42,7 +42,7 @@ function Cell({category, achievements}){
     return (
         <div className={styles.cell_wrapper}>
             <Link to={'category/' + category.cat_id} className={styles.cell}>
-                <img className={styles.ins_image} alt={category.title} src={"/cat/acat" + category.cat_id + ".webp"}/>
+                <img className={styles.ins_image} alt={category.title} loading="lazy" src={"/cat/acat" + category.cat_id + ".webp"}/>
                 <p className={`${styles.card_title} ${styles[`font${categoryId}`]}`}>{category.title}</p>
                 <p className={styles.percentage}>{percentage}%</p>
                 <div className={styles.progress_outer}>
@@ -56,24 +56,43 @@ function Cell({category, achievements}){
 
 }
 
-function AchievementCategories() {
-
-
-    const {data: categoryData, status: categoryStatus} = useFetchCategories();
+function AchievementCategories({categoryData}) {
     const {data:achievementData, status:achievementStatus} = useFetchAchievements();
 
-    if (achievementStatus  === 'loading') {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const cachePreloadImages = async (srcArr) => {
+        const promises = await srcArr.map((src) =>{
+           return new Promise((resolve, reject) => {
+                const img = new Image();
+
+                img.src = src;
+                img.onload = resolve(img);
+                img.onerror = reject(src);
+
+          });
+        });
+
+        await Promise.all(promises);
+
+        setIsLoading(false);
+    }
+
+    const arr = new Array(categoryData.length + 1);
+
+    arr[0] = "/ach_container.webp";
+    for(let i = 1; i <= categoryData.length; i++){
+        arr[i] = `/cat/acat${i}.webp`;
+        // console.log(arr[i])
+    }
+
+    cachePreloadImages(arr);
+
+    if (achievementStatus === 'loading' || isLoading ) {
         return (
             <p>Loading</p>
         )
     }
-
-    if(achievementStatus === 'error'){
-         return (
-             <p>Error</p>
-         )
-    }
-
 
     return (
         <div className={styles.guts}>
@@ -86,10 +105,22 @@ function AchievementCategories() {
 
 
 function Home() {
-    return (
-        <AchievementCategories>
-        </AchievementCategories>
-    );
+
+    const {data: categoryData, status: categoryStatus} = useFetchCategories();
+
+      if (categoryStatus === 'loading') {
+        return (
+            <p>Loading</p>
+        )
+    }
+
+    if(categoryStatus === 'success'){
+         return (
+            <AchievementCategories categoryData={categoryData}>
+            </AchievementCategories>
+        );
+    }
+
 }
 
 export default Home;
