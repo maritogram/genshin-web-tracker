@@ -8,6 +8,33 @@ import Category from "./pages/category.jsx";
 
 import {QueryClient} from 'react-query'
 
+// const hey = import.meta.glob('/assets/*' )
+
+
+
+async function imageLoader() {
+
+    // const srcArr = Object.keys(hey);
+    //
+    //     //
+    //     // console.log(hey)
+    //
+    //
+    // const promises = srcArr.map((src) => {
+    //     return new Promise((resolve, reject) => {
+    //         const img = new Image();
+    //
+    //         img.src = src;
+    //         img.onload = resolve(img);
+    //         img.onerror = reject(src);
+    //
+    //     });
+    // });
+    //
+    //
+    //
+    // return Promise.all(promises);
+}
 
 async function achievementDataLoader(queryClient) {
     const fetchAchievements = async () => {
@@ -35,7 +62,7 @@ async function categoryDataLoader(queryClient) {
 }
 
 const fullDataLoader = async (queryClient) => {
-    return Promise.all([categoryDataLoader(queryClient), achievementDataLoader(queryClient)])
+    return Promise.all([imageLoader(), categoryDataLoader(queryClient), achievementDataLoader(queryClient)])
 }
 
 const router = createBrowserRouter([
@@ -111,10 +138,7 @@ function Layout() {
     // as our completed/marked achievements count
     const trueAchievementsObject = Object.values(achievementsObject).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-
     const [marked, setMarked] = useState(trueAchievementsObject);
-
-    console.log("app re rendered")
 
     return (
         <>
