@@ -1,24 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import styles    from './home.module.css';
+import styles from './home.module.css';
 
-import {Link} from "react-router-dom";
+import {Link, useRouteLoaderData} from "react-router-dom";
 
-import {useFetchCategories} from '../hooks/useFetchCategories.jsx'
-import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
-
+import {usePreloadImages} from "../hooks/usePreloadImages.jsx";
 
 
+function Cell({category, achievements}) {
 
+    const categoryId = category.cat_id;
 
-function Cell({category, achievements}){
-
-    const categoryId = category.cat_id
-
-    const achievementsFromCategory = achievements.filter(({category_id})=> {
-            return parseInt(categoryId) === (category_id);
+    const achievementsFromCategory = achievements.filter(({category_id}) => {
+        return parseInt(categoryId) === (category_id);
     })
-    const firstAchievementFromCategory =  achievementsFromCategory[0].ach_id;
-    const lastAchievementFromCategory =  achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
+    const firstAchievementFromCategory = achievementsFromCategory[0].ach_id;
+    const lastAchievementFromCategory = achievementsFromCategory[achievementsFromCategory.length - 1].ach_id;
 
     const achievementsObject = JSON.parse(localStorage.getItem("achievements"))
 
@@ -28,9 +24,9 @@ function Cell({category, achievements}){
     and their value is true, add it to the filtered array.
      */
 
-    const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element)=>{
-        if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory){
-            if(achievementsObject[element]) return true;
+    const completedAchievementsFromCategory = Object.keys(achievementsObject).filter((element) => {
+        if (element >= firstAchievementFromCategory && element <= lastAchievementFromCategory) {
+            if (achievementsObject[element]) return true;
         }
         return false
     })
@@ -38,11 +34,11 @@ function Cell({category, achievements}){
     percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
 
 
-
     return (
         <div className={styles.cell_wrapper}>
             <Link to={'category/' + category.cat_id} className={styles.cell}>
-                <img className={styles.ins_image} alt={category.title} loading="lazy" src={"/cat/acat" + category.cat_id + ".webp"}/>
+                <img className={styles.ins_image} alt={category.title} loading="lazy"
+                     src={"/cat/acat" + category.cat_id + ".webp"}/>
                 <p className={`${styles.card_title} ${styles[`font${categoryId}`]}`}>{category.title}</p>
                 <p className={styles.percentage}>{percentage}%</p>
                 <div className={styles.progress_outer}>
@@ -56,43 +52,19 @@ function Cell({category, achievements}){
 
 }
 
-function AchievementCategories({categoryData}) {
-    const {data:achievementData, status:achievementStatus} = useFetchAchievements();
+function AchievementCategories({categoryData, achievementData}) {
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    const cachePreloadImages = async (srcArr) => {
-        const promises = await srcArr.map((src) =>{
-           return new Promise((resolve, reject) => {
-                const img = new Image();
-
-                img.src = src;
-                img.onload = resolve(img);
-                img.onerror = reject(src);
-
-          });
-        });
-
-        await Promise.all(promises);
-
-        setIsLoading(false);
-    }
 
     const arr = new Array(categoryData.length + 1);
 
     arr[0] = "/ach_container.webp";
-    for(let i = 1; i <= categoryData.length; i++){
-        arr[i] = `/cat/acat${i}.webp`;
-        // console.log(arr[i])
+    for (let i = 3; i <= categoryData.length; i++) {
+        arr[i] = `/cat/acat${i - 2}.webp`;
     }
 
-    cachePreloadImages(arr);
+    // INTEGRATE THIS ON LOADER SOMEHOW
+    const {isLoading} = usePreloadImages(arr);
 
-    if (achievementStatus === 'loading' || isLoading ) {
-        return (
-            <p>Loading</p>
-        )
-    }
 
     return (
         <div className={styles.guts}>
@@ -105,22 +77,12 @@ function AchievementCategories({categoryData}) {
 
 
 function Home() {
+    const [categoryData, achievementData] = useRouteLoaderData('root');
 
-    const {data: categoryData, status: categoryStatus} = useFetchCategories();
-
-      if (categoryStatus === 'loading') {
-        return (
-            <p>Loading</p>
-        )
-    }
-
-    if(categoryStatus === 'success'){
-         return (
-            <AchievementCategories categoryData={categoryData}>
-            </AchievementCategories>
-        );
-    }
-
+    return (
+        <AchievementCategories categoryData={categoryData} achievementData={achievementData}>
+        </AchievementCategories>
+    );
 }
 
 export default Home;

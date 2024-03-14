@@ -1,8 +1,13 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import styles from './category.module.css'
-import {NavLink, useNavigate, useOutletContext, useParams, useSearchParams} from "react-router-dom";
-import {useFetchCategories} from "../hooks/useFetchCategories.jsx";
-import {useFetchAchievements} from "../hooks/useFetchAchievements.jsx";
+import {
+    NavLink,
+    useNavigate,
+    useOutletContext,
+    useParams,
+    useRouteLoaderData,
+    useSearchParams
+} from "react-router-dom";
 
 import {animated, useSpring} from "@react-spring/web";
 
@@ -78,7 +83,8 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements}, 
 
 
     return (
-        <NavLink to={"/category/" + categoryId} className={({isActive}) => isActive ? `${styles.section} ${styles.category} ${styles.active}` : `${styles.section} ${styles.category}`}
+        <NavLink to={"/category/" + categoryId}
+                 className={({isActive}) => isActive ? `${styles.section} ${styles.category} ${styles.active}` : `${styles.section} ${styles.category}`}
                  ref={ref}>
             <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
             <div className={styles.cat_text}>
@@ -150,7 +156,8 @@ function AchievementCardTitle({achievement, highlight = false, searchString}) {
         const rightPart = title.slice((firstInstance + searchString.length), title.length);
 
         return (
-            <span className={styles.title}>{leftPart}<span style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
+            <span className={styles.title}>{leftPart}<span
+                style={{color: '#f39816'}}>{middlePart}</span>{rightPart}</span>
         )
     }
 
@@ -268,14 +275,14 @@ function AchievementCard({
     const index = filteredAchievements.findIndex(ach => ach.ach_id === achievement.ach_id);
 
     const springs = useSpring({
-            from: {
-                opacity: 0
-            },
-            to: {
-                opacity: 1,
+        from: {
+            opacity: 0
+        },
+        to: {
+            opacity: 1,
 
-            },
-            delay: 80 ,
+        },
+        delay: 80,
     });
 
     //HERE MAYBE
@@ -446,7 +453,8 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
             return (
                 <>
                     {/*//FIX KEY ISSUE */}
-                    <div className={`${styles.section} ${styles.s_title}`} key={currentAchievement.category_id - 1}>{currentTitle}</div>
+                    <div className={`${styles.section} ${styles.s_title}`}
+                         key={currentAchievement.category_id - 1}>{currentTitle}</div>
                     <AchievementCard key={currentAchievement.ach_id + 1} filteredAchievements={filteredAchievements}
                                      achievement={currentAchievement} highlight={true} searchString={search}
                                      marked={marked} setMarked={setMarked}
@@ -469,14 +477,14 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
             <>
                 {filteredAchievements.sort((a, b) => {
                     if (a.ach_id < b.ach_id) {
-                        if(a.multiprt === 0){
+                        if (a.multiprt === 0) {
                             return (achievementsObject[a.ach_id]) ? 1 : -1
                         } else {
                             return (achievementsObject[a.ach_id + (3 - a.part)]) ? 1 : -1
                         }
                     } else {
-                        if(b.multiprt === 0){
-                             return (achievementsObject[b.ach_id]) ? -1 : 1
+                        if (b.multiprt === 0) {
+                            return (achievementsObject[b.ach_id]) ? -1 : 1
                         } else {
                             return (achievementsObject[b.ach_id + (3 - b.part)]) ? -1 : 1
                         }
@@ -497,13 +505,7 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
 
 function WrapperRight({categories, marked, setMarked, achievements}) {
 
-
     const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
-
-    if (categoryId != undefined) {
-
-    }
-
 
     if (categoryId === undefined || categoryId <= 2) {
 
@@ -550,9 +552,9 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
 
         return (
             <div id={styles.wrapper_right}>
-                <div  className={styles.canvas}>
+                <div className={styles.canvas}>
                 </div>
-                <div  className={styles.paper}>
+                <div className={styles.paper}>
                     <div className={styles.progression}>
                         <div className={styles.card_wrapper}>
                             <img alt="Purple Background" className={styles.purple_background}
@@ -561,14 +563,18 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
                                  src="/Item_Achievement_Explorer.webp"/>
                         </div>
                         <div className={styles.progression_info_wrapper}>
-                            <div className={styles.achievement_progress_title}>Achievement Progress  <span style={{marginLeft:"auto"}}>{percentage}%</span></div>
+                            <div className={styles.achievement_progress_title}>Achievement Progress <span
+                                style={{marginLeft: "auto"}}>{percentage}%</span></div>
                             <div className={styles.progress_outer}>
                                 <div className={styles.progress_bar} style={{width: percentage + "%"}}></div>
                             </div>
-                            <div className={styles.achievement_progress_desc}>Complete the following achievements to receive a namecard style</div>
+                            <div className={styles.achievement_progress_desc}>Complete the following achievements to
+                                receive a namecard style
+                            </div>
 
                         </div>
-                        <div className={percentage !== "100" ? `${styles.progression_completion}` : `${styles.progression_completion} ${styles.done}` }>
+                        <div
+                            className={percentage !== "100" ? `${styles.progression_completion}` : `${styles.progression_completion} ${styles.done}`}>
                             {percentage !== "100" ? "In progress" : "Completed"}
                         </div>
 
@@ -591,21 +597,25 @@ function Category() {
 
     const [marked, setMarked] = useOutletContext();
 
-    const {data: categoryData, status: categoryStatus} = useFetchCategories();
+    const [categoryData, achievementData] = useRouteLoaderData('root');
 
-    const {data: achievementData, status: achievementStatus} = useFetchAchievements();
+    // const {achievementData} = useLoaderData();
 
-    if (achievementStatus === 'loading') {
-        return (
-            <p>Loading</p>
-        )
-    }
-
-    if (achievementStatus === 'error') {
-        return (
-            <p>Error</p>
-        )
-    }
+    // const arr = [
+    //     "/back_canvas.webp",
+    //     "/canvas_paper.webp",
+    //     "/UI_AchievementIcon_1_0.png",
+    //     "/UI_AchievementIcon_1_1.png",
+    //     "/UI_AchievementIcon_2_0.png",
+    //     "/UI_AchievementIcon_2_1.png",
+    //     "/UI_AchievementIcon_2_2.png",
+    //     "/UI_AchievementIcon_3_0.png",
+    //     "/UI_AchievementIcon_3_1.png",
+    //     "/UI_AchievementIcon_3_2.png",
+    //     "/UI_AchievementIcon_3_3.png"
+    // ]
+    //
+    // const {isLoading} = usePreloadImages(arr);
 
     return (
         <div id={styles.content}>
