@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Route, Routes, BrowserRouter, RouterProvider, createBrowserRouter, Outlet} from "react-router-dom";
+import {RouterProvider, createBrowserRouter, Outlet} from "react-router-dom";
 
 import Home from "./pages/home.jsx";
 import MyHeader from "./components/header.jsx";
@@ -8,32 +8,29 @@ import Category from "./pages/category.jsx";
 
 import {QueryClient} from 'react-query'
 
-// const hey = import.meta.glob('/assets/*' )
-
+const hey = import.meta.glob('./assets/*')
 
 
 async function imageLoader() {
 
-    // const srcArr = Object.keys(hey);
-    //
-    //     //
-    //     // console.log(hey)
-    //
-    //
-    // const promises = srcArr.map((src) => {
-    //     return new Promise((resolve, reject) => {
-    //         const img = new Image();
-    //
-    //         img.src = src;
-    //         img.onload = resolve(img);
-    //         img.onerror = reject(src);
-    //
-    //     });
-    // });
-    //
-    //
-    //
-    // return Promise.all(promises);
+    const srcArr = Object.keys(hey);
+
+    //regex to only get the name of the images further down
+    const myRe = /.*\/assets/;
+
+    const promises = srcArr.map((src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+
+            img.src = src.replace(myRe, "");
+            img.onload = resolve(img);
+            img.onerror = reject(src);
+
+        });
+    });
+
+
+    return Promise.all(promises);
 }
 
 async function achievementDataLoader(queryClient) {
@@ -65,42 +62,27 @@ const fullDataLoader = async (queryClient) => {
     return Promise.all([imageLoader(), categoryDataLoader(queryClient), achievementDataLoader(queryClient)])
 }
 
-const router = createBrowserRouter([
-    {
-        element: <Layout/>,
-        id: "root",
-        loader: async () => {
-            const queryClient = new QueryClient({
-                    defaultOptions: {
-                        queries: {
-                            staleTime: Infinity,
-                        },
-                    },
-                }
-            )
-
-            return fullDataLoader(queryClient);
-        },
-        children:
-            [
-                {
-                    path: "/",
-                    element: <Home/>,
+const router = createBrowserRouter([{
+    element: <Layout/>, id: "root", loader: async () => {
+        const queryClient = new QueryClient({
+            defaultOptions: {
+                queries: {
+                    staleTime: Infinity,
                 },
-                {
-                    path: "category/",
-                    element: <Category/>,
+            },
+        })
 
-                },
-                {
-                    path: "category/:categoryId",
-                    element: <Category/>,
+        return fullDataLoader(queryClient);
+    }, children: [{
+        path: "/", element: <Home/>,
+    }, {
+        path: "category/", element: <Category/>,
 
-                }
+    }, {
+        path: "category/:categoryId", element: <Category/>,
 
-
-            ]
-    },
+    }]
+},
 
 ])
 
@@ -108,24 +90,6 @@ export default function App() {
     return <RouterProvider router={router}/>;
 
 };
-
-// function Root(){
-//
-//
-//     return (
-//             <Routes>
-//                 {/*<Route element={<Layout/>}>*/}
-//                 {/*    <Route path="/" element={<Home marked={marked} setMarked={setMarked} />} />*/}
-//                 {/*<Route path="/category/:categoryId" element={<Category marked={marked} setMarked={setMarked} />} />*/}
-//                 {/*<Route path="/category" element={<Category marked={marked} setMarked={setMarked} />} />*/}
-//                 {/*</Route>*/}
-//             </Routes>
-//
-//     );
-//
-//
-// }
-
 
 function Layout() {
 
@@ -140,14 +104,12 @@ function Layout() {
 
     const [marked, setMarked] = useState(trueAchievementsObject);
 
-    return (
-        <>
-            <MyHeader marked={marked}></MyHeader>
-            <Outlet context={[marked, setMarked]}></Outlet>
-            <MyFooter></MyFooter>
+    return (<>
+        <MyHeader marked={marked}></MyHeader>
+        <Outlet context={[marked, setMarked]}></Outlet>
+        <MyFooter></MyFooter>
 
-        </>
-    )
+    </>)
 
 
 }

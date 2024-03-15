@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styles from './home.module.css';
 
 import {Link, useRouteLoaderData} from "react-router-dom";
-
-import {usePreloadImages} from "../hooks/usePreloadImages.jsx";
 
 
 function Cell({category, achievements}) {
@@ -38,7 +36,7 @@ function Cell({category, achievements}) {
         <div className={styles.cell_wrapper}>
             <Link to={'category/' + category.cat_id} className={styles.cell}>
                 <img className={styles.ins_image} alt={category.title} loading="lazy"
-                     src={"/cat/acat" + category.cat_id + ".webp"}/>
+                     src={"/acat" + category.cat_id + ".webp"}/>
                 <p className={`${styles.card_title} ${styles[`font${categoryId}`]}`}>{category.title}</p>
                 <p className={styles.percentage}>{percentage}%</p>
                 <div className={styles.progress_outer}>
@@ -53,19 +51,6 @@ function Cell({category, achievements}) {
 }
 
 function AchievementCategories({categoryData, achievementData}) {
-
-
-    const arr = new Array(categoryData.length + 1);
-
-    arr[0] = "/ach_container.webp";
-    for (let i = 3; i <= categoryData.length; i++) {
-        arr[i] = `/cat/acat${i - 2}.webp`;
-    }
-
-    // INTEGRATE THIS ON LOADER SOMEHOW
-    const {isLoading} = usePreloadImages(arr);
-
-
     return (
         <div className={styles.guts}>
             {categoryData.map(cat => (
@@ -77,7 +62,7 @@ function AchievementCategories({categoryData, achievementData}) {
 
 
 function Home() {
-    const [categoryData, achievementData] = useRouteLoaderData('root');
+    const [_, categoryData, achievementData ] = useRouteLoaderData('root');
 
     return (
         <AchievementCategories categoryData={categoryData} achievementData={achievementData}>

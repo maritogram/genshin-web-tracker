@@ -84,7 +84,7 @@
     width: 95%;
     margin: 6px auto;
     padding: 15px 10px 15px 0;
-    /*background-image: url("../images/.png");*/
+    /*background-image: url("/back_cat.png");*/
     overflow-y: auto;
 
     text-decoration: none;
@@ -166,6 +166,7 @@
     width: 100%;
     border-radius: calc(1vh + 1vw);
     border: solid 0 transparent;
+    margin: 5px 0;
 
 
 }
@@ -235,7 +236,7 @@
     height: 100%;
     position: absolute;
 
-    border-image-source: url("/back_canvas.png");
+    border-image-source: url("/back_canvas.webp");
     /* top | right 228 | bottom 263  | left 200 */
     border-image-slice: 110 228 263 210 fill;
     border-image-width:  75px 128px 183px 130px;
@@ -250,7 +251,7 @@
     margin: 10px 8px;
     padding-top: 10px;
 
-    border-image-source: url("/canvas_paper.png");
+    border-image-source: url("/canvas_paper.webp");
     /* top | right | bottom  | left */
     border-image-slice: 60 fill;
     border-image-width: 40px;
@@ -315,7 +316,7 @@
     background-color: #f4eee2;
 
     .completion{
-        background-color: #f4eee2;
+        background-color: inherit;
     }
 }
 
