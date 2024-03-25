@@ -22,7 +22,6 @@ class AchievementBase(BaseModel):
     name: str
     description: str
     primos: int
-    quantity: int
     requirements: str
     multprt: int
     part: int

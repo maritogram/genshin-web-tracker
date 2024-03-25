@@ -1,8 +1,8 @@
-"""First revision
+"""restarting db again
 
-Revision ID: 22dc3bad87cb
+Revision ID: 170e7e292a5c
 Revises: 
-Create Date: 2024-03-22 10:51:17.141043
+Create Date: 2024-03-24 20:32:54.500599
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '22dc3bad87cb'
+revision: str = '170e7e292a5c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -32,11 +32,10 @@ def upgrade() -> None:
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('primos', sa.Integer(), nullable=False),
-    sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=False),
     sa.Column('requirements', sa.String(), nullable=True),
-    sa.Column('multiprt', sa.Integer(), nullable=False),
-    sa.Column('part', sa.Integer(), nullable=False),
+    sa.Column('multiprt', sa.Integer(), nullable=True),
+    sa.Column('part', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['category.cat_id'], ),
     sa.PrimaryKeyConstraint('ach_id')
     )

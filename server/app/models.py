@@ -22,11 +22,10 @@ class Achievement(Base):
     name = Column(String, nullable=False)
     description = Column(String, nullable=False)
     primos = Column(Integer, nullable=False)
-    quantity = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey("category.cat_id"), nullable=False)
     requirements = Column(String)
-    multiprt = Column(Integer, nullable=False)
-    part = Column(Integer, nullable=False)
+    multiprt = Column(Integer)
+    part = Column(Integer)
 
     category = relationship("Category", back_populates="achievements")
 

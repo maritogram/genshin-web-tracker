@@ -19,11 +19,14 @@ def get_db():
 
 @app.get('/categories/', response_model=list[schemas.Category])
 def get_category(db: Session = Depends(get_db)):
-    items = crud.get_categories(db)
-    return items
+    return crud.get_categories(db)
 
 
-@app.get('/achievements/')
-def get_achievement():
-    return {"Hello": "World"}
+@app.get('/achievements/', response_model=list[schemas.Achievement])
+def get_achievement(db: Session = Depends(get_db)):
+    return crud.get_achievements(db)
 
+
+@app.get('/update_db/')
+def update_db(db: Session = Depends(get_db)):
+    return crud.update_db(db)
