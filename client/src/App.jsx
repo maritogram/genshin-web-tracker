@@ -48,7 +48,7 @@ async function achievementDataLoader(queryClient) {
 
 async function categoryDataLoader(queryClient) {
     const fetchCategories = async () => {
-        const res = await fetch('/api/catalog');
+        const res = await fetch('/api/categories');
         if (!res.ok) {
             throw new Error('Network response was not ok.');
         }

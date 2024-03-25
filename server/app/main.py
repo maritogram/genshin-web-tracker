@@ -17,12 +17,12 @@ def get_db():
         db.close()
 
 
-@app.get('/categories/', response_model=list[schemas.Category])
+@app.get('/api/categories/', response_model=list[schemas.Category])
 def get_category(db: Session = Depends(get_db)):
     return crud.get_categories(db)
 
 
-@app.get('/achievements/', response_model=list[schemas.Achievement])
+@app.get('/api/achievements/', response_model=list[schemas.Achievement])
 def get_achievement(db: Session = Depends(get_db)):
     return crud.get_achievements(db)
 

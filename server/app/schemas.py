@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Union
 
 
 class CategoryBase(BaseModel):
@@ -23,8 +24,8 @@ class AchievementBase(BaseModel):
     description: str
     primos: int
     requirements: str
-    multprt: int
-    part: int
+    multprt: Union[int, None] = 0
+    part: Union[int, None] = 0
 
 
 class AchievementCreate(AchievementBase):
@@ -34,7 +35,7 @@ class AchievementCreate(AchievementBase):
 class Achievement(AchievementBase):
     ach_id: int
     category_id: int
-    category: list[Category] = []
+    # category: list[Category] = []
 
     class Config:
         orm_mode = True

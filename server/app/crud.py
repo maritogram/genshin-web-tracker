@@ -1,6 +1,6 @@
 import re
 
-from sqlalchemy import select
+from sqlalchemy import select, func, update
 
 from sqlalchemy.orm import Session
 
@@ -48,9 +48,6 @@ def update_db(db: Session):
         # grab the total achievement
         total_achievements = title.next_sibling.next_sibling
 
-
-
-
         # grab the total primos
         total_primos = total_achievements.next_sibling.next_sibling
 
@@ -61,7 +58,8 @@ def update_db(db: Session):
         db.commit()
         # db.refresh(models.Category)
 
-        id_for = db.execute(select(models.Category.cat_id).filter(models.Category.title == title.text.strip())).first()[0]
+        id_for = db.execute(select(models.Category.cat_id).filter(models.Category.title == title.text.strip())).first()[
+            0]
 
         print(id_for)
         # NOW GET THE INFO OF THE ACTUAL ACHIEVEMENTS
@@ -90,26 +88,33 @@ def update_db(db: Session):
             # else:
             #     only_digit = int(only_digit)
 
-            db.add(models.Achievement(name=cur_title.text.strip(), description=cur_desc.text.strip(), requirements=cur_requirements.text.strip(), primos=only_digit, category_id=id_for))
+            db.add(models.Achievement(name=cur_title.text.strip(), description=cur_desc.text.strip(),
+                                      requirements=cur_requirements.text.strip(), primos=only_digit,
+                                      category_id=id_for))
 
         db.commit()
 
-    # # multipart achievement shit, I hate this. vvvvv
-    # all_multiparts = cur.execute("""SELECT a.*
-    #                                 FROM ACHIEVEMENT a
-    #                                 JOIN(SELECT name, COUNT(name)
-    #                                 FROM ACHIEVEMENT
-    #                                 GROUP BY name
-    #                                 HAVING COUNT(name) > 2 ) b
-    #                                 ON a.name = b.name""").fetchall()
-    #
-    # print("\nMarking multipart achievements...")
-    # for achievement in all_multiparts:
-    #     # assuming all multiprt achievements are 3 part...
-    #     cur_part = (all_multiparts.index(achievement) % 3) + 1
-    #     cur.execute("UPDATE ACHIEVEMENT SET multiprt = 1, part = ? WHERE ach_id = ?", (cur_part, achievement[0]))
-    #
-    # db.commit()
+    multiparts_subquery = (
+        db.query(
+            models.Achievement.name,
+            func.count(models.Achievement.name).label("count"))
+        .group_by(models.Achievement.name)
+        .having(func.count(models.Achievement.name).label("count") > 2)
+        .subquery()
+    )
+
+    all_multiparts = (
+        db.query(models.Achievement)
+        .join(multiparts_subquery, models.Achievement.name == multiparts_subquery.c.name).all()
+
+    )
+
+    print("\nMarking multipart achievements...")
+    for achievement in all_multiparts:
+        # assuming all multiprt achievements are 3 part...
+        cur_part = (all_multiparts.index(achievement) % 3) + 1
+        db.execute(update(models.Achievement), [{"ach_id": achievement.ach_id, "multiprt": 1, "part": cur_part}])
+
+    db.commit()
 
     return {"status": "success"}
-
