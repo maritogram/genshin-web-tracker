@@ -6,23 +6,37 @@ Website designed to help Genshin Impact players keep track of their completed ac
 
 ### Javascript:
 
-React:
+React: *TBA*
 
-Tanstack/ReactQuery:
+Tanstack/ReactQuery: *TBA*
 
-React-router:
+React-router: *TBA*
+
+React-spring: *TBA*
 
 ### Python
 
-Flask:
+FastAPI: *TBA*
 
-SQLite:
+SQLAlchemy: *TBA*
+
+Alembic: *TBA*
+
+Beautiful Soup: *TBA*
+
 
 ## Screenshots
 
 Home page. Where all the achievement categories lie (design not finalized).
-![image](https://github.com/maritogram/genshin-web-tracker/assets/94982527/16d15dc5-c135-43dc-a18c-0564e1d24633)
+![image](https://github.com/maritogram/genshin-web-tracker/assets/94982527/63f68801-a95f-40af-8068-20e35a4741a6)
 
-Achievement page. Where all the achievements can be found. Contents change depending on what is being viewed (design not finalized).
-![image](https://github.com/maritogram/genshin-web-tracker/assets/94982527/0381f3c3-19d8-4ddf-81e5-0dcba6801036)
+
+Achievement page. Where all the achievements can be found. Contents change depending on what categpry is being viewed (design not finalized).
+![image](https://github.com/maritogram/genshin-web-tracker/assets/94982527/8c8d9cf3-6293-48ea-a1aa-f8a06eec8cde)
+
+Reponsive design. Page also properly responds to different screen sizes (design not finalized).
+![image](https://github.com/maritogram/genshin-web-tracker/assets/94982527/e5187706-775d-4c93-ab4b-c68a0ca21c35)
+
+
+
 
