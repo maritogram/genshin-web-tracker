@@ -24,7 +24,7 @@ class AchievementBase(BaseModel):
     description: str
     primos: int
     requirements: str
-    multprt: Union[int, None] = 0
+    multiprt: Union[int, None] = 0
     part: Union[int, None] = 0
 
 

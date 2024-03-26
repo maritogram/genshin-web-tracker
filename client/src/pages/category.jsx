@@ -435,18 +435,19 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
         }
     }
 
+console.log(filteredAchievements)
 
     if (categoryId !== undefined) {
         return (<>
                 {filteredAchievements.sort((a, b) => {
                     if (a.ach_id < b.ach_id) {
-                        if (a.multiprt === 0) {
+                        if (a.multiprt === null) {
                             return (achievementsObject[a.ach_id]) ? 1 : -1
                         } else {
                             return (achievementsObject[a.ach_id + (3 - a.part)]) ? 1 : -1
                         }
                     } else {
-                        if (b.multiprt === 0) {
+                        if (b.multiprt === null) {
                             return (achievementsObject[b.ach_id]) ? -1 : 1
                         } else {
                             return (achievementsObject[b.ach_id + (3 - b.part)]) ? -1 : 1
