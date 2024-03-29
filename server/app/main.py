@@ -1,12 +1,21 @@
-from fastapi import FastAPI, Depends, HTTPException
+import boto3
+from fastapi import FastAPI, Depends
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from mangum import Mangum
+
+import uvicorn
+from . import crud, schemas
+from .database import SessionLocal
 
 from sqlalchemy.orm import Session
 
 app = FastAPI()
 
+
+
+@app.get("/")
+def read_root():
+    return {"Welcome": "Welcome to the FastAPI on Lambda"}
 
 # dependency
 def get_db():
@@ -29,4 +38,10 @@ def get_achievement(db: Session = Depends(get_db)):
 
 @app.get('/update_db/')
 def update_db(db: Session = Depends(get_db)):
+
     return crud.update_db(db)
+
+
+handle = Mangum(app)
+
+
