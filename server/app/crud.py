@@ -1,10 +1,11 @@
 import re
 
+import boto3
 from sqlalchemy import select, func, update
 
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+from . import models
 
 import requests
 
@@ -116,5 +117,7 @@ def update_db(db: Session):
         db.execute(update(models.Achievement), [{"ach_id": achievement.ach_id, "multiprt": 1, "part": cur_part}])
 
     db.commit()
+    s3 = boto3.resource('s3')
+    s3.meta.client.upload_file('/tmp/achievement.db', 'mygenshinbucket', 'achievement.db')
 
     return {"status": "success"}
