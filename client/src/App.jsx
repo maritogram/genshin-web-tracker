@@ -35,7 +35,7 @@ async function imageLoader() {
 
 async function achievementDataLoader(queryClient) {
     const fetchAchievements = async () => {
-        const res = await fetch('/api/achievements');
+        const res = await fetch('/api/achievements/');
         if (!res.ok) {
             throw new Error('Network response was not ok.')
         }
@@ -48,7 +48,7 @@ async function achievementDataLoader(queryClient) {
 
 async function categoryDataLoader(queryClient) {
     const fetchCategories = async () => {
-        const res = await fetch('/api/categories');
+        const res = await fetch('/api/categories/');
         if (!res.ok) {
             throw new Error('Network response was not ok.');
         }

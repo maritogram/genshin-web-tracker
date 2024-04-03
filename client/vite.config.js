@@ -8,7 +8,7 @@ export default defineConfig({
     //any request path that start with these keys will be proxied to the target.
     proxy: {
       '/api/':{
-        target: 'http://127.0.0.1:8000',
+        target: 'https://swucx2qsy6.execute-api.us-east-1.amazonaws.com/default/',
       }
     }
   },
