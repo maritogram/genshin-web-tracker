@@ -22,7 +22,7 @@ if os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is not None:
             logging.error("Could not download achievement fromm AWS S3. Reason: " + str(e))
 else:
     logging.info("Code is running on local machine.")
-    SQLALCHEMY_DATABASE_URL = os.environ.get("AWS_DATABASE_URL")
+    SQLALCHEMY_DATABASE_URL = os.environ.get("MY_DATABASE_URL")
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False}
