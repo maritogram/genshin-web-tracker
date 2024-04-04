@@ -435,8 +435,6 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
         }
     }
 
-console.log(filteredAchievements)
-
     if (categoryId !== undefined) {
         return (<>
                 {filteredAchievements.sort((a, b) => {
