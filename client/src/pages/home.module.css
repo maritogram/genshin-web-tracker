@@ -50,11 +50,17 @@
 
 
 .cell:hover{
-    border-image-source: url("/back-cell.png");
-    /* top | right | bottom  | left */
-    border-image-slice: 29 139 fill;
-    border-image-width:auto;
-    grid-template-rows: 143px 1fr 70px;
+
+    -webkit-filter: drop-shadow(2px 2px 0 white)
+    drop-shadow(-2px 2px 0 white)
+    drop-shadow(2px -2px 0 white)
+    drop-shadow(-2px -2px 0 white);
+
+    filter: drop-shadow(2px 2px 2px white)
+    drop-shadow(-2px 2px 2px  white)
+    drop-shadow(2px -2px 2px white)
+    drop-shadow(-2px -2px 2px white);
+
     scale: 1.1;
 
 

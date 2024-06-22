@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {RouterProvider, createBrowserRouter, Outlet} from "react-router-dom";
+import {useState} from 'react';
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 
 import Home from "./pages/home.jsx";
 import MyHeader from "./components/header.jsx";
@@ -34,7 +34,7 @@ async function imageLoader() {
 
 async function achievementDataLoader(queryClient) {
     const fetchAchievements = async () => {
-        const res = await fetch('https://swucx2qsy6.execute-api.us-east-1.amazonaws.com/default/api/achievements/', {mode:'cors'});
+        const res = await fetch('https://swucx2qsy6.execute-api.us-east-1.amazonaws.com/default/api/achievements/', {mode: 'cors'});
         if (!res.ok) {
             throw new Error('Network response was not ok.')
         }
@@ -45,12 +45,15 @@ async function achievementDataLoader(queryClient) {
 
 }
 
+
+
 async function categoryDataLoader(queryClient) {
     const fetchCategories = async () => {
-        const res = await fetch('https://swucx2qsy6.execute-api.us-east-1.amazonaws.com/default/api/categories/', {mode:'cors'});
+        const res = await fetch('https://swucx2qsy6.execute-api.us-east-1.amazonaws.com/default/api/categories/', {mode: 'cors'});
         if (!res.ok) {
             throw new Error('Network response was not ok.');
         }
+
         return res.json();
     }
 
@@ -64,26 +67,26 @@ const fullDataLoader = async (queryClient) => {
 
 export default function App({queryClient}) {
 
-const router = createBrowserRouter([{
-    element: <Layout/>, id: "root", loader: async () => {
+    const router = createBrowserRouter([{
+        element: <Layout/>, id: "root", loader: async () => {
 
-        return fullDataLoader(queryClient);
-    }, children: [{
-        path: "/", element: <Home/>,
-    }, {
-        path: "category/", element: <Category/>,
+            return fullDataLoader(queryClient);
+        }, children: [{
+            path: "/", element: <Home/>,
+        }, {
+            path: "category/", element: <Category/>,
 
-    }, {
-        path: "category/:categoryId", element: <Category/>,
+        }, {
+            path: "category/:categoryId", element: <Category/>,
 
-    }]
-},
+        }]
+    },
 
-])
+    ])
 
     return <RouterProvider router={router}/>;
 
-};
+}
 
 function Layout() {
 

@@ -32,8 +32,7 @@ function Cell({category, achievements}) {
     percentage = ((completedAchievementsFromCategory.length / (lastAchievementFromCategory - firstAchievementFromCategory + 1)) * 100).toFixed()
 
 
-    return (
-        <div className={styles.cell_wrapper}>
+    return (<div className={styles.cell_wrapper}>
             <Link to={'category/' + category.cat_id} className={styles.cell}>
                 <img className={styles.ins_image} alt={category.title} loading="lazy"
                      src={"/acat" + category.cat_id + ".webp"}/>
@@ -51,23 +50,18 @@ function Cell({category, achievements}) {
 }
 
 function AchievementCategories({categoryData, achievementData}) {
-    return (
-        <div className={styles.guts}>
-            {categoryData.map(cat => (
-                <Cell key={cat.cat_id + 0} category={cat} achievements={achievementData}></Cell>
-            ))}
-        </div>
-    )
+    return (<div className={styles.guts}>
+        {categoryData.map(cat => (
+            <Cell key={cat.cat_id + 0} category={cat} achievements={achievementData}></Cell>))}
+    </div>)
 }
 
 
 function Home() {
-    const [_, categoryData, achievementData ] = useRouteLoaderData('root');
+    const [_, categoryData, achievementData] = useRouteLoaderData('root');
 
-    return (
-        <AchievementCategories categoryData={categoryData} achievementData={achievementData}>
-        </AchievementCategories>
-    );
+    return (<AchievementCategories categoryData={categoryData} achievementData={achievementData}>
+    </AchievementCategories>);
 }
 
 export default Home;
