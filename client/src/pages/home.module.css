@@ -46,6 +46,8 @@
     border-image-width:auto;
     grid-template-rows: 143px 1fr 70px;
 
+    transition: 50ms;
+
 }
 
 
@@ -62,6 +64,8 @@
     drop-shadow(-2px -2px 2px white);
 
     scale: 1.1;
+
+    transition: 150ms;
 
 
 }

@@ -1,8 +1,9 @@
-import React, {createRef, forwardRef, useEffect, useRef, useState} from 'react';
+import {createRef, forwardRef, useEffect, useRef, useState} from 'react';
 import styles from './category.module.css'
 import {NavLink, useNavigate, useOutletContext, useParams, useRouteLoaderData, useSearchParams} from "react-router-dom";
 
 import {animated, useSpring} from "@react-spring/web";
+
 
 
 function SearchBar() {
@@ -85,11 +86,11 @@ const CategoryCard = forwardRef(function CategoryCard({category, achievements, p
 
 
     return (
-        <animated.div style={springs}>
+        <animated.div className={styles.categoryWrapper}  style={ springs}>
             <NavLink to={"/category/" + categoryId}
                      className={({isActive}) => isActive ? `${styles.section} ${styles.category} ${styles.active}` : `${styles.section} ${styles.category}`}
                      ref={ref}>
-                <img alt="Category Token" src="/cat1.png" width="26px" height="50%" style={{margin: "0 10px"}}/>
+                <img alt="Category Token" src={"/cat" + categoryId + ".png"} width="26px" height="50%" style={{margin: "0 10px"}}/>
                 <div className={styles.cat_text}>
                     <p className={styles.cat_title}>{categoryTitle}</p>
                     <p className={styles.cat_percent}>{percentage} %</p>
@@ -138,6 +139,8 @@ function WrapperLeft({categories, achievements}) {
                                                             }
                                                         }}
             ></CategoryCard>)}
+        </div>
+        <div className={styles.scrollbar_left}>
         </div>
     </div>)
 }
@@ -273,10 +276,9 @@ function AchievementCard({
         }, to: {
             opacity: 1,
 
-        }, delay: 30 * test.current,
+        }, delay: test.current <= 50 ? 10 * test.current : 0 ,
     });
 
-    console.log(test.current)
 
     //HERE MAYBE
     // const adjustIndex = filteredAchievements.forEach()
@@ -289,7 +291,7 @@ function AchievementCard({
         if (achievement.multiprt !== 1) {
             return (
                 <animated.div style={springs}>
-                    <div className={`${styles.section} ${styles.progress} ${styles.completed}`}>
+                    <div role={"button"} className={`${styles.section} ${styles.progress} ${styles.completed}`}>
                         <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_1_1.png"/>
                         <p className={styles.information}>
                             <AchievementCardTitle achievement={achievement} highlight={highlight}
@@ -306,7 +308,7 @@ function AchievementCard({
         if (achievement.part === 3) {
             return (
                 <animated.div style={springs}>
-                    <div className={`${styles.section} ${styles.progress} ${styles.completed}`}>
+                    <div role={"button"} className={`${styles.section} ${styles.progress} ${styles.completed}`}>
                         <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_3_3.png"/>
                         <p className={styles.information}>
                             <AchievementCardTitle achievement={achievement} highlight={highlight}
@@ -332,7 +334,7 @@ function AchievementCard({
 
                     const starImageURL = "/UI_AchievementIcon_3_" + (achievement.part - 1) + ".png"
 
-                    return (<div className={`${styles.section} ${styles.progress}`}>
+                    return (<div role={"button"} className={`${styles.section} ${styles.progress}`}>
                             <img alt="Achievement Icon" className={styles.left_img} src={starImageURL}/>
                             <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <p className={styles.information}>
@@ -354,7 +356,7 @@ function AchievementCard({
 
                 return (
                     <animated.div style={springs}>
-                        <div className={`${styles.section} ${styles.progress}`}>
+                        <div role={"button"} className={`${styles.section} ${styles.progress}`}>
                             <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_3_0.png"/>
                             <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                             <p className={styles.information}>
@@ -374,7 +376,7 @@ function AchievementCard({
         } else {
 
             return (<animated.div style={springs}>
-                <div className={`${styles.section} ${styles.progress}`}>
+                <div role={"button"} className={`${styles.section} ${styles.progress}`}>
                     <img alt="Achievement Icon" className={styles.left_img} src="/UI_AchievementIcon_1_0.png"/>
                     <img alt="Primogems" className={styles.primo} src="/5stprimo.webp"/>
                     <p className={styles.information}>
@@ -427,7 +429,6 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
     })
 
 
-    console.log("hey")
     /*
     Decides how each achievement should be rendered.
     If the user is looking at a specific category (categoryId exists), simply render them.
@@ -503,7 +504,6 @@ function DisplayedAchievements({categoryId, totalAchievements, categories, marke
 function WrapperRight({categories, marked, setMarked, achievements}) {
 
 
-    console.log("start")
     const {categoryId} = useParams(); //The ID of the category, undefined if no ID was found.
 
     if (categoryId === undefined || categoryId <= 2) {
@@ -511,8 +511,8 @@ function WrapperRight({categories, marked, setMarked, achievements}) {
         return (<div id={styles.wrapper_right}>
             <div className={styles.canvas}>
             </div>
-            <div className={styles.paper}>
-                <div hidden></div>
+            <div className={styles.paper} style={{gridTemplateRows: "1fr"}}>
+                <div className={styles.progression} style={{display:"none"}}></div>
                 <div className={styles.scroll_style}>
                     <DisplayedAchievements categoryId={categoryId} totalAchievements={achievements}
                                            categories={categories} marked={marked}
@@ -595,6 +595,7 @@ function Category() {
 
     return (<div id={styles.content}>
         <WrapperLeft categories={categoryData} achievements={achievementData}></WrapperLeft>
+
         <WrapperRight marked={marked} setMarked={setMarked} categories={categoryData}
                       achievements={achievementData}></WrapperRight>
     </div>);

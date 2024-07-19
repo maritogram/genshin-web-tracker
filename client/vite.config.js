@@ -9,4 +9,5 @@ export default defineConfig({
         proxy: {}
     },
     plugins: [react()],
+    publicDir: './src/assets'
 })
