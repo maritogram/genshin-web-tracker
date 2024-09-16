@@ -2,29 +2,6 @@
 
 Website designed to help Genshin Impact players keep track of their completed achievements, including hidden ones. What's different from the already existing achievement trackers is that it closely resembles the already existing UI of the achievements page from the game. This makes it easier to use and navigate as users are already acquainted with the design. 
 
-## Technologies/frameworks used
-
-### Javascript:
-
-React: *TBA*
-
-Tanstack/ReactQuery: *TBA*
-
-React-router: *TBA*
-
-React-spring: *TBA*
-
-### Python
-
-FastAPI: *TBA*
-
-SQLAlchemy: *TBA*
-
-Alembic: *TBA*
-
-Beautiful Soup: *TBA*
-
-
 ## Screenshots
 
 Home page. Where all the achievement categories lie (design not finalized).
